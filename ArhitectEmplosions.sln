@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArhitectEmplosions", "ArhitectEmplosions\ArhitectEmplosions.csproj", "{D6578E69-D2C8-4B10-8033-C791ED962B8E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{9EB27376-06F1-44A4-9761-FB09C65734D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{AB5F4D11-8631-4476-928A-8BA4B15C601C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D6578E69-D2C8-4B10-8033-C791ED962B8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6578E69-D2C8-4B10-8033-C791ED962B8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6578E69-D2C8-4B10-8033-C791ED962B8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6578E69-D2C8-4B10-8033-C791ED962B8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB5F4D11-8631-4476-928A-8BA4B15C601C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB5F4D11-8631-4476-928A-8BA4B15C601C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB5F4D11-8631-4476-928A-8BA4B15C601C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB5F4D11-8631-4476-928A-8BA4B15C601C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{AB5F4D11-8631-4476-928A-8BA4B15C601C} = {9EB27376-06F1-44A4-9761-FB09C65734D3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3432B7B5-0E7E-430C-BA72-9AC01ECFD823}
+	EndGlobalSection
+EndGlobal
