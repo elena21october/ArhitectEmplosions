@@ -18,6 +18,7 @@
     }
     public class Differentiation
     {
+        public int Id { get; set; }
         public string Gender { get; set; } = null!;
         public string Place { get; set; } = null!;
         public string Visiting { get; set; } = null!;

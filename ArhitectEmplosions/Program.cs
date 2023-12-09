@@ -1,3 +1,6 @@
+﻿using Microsoft.EntityFrameworkCore;
+using DataBaseContext;
+
 namespace ArhitectEmplosions
 {
     public class Program
@@ -5,7 +8,10 @@ namespace ArhitectEmplosions
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
 
+            // äîáàâëÿåì êîíòåêñò ApplicationContext â êà÷åñòâå ñåðâèñà â ïðèëîæåíèå
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 

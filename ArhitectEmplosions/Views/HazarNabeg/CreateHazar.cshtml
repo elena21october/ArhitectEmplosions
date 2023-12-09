@@ -3,8 +3,6 @@
 *@
 @{
 }
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Быстрый старт. Размещение интерактивной карты на странице</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -19,6 +17,9 @@
     <script type="text/javascript">
         ymaps.ready(init);
         var myMap = null;
+        var coordinates = null;
+        var nameHazar = null;
+
         function init() 
         {
             myMap = new ymaps.Map("map", 
@@ -29,8 +30,33 @@
             document.getElementById("createBtn").addEventListener("click", create);
             async function create() 
             {
-                var coordinates = myMap.getCenter();
-                console.log(coordinates);
+               coordinates = myMap.getCenter();
+               console.log(coordinates);
+               nameHazar = document.getElementById("nameHazar").value;
+               console.log(nameHazar);
+               const response = await fetch(`/HazarNabeg/AddHazar`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        Id:0,
+                        Name: nameHazar,
+                        X:coordinates[0],
+                        Y:coordinates[1],
+                        Quastionnaires:null,
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert(response);
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                }).then(data => {
+                    console.log('Success:', 100);
+                }).catch(function (error) {
+                    console.warn('BLAH BLAH BLAH', error);
+                });
             }
         }
     </script>

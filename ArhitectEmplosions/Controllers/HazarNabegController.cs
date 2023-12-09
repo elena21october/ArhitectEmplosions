@@ -1,16 +1,24 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataBaseContext;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Models.HazarNabeg;
 
 namespace ArchEmplosion.Controllers
 {
     public class HazarNabegController : Controller
     {
+        ApplicationContext db;
         private int _idHazar;
 
-        [HttpGet]
-        public IActionResult Index()
+        public HazarNabegController(ApplicationContext context)
         {
-            return View();
+            db = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> MainHazar()
+        {  
+            return View(await db.HazarNabegs.ToListAsync());
         }
 
         [HttpGet]
@@ -18,10 +26,13 @@ namespace ArchEmplosion.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddHazar([FromBody] HazarNabeg hazarNabeg)
         {
-            return RedirectToAction("Index");
+            db.HazarNabegs.Add(hazarNabeg);
+            db.SaveChanges();
+            return RedirectToAction("MainHazar");
         }
 
         [HttpGet]
@@ -31,9 +42,16 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
+        public IActionResult LookHazar(int id)
+        {
+            return View();
+        }
+
+        [HttpGet]
         public IActionResult AddQuestionnare(int id)
         {
             _idHazar = id;
+
             return View();
         }
 
