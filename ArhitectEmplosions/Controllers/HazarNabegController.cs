@@ -55,12 +55,25 @@ namespace ArchEmplosion.Controllers
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
             if (hazarNabeg != null)
             {
-                hazarNabeg.Quastionnaires = await QuastionnairesSelect(hazarNabeg.Id);
+                List<Emotion> emotions = await db.Emotions.Where(p => p.HazarNabegId == hazarNabeg.Id).ToListAsync();
+                for (int i = 0; i < emotions.Count; i++)
+                {
+                    emotions[i].Points = await db.Points.Where(p => p.EmotionId == emotions[i].Id).ToListAsync();
+                }
+                HazarNabegData hazarNabegData = new HazarNabegData();
+                hazarNabegData.Name = hazarNabeg.Name;
+                hazarNabegData.X = hazarNabeg.X;
+                hazarNabegData.Y = hazarNabeg.Y;
+                hazarNabegData.PositiveEmotions = emotions.Where(p => p.Color == "#58FF008F").ToList();
+                hazarNabegData.NegativeEmotions = emotions.Where(p => p.Color == "#FF00008F").ToList();
+                hazarNabegData.NeutralEmotions = emotions.Where(p => p.Color == "#FFF200AB").ToList();
+                hazarNabegData.ConflictEmotions = emotions.Where(p => p.Color == "#9300FF8F").ToList();
                 string resultJSON = JsonConvert.SerializeObject(hazarNabeg);
                 return Json(resultJSON);
             }
             return Json(null);
         }
+
         [HttpGet]
         public async Task<IActionResult> AddQuestionnare(int id)
         {
@@ -68,8 +81,19 @@ namespace ArchEmplosion.Controllers
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);
             return View(hazarNabeg);
         }
-        [HttpPost]
-        public IActionResult 
+
+        [HttpGet]
+        public async Task<JsonResult> GetCoordinates()
+        {
+            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
+            if (hazarNabeg != null)
+            {
+                string resultJSON = JsonConvert.SerializeObject(hazarNabeg);
+                return Json(resultJSON);
+            }
+            return Json(null);
+        }
+
         public async Task<List<Quastionnaire>> QuastionnairesSelect(int hazarId)
         {
             List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == hazarId).ToListAsync();

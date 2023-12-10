@@ -15,6 +15,7 @@
         public string Color { get; set; } = null!;
         public List<PointHN> Points { get; set; } = null!;
         public int QuastionnaireId { get; set; }
+        public int HazarNabegId { get; set; }
     }
     public class Differentiation
     {
