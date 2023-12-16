@@ -75,7 +75,7 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AddQuestionnare(int id)
+        public async Task<IActionResult> AddQuestionnaire(int id)
         {
             _idHazar = id;
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);

@@ -7,7 +7,12 @@
 <h1 title="JAJA">ХазАрхский набег</h1>
 
 <input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
-@foreach(var item in Model)
-{
-    <h1><a asp-controller="HazarNabeg" asp-action="">@item.Name</a></h1>
-}
+<div style="display:flex;flex-wrap: wrap; align-content: center; flex-direction:column;">
+    @foreach(var item in Model)
+    {
+        <div style="display:flex; justify-content:space-between; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 100px">
+            <h1>@item.Name</h1>
+            <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавить данные</a></h1>
+        </div>
+    }
+</div>

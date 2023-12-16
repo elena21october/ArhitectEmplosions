@@ -31,9 +31,7 @@
             async function create() 
             {
                coordinates = myMap.getCenter();
-               console.log(coordinates);
                nameHazar = document.getElementById("nameHazar").value;
-               console.log(nameHazar);
                const response = await fetch(`/HazarNabeg/AddHazar`, {
                     method: 'POST',
                     headers: {

@@ -1,5 +1,108 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Models.HazarNabeg.HazarNabeg
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
+</head>
+<body>
+    <h1 id="Hazar">ХазАРХский набег</h1>
+    <input type ="button" id="ddd">JAJA</input>
+
+    <div style="display:flex; justify-content: space-between; border:solid; border-color:blueviolet" id="addVar">
+        <div style="width:400px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green">
+                <div style=" width:200px; display:flex; flex-direction:column;">
+                    <h3>Пол</h3>
+                    <div>
+                        <p><input type="radio" name="Pol" checked />Муж </p>
+                        <p><input type="radio" name="Pol" />Жен</p>
+                    </div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; ">
+                    <h3>Где вы живете?</h3>
+                    <p><input type="radio" name="life" checked  />В общежитии</p>
+                    <p><input type="radio" name="life" />Район Черниковка</p>
+                    <p><input type="radio" name="life" />В другой части города</p>
+                    <p><input type="radio" name="life" />За городом </p>
+                    <p><input type="radio" name="life" />В другом городе </p>
+                </div>
+
+                <div style=" display:flex; flex-direction:column; ">
+                    <h3>Вы посещаете кампус как:</h3>
+                    <p><input type="radio" name="Diff" />Студент-бакалавр</p>
+                    <p><input type="radio" name="Diff" />Студент-Магистр</p>
+                    <p><input type="radio" name="Diff" />Студент-аспирант</p>
+                    <p><input type="radio" name="Diff" />Преподаватель</p>
+                    <p><input type="radio" name="Diff" />Сотрудник ВУЗа</p>
+                    <p><input type="radio" name="Diff" />Гость</p>
+                    <p><input type="radio" name="Diff" />Партнер ВУЗа</p>
+                    <p><input type="radio" name="Diff" />Горожанин</p>
+                </div>
+
+                <div style=" display:flex; flex-direction:column;">
+                    <h3>Возраст</h3>
+                    <p><input type="radio" name="Age" />14-17</p>
+                    <p><input type="radio" name="Age" />18-24</p>
+                    <p><input type="radio" name="Age" />25-35</p>
+                    <p><input type="radio" name="Age" />36-45</p>
+                    <p><input type="radio" name="Age" />46-60</p>
+                    <p><input type="radio" name="Age" />61-74</p>
+                    <p><input type="radio" name="emot" />75 и более</p>
+                </div>
+            </div>
+        <div id="map" style="width: 1200px; height: 957px; border:solid; border-color:green"></div>
+            <div style="display:flex; flex-direction:column; border:solid; border-color:green">
+                <div>
+		            <h2>Комментарии к положительным эмоциям</h2>
+		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="30" rows="7"></textarea>
+                    <h2>Комментарии к отрицательным эмоциям</h2>
+		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="30" rows="7"></textarea>
+                    <h2>Комментарии к нейтральным эмоциям</h2>
+		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="30" rows="7"></textarea>
+                </div>
+                <div>
+		            <h2>Добавить эмоцию</h2>
+                        <input type="radio"  name="emot" checked/>Положительная<br>
+                        <input type="radio" name="emot"/>Отрицательная<br>
+                        <input type="radio" name="emot"/>Нейтральная<br>
+                    <button id="createPolygon">Создать эмоцию</button><br>
+                    <input type="button" value="Завершить редактирование" id="stopEditPolyline"/> <br>
+                    <button id="sendBtn">Отправить</button>
+                </div>
+	        </div>
+	    </div>
+        <div style="display:none" id="pushVar">
+            <div style="width:600px; height: 957px; border:solid; border-color:green">
+                <h1>JAJA</h1>
+            </div>
+            <div style="width:600px; height: 957px; border:solid; border-color:blue">
+                <h1>JAJA</h1>
+            </div>
+        </div>
+        <script>
+            let swit = true;
+            document.getElementById("ddd").addEventListener("click", jaja);
+            function jaja() 
+            {
+                var add = document.getElementById("addVar");
+                var push = document.getElementById("pushVar");
+                if (swit) 
+                {
+                    add.setAttribute("style", "display:none");
+                    push.setAttribute("style", "");
+                    swit = !swit;
+                }
+                else
+                {
+                    push.setAttribute("style", "display:none");
+                    add.setAttribute("style", "");
+                    swit = !swit;                    
+                }
+
+            }
+        </script>
+    </body>
+</html>
