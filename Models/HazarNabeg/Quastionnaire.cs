@@ -15,7 +15,6 @@
         public string Color { get; set; } = null!;
         public List<PointHN> Points { get; set; } = null!;
         public int QuastionnaireId { get; set; }
-        public int HazarNabegId { get; set; }
     }
     public class Differentiation
     {
@@ -31,14 +30,18 @@
     public class Quastionnaire
     {
         public int Id { get; set; }
-        public Differentiation? Differentiation { get; set; } = null!;
-        public string PositiveComm { get; set; } = null!;
-        public string NegativeComm { get; set; } = null!;
-        public string NeutralComm { get; set; } = null!;
+        public Differentiation? Differentiation { get; set; }
+        public string? PositiveComm { get; set; }
+        public string? NegativeComm { get; set; }
+        public string? NeutralComm { get; set; }
         public List<Emotion> Emotions { get; set; } = null!;
         public int HazarNabegId { get; set; }
         public HazarNabeg NazarNabeg { get; set; } = null!;
         public int hazarUserId { get; set; }
         public DateTime DateTime { get; set; }
+    }
+    public class ListQuest
+    {
+        public List<Quastionnaire>? Quastionnaires { get; set; }
     }
 }

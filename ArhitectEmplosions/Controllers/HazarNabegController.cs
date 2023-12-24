@@ -10,7 +10,7 @@ namespace ArchEmplosion.Controllers
     public class HazarNabegController : Controller
     {
         ApplicationContext db;
-        private int _idHazar;
+        private static int _idHazar;
 
         public HazarNabegController(ApplicationContext context)
         {
@@ -19,7 +19,8 @@ namespace ArchEmplosion.Controllers
 
         [HttpGet]
         public async Task<IActionResult> MainHazar()
-        {  
+        {
+            _idHazar = 0;
             return View(await db.HazarNabegs.ToListAsync());
         }
 
@@ -44,21 +45,28 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
-        public IActionResult LookHazar(int id)
+        public IActionResult ViewHazar(int id)
         {
             _idHazar = id;
             return View();
         }
+
         [HttpGet]
         public async Task<JsonResult> GetQuestionnaires()
         {
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
             if (hazarNabeg != null)
             {
-                List<Emotion> emotions = await db.Emotions.Where(p => p.HazarNabegId == hazarNabeg.Id).ToListAsync();
-                for (int i = 0; i < emotions.Count; i++)
+                List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
+                List<Emotion> emotions = new List<Emotion>();
+                foreach (var item in quastionnaires)
                 {
-                    emotions[i].Points = await db.Points.Where(p => p.EmotionId == emotions[i].Id).ToListAsync();
+                    item.Emotions = await db.Emotions.Where(p => p.QuastionnaireId == item.Id).ToListAsync();
+                    for (int i = 0; i < item.Emotions.Count; i++)
+                    {
+                        item.Emotions[i].Points = await db.Points.Where(p => p.EmotionId == item.Emotions[i].Id).ToListAsync();
+                    }
+                    emotions.AddRange(item.Emotions);
                 }
                 HazarNabegData hazarNabegData = new HazarNabegData();
                 hazarNabegData.Name = hazarNabeg.Name;
@@ -68,7 +76,7 @@ namespace ArchEmplosion.Controllers
                 hazarNabegData.NegativeEmotions = emotions.Where(p => p.Color == "#FF00008F").ToList();
                 hazarNabegData.NeutralEmotions = emotions.Where(p => p.Color == "#FFF200AB").ToList();
                 hazarNabegData.ConflictEmotions = emotions.Where(p => p.Color == "#9300FF8F").ToList();
-                string resultJSON = JsonConvert.SerializeObject(hazarNabeg);
+                string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
                 return Json(resultJSON);
             }
             return Json(null);
@@ -93,11 +101,39 @@ namespace ArchEmplosion.Controllers
             }
             return Json(null);
         }
+        [HttpPost]
+        public void GiveQuestionnaire([FromBody] ListQuest listQuest)
+        {
+            HazarNabeg? hazarNabeg = db.HazarNabegs.FirstOrDefault(p => p.Id == _idHazar);
+            Console.WriteLine(listQuest);
+            if (listQuest.Quastionnaires != null && hazarNabeg != null)
+            {
+                Console.WriteLine(listQuest);
+                List<Quastionnaire> quastionnaires = new List<Quastionnaire>();
+                foreach (var item in listQuest.Quastionnaires)
+                {
 
+                    quastionnaires.Add(new Quastionnaire
+                    {
+                        Differentiation = item.Differentiation,
+                        PositiveComm = item.PositiveComm,
+                        NegativeComm = item.NegativeComm,
+                        NeutralComm = item.NeutralComm,
+                        NazarNabeg = hazarNabeg,
+                        HazarNabegId = _idHazar,
+                        DateTime = DateTime.Now,
+                        Emotions = item.Emotions,
+                    });
+                }
+                db.Quastionnaires.AddRange(quastionnaires);
+                db.SaveChanges();
+            }
+            //return RedirectToAction("Index");
+        }
         public async Task<List<Quastionnaire>> QuastionnairesSelect(int hazarId)
         {
             List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == hazarId).ToListAsync();
-            for(int i =0; i < quastionnaires.Count; i++)
+            for (int i = 0; i < quastionnaires.Count; i++)
             {
                 quastionnaires[i].Differentiation = await db.Differentiations.FirstOrDefaultAsync(p => p.QuastionnaireId == quastionnaires[i].Id);
                 quastionnaires[i].Emotions = await db.Emotions.Where(p => p.QuastionnaireId == quastionnaires[i].Id).ToListAsync();

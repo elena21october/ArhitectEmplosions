@@ -3,3 +3,104 @@
 *@
 @{
 }
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .alert {
+            padding: 15px;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            color: #3c763d;
+            background-color: #dff0d8;
+        }
+    </style>
+    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
+</head>
+    <body>
+        <h1 id="Hazar">ХазАРХский набег</h1>
+        <div style="display:flex">
+            <div style="display:flex;flex-direction:column;">
+                <button id="all">Conflict</button>
+                <button id="positive">Positive</button>
+                <button id="negative">Negative</button>
+                <button id="neutral">Neutral</button>
+                <button id="conflict">Conflict</button>
+            </div>
+            <div style="display:flex">
+                <div id="map" style="width: 2000px; height: 960px"></div>
+            </div>
+        </div>
+    <script type="text/javascript">
+        class HazarNabeg {
+            Id
+            CoordX
+            CoordY
+            PositiveEmotions
+            NegativeEmotions
+            NeutralEmotions
+            constructor() {
+                this.List = [];
+            }
+        }
+        const set = [];
+        ymaps.ready(init);
+        function init() {
+            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
+            const xhr = new XMLHttpRequest();
+            xhr.open("Get", reuqestUrl);
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                var Hazar = JSON.parse(xhr.response);
+                var myMap = new ymaps.Map("map",
+                {
+                    center: [54.817693719811864, 56.060026019052515],
+                    zoom: 17
+                });
+                console.log(Hazar);
+                DrawEmotion(Hazar.PositiveEmotions);
+                DrawEmotion(Hazar.NegativeEmotions);
+                DrawEmotion(Hazar.NeutralEmotions);
+                
+                document.getElementById("all").addEventListener("click", DrawAll);
+                document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
+                document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
+                document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
+                document.getElementById("conflict").addEventListener("click", () => DrawEmotion(Hazar.ConflictEmotions, 1));
+                function DrawEmotion(coll, btn = 0) {
+                    if (btn != 0) { 
+                        myMap.geoObjects.removeAll();
+                    }
+                    for (var i = 0; i < coll.length; i++) {
+                        var polygon = new ymaps.Polygon(
+                            [[
+                                [coll[i].Points[0].X, coll[i].Points[0].Y],
+                                [coll[i].Points[1].X, coll[i].Points[1].Y],
+                                [coll[i].Points[2].X, coll[i].Points[2].Y],
+                                [coll[i].Points[3].X, coll[i].Points[3].Y],
+                            ]], {},
+                            {
+                                editorMaxPoints: 5,
+                                // Цвет заливки.
+                                fillColor: coll[i].Color,
+                                // Цвет обводки.
+                                strokeColor: coll[i].Color,
+                                // Ширина обводки.
+                                strokeWidth: 5
+                            });
+                        myMap.geoObjects.add(polygon);
+                    }
+                }
+                function DrawAll() { 
+                    DrawEmotion(Hazar.PositiveEmotions);
+                    DrawEmotion(Hazar.NegativeEmotions);
+                    DrawEmotion(Hazar.NeutralEmotions);
+                }
+            }
+            xhr.send();
+        }
+    </script>
+    </body>
+</html>
