@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Models.HazarNabeg;
+using Models.Poke;
 using System.Drawing;
 namespace DataBaseContext
 {
@@ -13,6 +14,10 @@ namespace DataBaseContext
         public DbSet<PointHN> Points { get; set; } = null!;
         public DbSet<HazarUser> HazarUsers { get; set; } = null!;
 
+        //Тыкалка
+
+        public DbSet<UserPoke> Users { get; set; } = null!;
+        public DbSet<PointPoke> EmotionsPoke { get; set; } = null!;
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {

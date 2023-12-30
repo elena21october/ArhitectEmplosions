@@ -1,6 +1,5 @@
 ﻿@model Models.HazarNabeg.HazarNabeg
 @{
-    Layout = null;
 }
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -17,12 +16,8 @@
     <title>Быстрый старт. Размещение интерактивной карты на странице</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
 </head>
 <body>
-    <h1 id="Hazar"><a asp-controller="HazarNabeg" asp-action="MainHazar">ХазАРХский набег</a></h1>
     <input type ="button" id="addDiv" value="Добавление анкет"/>
     <input type ="button" id="lookDiv" value="Проверка введенных данных"/>
     <div id="addVar">
@@ -31,52 +26,52 @@
                 <div style=" width:200px; display:flex; flex-direction:column;">
                     <h3>Пол</h3>
                     <div style="height:20%; display:flex;">
-                        <p><input type="radio" name="Pol" checked />Муж </p>
-                        <p><input type="radio" name="Pol" />Жен</p>
+                        <p><input type="radio" name="Gender" value="Муж" checked />Муж </p>
+                        <p><input type="radio" name="Gender" value="Жен" />Жен</p>
                     </div>
                 </div>
 
                 <h3>Где вы живете?</h3>
                 <div style="display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                    <p><input type="radio" name="life" checked  />В общежитии</p>
-                    <p><input type="radio" name="life" />Район Черниковка</p>
-                    <p><input type="radio" name="life" />В другой части города</p>
-                    <p><input type="radio" name="life" />За городом </p>
-                    <p><input type="radio" name="life" />В другом городе </p>
+                    <p><input type="radio" name="Place" value="В общежитии" checked />В общежитии</p>
+                    <p><input type="radio" name="Place" value="Район Черниковка" />Район Черниковка</p>
+                    <p><input type="radio" name="Place" value="В другой части города" />В другой части города</p>
+                    <p><input type="radio" name="Place" value="За городом" />За городом </p>
+                    <p><input type="radio" name="Place" value="В другом городе" />В другом городе </p>
                 </div>
 
                 <h3>Вы посещаете кампус как:</h3>
                 <div style=" display:flex; flex-direction:column;flex-wrap: wrap; height:20%">
-                    <p><input type="radio" name="Diff" />Студент-бакалавр</p>
-                    <p><input type="radio" name="Diff" />Студент-Магистр</p>
-                    <p><input type="radio" name="Diff" />Студент-аспирант</p>
-                    <p><input type="radio" name="Diff" />Преподаватель</p>
-                    <p><input type="radio" name="Diff" />Сотрудник ВУЗа</p>
-                    <p><input type="radio" name="Diff" />Гость</p>
-                    <p><input type="radio" name="Diff" />Партнер ВУЗа</p>
-                    <p><input type="radio" name="Diff" />Горожанин</p>
+                    <p><input type="radio" name="Visiting" value="Студент-бакалавр" checked/>Студент-бакалавр</p>
+                    <p><input type="radio" name="Visiting" value="Студент-Магистр" />Студент-Магистр</p>
+                    <p><input type="radio" name="Visiting" value="Студент-аспирант" />Студент-аспирант</p>
+                    <p><input type="radio" name="Visiting" value="Преподаватель" />Преподаватель</p>
+                    <p><input type="radio" name="Visiting" value="Сотрудник ВУЗа" />Сотрудник ВУЗа</p>
+                    <p><input type="radio" name="Visiting" value="Гость" />Гость</p>
+                    <p><input type="radio" name="Visiting" value="Партнер ВУЗа" />Партнер ВУЗа</p>
+                    <p><input type="radio" name="Visiting" value="Горожанин" />Горожанин</p>
                 </div>
 
                 <h3>Возраст</h3>
                 <div style=" display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                    <p><input type="radio" name="Age" />14-17</p>
-                    <p><input type="radio" name="Age" />18-24</p>
-                    <p><input type="radio" name="Age" />25-35</p>
-                    <p><input type="radio" name="Age" />36-45</p>
-                    <p><input type="radio" name="Age" />46-60</p>
-                    <p><input type="radio" name="Age" />61-74</p>
-                    <p><input type="radio" name="emot" />75 и более</p>
+                    <p><input type="radio" name="Age" value="14-17" checked/>14-17</p>
+                    <p><input type="radio" name="Age" value="18-24" />18-24</p>
+                    <p><input type="radio" name="Age" value="25-35" />25-35</p>
+                    <p><input type="radio" name="Age" value="36-45" />36-45</p>
+                    <p><input type="radio" name="Age" value="46-60" />46-60</p>
+                    <p><input type="radio" name="Age" value="61-74" />61-74</p>
+                    <p><input type="radio" name="Age" value="75 и более" />75 и более</p>
                 </div>
             </div>
             <div id="map" style="width: 1200px; height: 820px; border:solid; border-color:green"></div>
             <div style="display:flex; flex-direction:column; border:solid; border-color:green; height: 820px">
                 <div>
 		            <h2>Комментарии к положительным эмоциям</h2>
-		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="7"></textarea>
+		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="3"></textarea>
                     <h2>Комментарии к отрицательным эмоциям</h2>
-                    <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="7"></textarea>
+                    <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="3"></textarea>
                     <h2>Комментарии к нейтральным эмоциям</h2>
-                    <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="7"></textarea>
+                    <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="3"></textarea>
                 </div>
                 <div>
 		            <h2>Добавить эмоцию</h2>
@@ -113,6 +108,12 @@
                     this.Points = [];
                 }
             }
+            class Diffetentiation { 
+                Gender;
+                Place;
+                Visiting;
+                Age;
+            }
             class Questionnaire {
                 Id;
                 Differentiation;
@@ -131,78 +132,104 @@
             var questionnaires = document.getElementById("quests");
             var listQuest = [];
             var quest = new Questionnaire();
+            var Hazar = "";
             ymaps.ready(initAdd);
         
             function initAdd() 
             {
-                var myMap = new ymaps.Map("map",
-                {
-                    center: [54.817693719811864, 56.060026019052515],
-                    zoom: 15
-
-                });
-                document.getElementById("createPolygon").addEventListener("click", createPolygon);
-                
-                function createPolygon() 
-                {
-                    var emotion = new Emotion();
-                    var radiobuttons = document.getElementsByName("emot");
-                    for (var i = 0; i < radiobuttons.length; i++) 
-                    {
-                        if (radiobuttons[i].checked == true) 
+            const reuqestUrl = "/arch/HazarNabeg/GetQuestionnaires";
+                const xhr = new XMLHttpRequest();
+                xhr.open("Get", reuqestUrl);
+                xhr.responseType = "json";
+                xhr.onload = () => {
+                    Hazar = JSON.parse(xhr.response);
+                    
+                    var myMap = new ymaps.Map("map",
                         {
-                            emotion.Color = radiobuttons[i].value;
-                            break;
+                            center: [Hazar.X, Hazar.Y],
+                            zoom: 15
+
+                        });
+                    document.getElementById("createPolygon").addEventListener("click", createPolygon);
+
+                    function createPolygon() {
+                        var emotion = new Emotion();
+                        var radiobuttons = document.getElementsByName("emot");
+                        for (var i = 0; i < radiobuttons.length; i++) {
+                            if (radiobuttons[i].checked == true) {
+                                emotion.Color = radiobuttons[i].value;
+                                break;
+                            }
                         }
+                        polygon = new ymaps.Polygon([], {},
+                            {
+                                editorDrawingCursor: "crosshair",
+                                editorMaxPoints: 5,
+                                fillColor: emotion.Color,
+                                strokeColor: emotion.Color,
+                                strokeWidth: 5
+                            });
+                        myMap.geoObjects.add(polygon);
+                        polygon.editor.startDrawing();
+
+                        $('input').attr('disabled', false);
+
+                        $('#stopEditPolyline').click(function () {
+                            $('#stopEditPolyline').attr('disabled', true);
+                            polygon.editor.stopEditing();
+                            var coord = polygon.geometry.getCoordinates();
+
+                            var point1 = new Point();
+                            point1.X = coord[0][0][0];
+                            point1.Y = coord[0][0][1];
+
+                            var point2 = new Point();
+                            point2.X = coord[0][1][0];
+                            point2.Y = coord[0][1][1];
+
+                            var point3 = new Point();
+                            point3.X = coord[0][2][0];
+                            point3.Y = coord[0][2][1];
+
+                            var point4 = new Point();
+                            point4.X = coord[0][3][0];
+                            point4.Y = coord[0][3][1];
+                            if (emotion.Points.length != 4) {
+                                emotion.Points.push(point1);
+                                emotion.Points.push(point2);
+                                emotion.Points.push(point3);
+                                emotion.Points.push(point4);
+                                quest.Emotions.push(emotion);
+                            }
+                            $('stopEditPolyline').attr('disabled', false);
+                        });
                     }
-                    polygon = new ymaps.Polygon([], {},
-                    {
-                        editorDrawingCursor: "crosshair",
-                        editorMaxPoints: 5,
-                        fillColor: emotion.Color,
-                        strokeColor: emotion.Color,
-                        strokeWidth: 5
-                    });
-                    myMap.geoObjects.add(polygon);
-                    polygon.editor.startDrawing();
-
-                    $('input').attr('disabled', false);
-
-                    $('#stopEditPolyline').click(function (){
-                        $('#stopEditPolyline').attr('disabled', true);
-                        polygon.editor.stopEditing();
-                        var coord = polygon.geometry.getCoordinates();
-
-                        var point1 = new Point();
-                        point1.X = coord[0][0][0];
-                        point1.Y = coord[0][0][1];
-
-                        var point2 = new Point();
-                        point2.X = coord[0][1][0];
-                        point2.Y = coord[0][1][1];
-
-                        var point3 = new Point();
-                        point3.X = coord[0][2][0];
-                        point3.Y = coord[0][2][1];
-
-                        var point4 = new Point();
-                        point4.X = coord[0][3][0];
-                        point4.Y = coord[0][3][1];
-                        if (emotion.Points.length != 4) { 
-                            emotion.Points.push(point1);
-                            emotion.Points.push(point2);
-                            emotion.Points.push(point3);
-                            emotion.Points.push(point4);
-                            quest.Emotions.push(emotion);
+                    function diffVal(list) {
+                        for (var i = 0; i < list.length; i++) {
+                            if (list[i].checked) {
+                                return list[i].value;
+                            }
                         }
-                        $('stopEditPolyline').attr('disabled', false);
-                    });
-                }
+                        return "";
+                    }
                     document.getElementById("createQuest").addEventListener("click", function () {
+                        var genVal = diffVal(document.getElementsByName("Gender"));
+                        var placeVal = diffVal(document.getElementsByName("Place"));
+                        var visitorVal = diffVal(document.getElementsByName("Visiting"));
+                        var ageVal = diffVal(document.getElementsByName("Age"));
+                        var diff = new Diffetentiation();
+                        diff.Gender = genVal;
+                        diff.Place = placeVal;
+                        diff.Visiting = visitorVal;
+                        diff.Age = ageVal;
+                        quest.Differentiation = diff;
                         listQuest.push(quest);
+                        console.log(quest);
                         quest = new Questionnaire();
                         myMap.geoObjects.removeAll();
                     });
+                }
+                xhr.send();
             }
 
             ymaps.ready(initLook)
@@ -210,7 +237,7 @@
             {
                 var lookMap = new ymaps.Map("mapLook",
                 {
-                    center: [54.76896962314046, 56.02959755460908],
+                    center: [30, 30],
                     zoom: 15
                 });
                 document.getElementById("addDiv").addEventListener("click", function () {
@@ -225,6 +252,7 @@
                     var push = document.getElementById("pushVar");
                     add.setAttribute("style", "display:none");
                     push.setAttribute("style", "");
+                lookMap.setCenter([Hazar.X, Hazar.Y], 15);
                     for (var i = 0; i < listQuest.length; i++) {
                         var del = document.getElementById("look" + i);
                         if (del != null) { 
@@ -279,7 +307,7 @@
             document.getElementById("sendBtn").addEventListener("click", send);
                 async function send() {
                     console.log(listQuest);
-                const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
+                const response = await fetch(`/arch/HazarNabeg/GiveQuestionnaire`, {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',

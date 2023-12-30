@@ -13,5 +13,6 @@
         public List<Emotion>? NegativeEmotions { get; set; }
         public List<Emotion>? NeutralEmotions { get; set; }
         public List<Emotion>? ConflictEmotions { get; set; }
+        public List<Quastionnaire>? Quastionnaires { get; set; }
     }
 }

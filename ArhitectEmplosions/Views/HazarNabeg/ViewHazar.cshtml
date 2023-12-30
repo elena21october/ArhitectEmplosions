@@ -22,15 +22,61 @@
     <body>
         <h1 id="Hazar">ХазАРХский набег</h1>
         <div style="display:flex">
-            <div style="display:flex;flex-direction:column;">
-                <button id="all">Conflict</button>
-                <button id="positive">Positive</button>
-                <button id="negative">Negative</button>
-                <button id="neutral">Neutral</button>
-                <button id="conflict">Conflict</button>
+            <div style="display:flex;flex-direction:column; width:10%">
+                <button id="all">Все</button>
+                <button id="positive">Положительные</button>
+                <button id="negative">Отрицательные</button>
+                <button id="neutral">Нейтральные</button>
             </div>
-            <div style="display:flex">
-                <div id="map" style="width: 2000px; height: 960px"></div>
+            <div style="display:flex;">
+            <div id="map" style="width: 1200px;height: 960px"></div>
+            </div>
+             <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green">
+                <h3>Дифференцирование</h3>
+                <div style=" width:200px; display:flex; flex-direction:column;">
+                    <h3>Пол</h3>
+                    <div style="height:20%; display:flex;">
+                        <p><input type="radio" name="Gender" value=""  />Не указано</p>
+                        <p><input type="radio" name="Gender" value="Муж"  />Муж </p>
+                        <p><input type="radio" name="Gender" value="Жен" />Жен</p>
+                    </div>
+                </div>
+
+                <h3>Где вы живете?</h3>
+                <div style="display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
+                    <p><input type="radio" name="Place" value=""  />Не указано</p>
+                    <p><input type="radio" name="Place" value="В общежитии"  />В общежитии</p>
+                    <p><input type="radio" name="Place" value="Район Черниковка" />Район Черниковка</p>
+                    <p><input type="radio" name="Place" value="В другой части города" />В другой части города</p>
+                    <p><input type="radio" name="Place" value="За городом" />За городом </p>
+                    <p><input type="radio" name="Place" value="В другом городе" />В другом городе </p>
+                </div>
+
+                <h3>Вы посещаете кампус как:</h3>
+                <div style=" display:flex; flex-direction:column;flex-wrap: wrap; height:20%">
+                <p><input type="radio" name="Visiting" value="" />Не указано</p>
+                    <p><input type="radio" name="Visiting" value="Студент-бакалавр"  />Студент-бакалавр</p>
+                    <p><input type="radio" name="Visiting" value="Студент-Магистр" />Студент-Магистр</p>
+                    <p><input type="radio" name="Visiting" value="Студент-аспирант" />Студент-аспирант</p>
+                    <p><input type="radio" name="Visiting" value="Преподаватель" />Преподаватель</p>
+                    <p><input type="radio" name="Visiting" value="Сотрудник ВУЗа" />Сотрудник ВУЗа</p>
+                    <p><input type="radio" name="Visiting" value="Гость" />Гость</p>
+                    <p><input type="radio" name="Visiting" value="Партнер ВУЗа" />Партнер ВУЗа</p>
+                    <p><input type="radio" name="Visiting" value="Горожанин" />Горожанин</p>
+                </div>
+
+                <h3>Возраст</h3>
+                <div style=" display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
+                <p><input type="radio" name="Age" value="" />Не указано</p>
+                    <p><input type="radio" name="Age" value="14-17"  />14-17</p>
+                    <p><input type="radio" name="Age" value="18-24" />18-24</p>
+                    <p><input type="radio" name="Age" value="25-35" />25-35</p>
+                    <p><input type="radio" name="Age" value="36-45" />36-45</p>
+                    <p><input type="radio" name="Age" value="46-60" />46-60</p>
+                    <p><input type="radio" name="Age" value="61-74" />61-74</p>
+                    <p><input type="radio" name="Age" value="75 и более" />75 и более</p>
+                </div>
+            <button id="diff">Продифференцировать</button>
             </div>
         </div>
     <script type="text/javascript">
@@ -48,7 +94,7 @@
         const set = [];
         ymaps.ready(init);
         function init() {
-            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
+            const reuqestUrl = "/arch/HazarNabeg/GetQuestionnaires";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
@@ -56,10 +102,9 @@
                 var Hazar = JSON.parse(xhr.response);
                 var myMap = new ymaps.Map("map",
                 {
-                    center: [54.817693719811864, 56.060026019052515],
+                    center: [Hazar.X, Hazar.Y],
                     zoom: 17
                 });
-                console.log(Hazar);
                 DrawEmotion(Hazar.PositiveEmotions);
                 DrawEmotion(Hazar.NegativeEmotions);
                 DrawEmotion(Hazar.NeutralEmotions);
@@ -68,7 +113,6 @@
                 document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
                 document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
                 document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
-                document.getElementById("conflict").addEventListener("click", () => DrawEmotion(Hazar.ConflictEmotions, 1));
                 function DrawEmotion(coll, btn = 0) {
                     if (btn != 0) { 
                         myMap.geoObjects.removeAll();
@@ -97,6 +141,40 @@
                     DrawEmotion(Hazar.PositiveEmotions);
                     DrawEmotion(Hazar.NegativeEmotions);
                     DrawEmotion(Hazar.NeutralEmotions);
+                }
+                function diffVal(list) {
+                    for (var i = 0; i < list.length; i++) {
+                        if (list[i].checked) {
+                            return list[i].value;
+                        }
+                    }
+                    return "";
+                }
+                document.getElementById("diff").addEventListener("click", Differentiation);
+                function Differentiation() { 
+                    var listDiff = Hazar.Quastionnaires;
+                    console.log(Hazar);
+                    var genVal = diffVal(document.getElementsByName("Gender"));
+                    var placeVal = diffVal(document.getElementsByName("Place"));
+                    var visitorVal = diffVal(document.getElementsByName("Visiting"));
+                    var ageVal = diffVal(document.getElementsByName("Age"));
+                    if (genVal != "") { 
+                        listDiff = listDiff.filter(p => p.Differentiation.Gender == genVal);
+                    }
+                    if (placeVal != "") {
+                        listDiff = listDiff.filter(p => p.Differentiation.Place == placeVal);
+                    }
+                    if (visitorVal != "") {
+                        listDiff = listDiff.filter(p => p.Differentiation.Visiting == visitorVal);
+                    }
+                    if (ageVal != "") {
+                        listDiff = listDiff.filter(p => p.Differentiation.Age == ageVal);
+                    }
+                    console.log(listDiff);
+                    myMap.geoObjects.removeAll();
+                    for (var i = 0; i < listDiff.length; i++) { 
+                        DrawEmotion(listDiff[i].Emotions);
+                    }
                 }
             }
             xhr.send();

@@ -1,0 +1,365 @@
+﻿﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        #menu {
+            position: absolute;
+            width: 12em;
+            background: white;
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            padding-bottom: 10px;
+            z-index: 2
+        }
+    </style>
+    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
+</head>
+
+<body>
+    <h1 id="Hazar">Где живут Ваши эмоции?</h1>
+    <h4 title="Платформа, где каждый желающий может оставить свой эмоциональный отклик, связанный с восприятием территории кампуса." style="color:orange">
+        Что это такое?
+    </h4>
+    <a asp-controller="Poke" asp-action="resultpoke">Посмотреть результаты</a>
+    <div style="display:flex; justify-content:space-around ">
+        <div style="border:solid; border-color:green">
+            <fieldset>
+                <legend>Выберите кампус:</legend>
+                <div style="display:flex; flex-direction:column">
+                    <button id="campus1">Кампус 1</button>
+                    <button id="campus2">Кампус 2</button>
+                    <button id="campus3">Кампус 3</button>
+                    <button id="campus4">Кампус 4</button>
+                    <button id="campus5">Кампус 5</button>
+                    <button id="campus6">Кампус 6</button>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Выберите эмоцию:</legend>
+                <div style="display:flex; flex-direction:column">
+                    <p><input type="radio" name="contact" value="green" checked>Положительная</p>
+                    <p><input type="radio" name="contact" value="red">Отрицательная</p>
+                    <p><input type="radio" name="contact" value="yellow">Нейтральная</p>
+                    <button id="sendBtn">Отправить эмоции</button>
+                </div>
+            </fieldset>
+        </div>
+        <div id="map" style="width: 1800px; height: 900px; border:solid; border-color:green"></div>
+    </div>
+
+    <script type="text/javascript">
+        let myMap = null;
+        class Person {
+            Id
+            Name
+            constructor() {
+                this.Id = 10;
+                this.Name = "Denglaz";
+            }
+        }
+        var Pers = new Person();
+        var set = [];
+        var id = 0;
+        var colorfill = "green";
+        ymaps.ready(init);
+        function init() {
+            myMap = new ymaps.Map("map",
+                {
+                    center: [54.817693719811864, 56.060026019052515],
+                    zoom: 15
+                });
+            var Border1 = new ymaps.Polyline(
+                [[54.81381547028136, 56.058855168250936], [54.81978506189913, 56.057144323137514], [54.82061663545558, 56.05780123918561], [54.82004358269541, 56.059759251766465],
+                [54.81972762578878, 56.05949103086499], [54.81807788083479, 56.05995757290714], [54.818353206147655, 56.06327814766757], [54.81694680996119, 56.0635892839133], [54.81402263845585, 56.06174321584752],
+                [54.81381547028136, 56.058855168250936]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Border2 = new ymaps.Polyline(
+                [[54.818822209793694, 56.067258947081115], [54.81952228359511, 56.067307226843404], [54.81986302307071, 56.06764518517927], [54.820287394561795, 56.06857322949845], [54.81956874823908, 56.06930815476852],
+                [54.819389084651455, 56.069002382940816], [54.8192249086022, 56.06884145039992], [54.81899568054412, 56.06886290807203], [54.818822209793694, 56.067258947081115]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Border3 = new ymaps.Polyline(
+                [[54.72267068870143, 56.01271888931717], [54.723341385095786, 56.01157090385876], [54.724095905214504, 56.01257941444838], [54.7239592853337, 56.01280472000565], [54.72437535352996, 56.0133733483168],
+                [54.724946664063026, 56.01359328945603], [54.72558316898897, 56.01462325771771], [54.72506154618249, 56.016243311962704], [54.72267068870143, 56.01271888931717]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Border4 = new ymaps.Polyline(
+                [[54.725387894949755, 55.969689626240275], [54.72625104586402, 55.97008659317448], [54.726033707445126, 55.971556443714626], [54.7251332929521, 55.97113265469029], [54.725387894949755, 55.969689626240275]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Border5 = new ymaps.Polyline(
+                [[54.71693155925201, 55.99654339621368], [54.7171784491901, 55.99713616440598], [54.71701075052875, 55.99740974972548], [54.71734925266595, 55.99825196335618], [54.717041805888975, 55.99876158306899],
+                [54.71672038175441, 55.99810175965134], [54.71647504180358, 55.99825464556517], [54.71617704766842, 55.99751781341211], [54.71693155925201, 55.99654339621368]
+                ], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Border6 = new ymaps.Polyline(
+                [[54.77159315450484, 56.01339989740415], [54.772228923378734, 56.014671264477215], [54.77198392095236, 56.015105782337606], [54.771320236007384, 56.01399534780548], [54.77159315450484, 56.01339989740415]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            var Pers = "";
+            myMap.geoObjects.add(Border1);
+            myMap.geoObjects.add(Border2);
+            myMap.geoObjects.add(Border3);
+            myMap.geoObjects.add(Border4);
+            myMap.geoObjects.add(Border5);
+            myMap.geoObjects.add(Border6);
+            myMap.events.add('click', function (e) {
+                var radiobuttons = document.getElementsByName("contact");
+                var coord = e.get('coords');
+
+                if (radiobuttons[0].checked == true) {
+                    colorfill = "#58FF008F"
+                }
+                else if (radiobuttons[1].checked == true) {
+                    colorfill = "#FF00008F"
+                }
+                else {
+                    colorfill = "#FFF200AB"
+                }
+
+
+                if ($('#menu').css('display') == 'block') {
+                    $('#menu').remove();
+                }
+                else {
+                    // HTML-содержимое контекстного меню.
+                    var menuContent =
+                        '<div id="menu">\
+                                    <form>\
+                                        <input type ="radio" id ="html" name ="gradation" value ="strong" >\
+                                        <label for="html">высокая</label><br>\
+                                        <input type="radio" id="css" name="gradation" value="medium">\
+                                        <label for="css">средняя</label><br>\
+                                        <input type="radio" id="javascript" name="gradation" value="light">\
+                                        <label for="javascript">слабая</label>\
+                                    </form>\
+                                    <div align="center"><input type="submit" value="Сохранить" /></div>\
+                                </div>' ;
+
+                    // Размещаем контекстное меню на странице
+                    $('#map').append(menuContent);
+
+                    // Задаем позицию меню.
+                    $('#menu').css({
+                        left: e.get('pagePixels')[0],
+                        top: e.get('pagePixels')[1]
+                    });
+
+                    // При нажатии на кнопку "Сохранить" изменяем свойства метки
+                    // значениями, введенными в форме контекстного меню.
+                    $('#menu input[type="submit"]').click(function () {
+                        var coords = e.get('coords');
+                        var myCircle = new ymaps.Circle([[coords[0], coords[1]], 12,],
+                            {
+                                balloonContent: "Радиус круга - 100 м",
+                                hintContent: "Подвинь меня"
+                            },
+                            {
+                                draggable: true,
+                                fillColor: colorfill,
+                                strokeColor: colorfill,
+                                strokeOpacity: 0.8,
+                                strokeWidth: 1
+                            });
+                        set.push({ x: coords[0], y: coords[1], color: colorfill, name: null });
+                        myMap.geoObjects.add(myCircle);
+
+                        // Удаляем контекстное меню.
+                        var colour = document.getElementsByName("gradation");
+                        if ((colour[0].checked == true) || (colour[2].checked == true)) {
+                            $('#menu').remove();
+                            var barContent =
+                                '<div id="menu">\
+                                            <form>\
+                                                <label for="html">Что-то не так с Вашим эмоциональным состоянием, пора сходить в кофе-бар</label><br>\
+                                            </form>\
+                                        <div align="center"><input type="submit" value="Вперед!" /></div>\
+                                        </div>' ;
+                            $('#map').append(barContent);
+
+                            // Задаем позицию меню.
+                            $('#menu').css({
+                                left: e.get('pagePixels')[0],
+                                top: e.get('pagePixels')[1]
+                            });
+                            $('#menu input[type="submit"]').click(function () {
+                                $('#menu').remove();
+
+                                var bar =
+                                    '<div id="menu">\
+                                                <form>\
+                                                    <label for="html">Пока ждем открытия</label><br>\
+                                                </form>\
+                                                <div align="center"><input type="submit" value="Хорошо" /></div>\
+                                                </div>';
+                                $('#map').append(bar);
+
+                                $('#menu').css({
+                                    left: e.get('pagePixels')[0],
+                                    top: e.get('pagePixels')[1]
+                                });
+
+                                $('#menu input[type="submit"]').click(function () {
+                                    $('#menu').remove();
+                                });
+                            });
+                        }
+                        else {
+                            $('#menu').remove();
+                        }
+                    });
+                }
+            });
+        }
+
+        document.getElementById("campus1").addEventListener("click", camp1);
+        function camp1() {
+            myMap.setCenter([54.817693719811864, 56.060026019052515], 16);
+            Border1 = new ymaps.Polyline(
+                [[54.81381547028136, 56.058855168250936], [54.81978506189913, 56.057144323137514], [54.82061663545558, 56.05780123918561], [54.82004358269541, 56.059759251766465],
+                [54.81972762578878, 56.05949103086499], [54.81807788083479, 56.05995757290714], [54.818353206147655, 56.06327814766757], [54.81694680996119, 56.0635892839133], [54.81402263845585, 56.06174321584752],
+                [54.81381547028136, 56.058855168250936]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border2);
+            myMap.geoObjects.remove(Border3);
+            myMap.geoObjects.remove(Border4);
+            myMap.geoObjects.remove(Border5);
+            myMap.geoObjects.remove(Border6);
+            myMap.geoObjects.add(Border1);
+        }
+        document.getElementById("campus2").addEventListener("click", camp2);
+        function camp2() {
+            myMap.setCenter([54.819534201848036, 56.06853893234703], 18);
+            Border2 = new ymaps.Polyline(
+                [[54.818822209793694, 56.067258947081115], [54.81952228359511, 56.067307226843404], [54.81986302307071, 56.06764518517927], [54.820287394561795, 56.06857322949845], [54.81956874823908, 56.06930815476852],
+                [54.819389084651455, 56.069002382940816], [54.8192249086022, 56.06884145039992], [54.81899568054412, 56.06886290807203], [54.818822209793694, 56.067258947081115]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border1);
+            myMap.geoObjects.remove(Border3);
+            myMap.geoObjects.remove(Border4);
+            myMap.geoObjects.remove(Border5);
+            myMap.geoObjects.remove(Border6);
+            myMap.geoObjects.add(Border2);
+        }
+        document.getElementById("campus3").addEventListener("click", camp3);
+        function camp3() {
+            myMap.setCenter([54.724229625846185, 56.01468735832227], 18);
+            Border3 = new ymaps.Polyline(
+                [[54.72267068870143, 56.01271888931717], [54.723341385095786, 56.01157090385876], [54.724095905214504, 56.01257941444838], [54.7239592853337, 56.01280472000565], [54.72437535352996, 56.0133733483168],
+                [54.724946664063026, 56.01359328945603], [54.72558316898897, 56.01462325771771], [54.72506154618249, 56.016243311962704], [54.72267068870143, 56.01271888931717]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border1);
+            myMap.geoObjects.remove(Border2);
+            myMap.geoObjects.remove(Border4);
+            myMap.geoObjects.remove(Border5);
+            myMap.geoObjects.remove(Border6);
+            myMap.geoObjects.add(Border3);
+        }
+        document.getElementById("campus4").addEventListener("click", camp4);
+        function camp4() {
+            myMap.setCenter([54.72575758166644, 55.97110019577027], 18);
+            Border4 = new ymaps.Polyline(
+                [[54.725387894949755, 55.969689626240275], [54.72625104586402, 55.97008659317448], [54.726033707445126, 55.971556443714626], [54.7251332929521, 55.97113265469029], [54.725387894949755, 55.969689626240275]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border1);
+            myMap.geoObjects.remove(Border2);
+            myMap.geoObjects.remove(Border3);
+            myMap.geoObjects.remove(Border5);
+            myMap.geoObjects.remove(Border6);
+            myMap.geoObjects.add(Border4);
+        }
+        document.getElementById("campus5").addEventListener("click", camp5);
+        function camp5() {
+            myMap.setCenter([54.71700954648499, 55.998397305557184], 18);
+            Border5 = new ymaps.Polyline(
+                [[54.71693155925201, 55.99654339621368], [54.7171784491901, 55.99713616440598], [54.71701075052875, 55.99740974972548], [54.71734925266595, 55.99825196335618], [54.717041805888975, 55.99876158306899],
+                [54.71672038175441, 55.99810175965134], [54.71647504180358, 55.99825464556517], [54.71617704766842, 55.99751781341211], [54.71693155925201, 55.99654339621368]
+                ], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border1);
+            myMap.geoObjects.remove(Border2);
+            myMap.geoObjects.remove(Border3);
+            myMap.geoObjects.remove(Border4);
+            myMap.geoObjects.remove(Border6);
+            myMap.geoObjects.add(Border5);
+        }
+        document.getElementById("campus6").addEventListener("click", camp6);
+        function camp6() {
+            myMap.setCenter([54.77188178367694, 56.01460661904904], 18);
+            Border6 = new ymaps.Polyline(
+                [[54.77159315450484, 56.01339989740415], [54.772228923378734, 56.014671264477215], [54.77198392095236, 56.015105782337606], [54.771320236007384, 56.01399534780548], [54.77159315450484, 56.01339989740415]], {},
+                {
+                    strokeWidth: 5,
+                    strokeColor: '#ff0000'
+                });
+            myMap.geoObjects.remove(Border1);
+            myMap.geoObjects.remove(Border2);
+            myMap.geoObjects.remove(Border3);
+            myMap.geoObjects.remove(Border4);
+            myMap.geoObjects.remove(Border5);
+            myMap.geoObjects.add(Border6);
+        }
+
+        document.getElementById("sendBtn").addEventListener("click", send);
+        async function send() {
+            const response = await fetch(`/arch/Poke/givemedata`,
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(
+                        {
+                            Name: Pers.Name,
+                            Points: set
+                        })
+                }).then(function (response) {
+                    if (response.ok) {
+                        alert(response);
+                        return response.json();
+                    }
+                    return Promise.reject(response);
+                }).then(data => {
+                    console.log('Success:', 100);
+                }).catch(function (error) {
+                    console.warn('BLAH BLAH BLAH', error);
+                });
+        }
+    </script>
+</body>
+</html>

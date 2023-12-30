@@ -23,7 +23,6 @@
         public string Place { get; set; } = null!;
         public string Visiting { get; set; } = null!;
         public string Age { get; set; } = null!;
-        public Quastionnaire Quastionnaire { get; set; } = null!;
         public int QuastionnaireId { get; set; }
 
     }

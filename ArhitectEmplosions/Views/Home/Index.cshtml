@@ -1,9 +1,46 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    Layout = null;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-<a asp-controller="HazarNabeg" asp-action="MainHazar">Хазарский набег</a>
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Архитектурная имплозия</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <style>
+        h1 {
+            align-items: center;
+            color: Green;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div style="display:flex;justify-content:space-around;">
+        <div>
+                <div class="card" style="display:flex; flex-direction:column; justify-content: space-between;">
+                    <a asp-controller="Poke" asp-action="MainPoke" align="center">
+                        <div class="card-body">
+                            <img class="card-img" src="~/images/poke.jpg"></img>
+                        </div>
+                    </a>
+                </div>
+        </div>
+        <div>
+            <img class="card-img" src="~/images/platform.jpg"></img>
+        </div>
+        <div>
+                <div class="card" style="display:flex; flex-direction:column; justify-content: space-between;">
+                    <a asp-controller="HazarNabeg" asp-action="MainHazar" align="center">
+                        <div class="card-body">
+                            <img class="card-img" src="~/images/hazar.jpg"></img>
+                        </div>
+                    </a>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

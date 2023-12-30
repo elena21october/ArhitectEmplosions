@@ -61,6 +61,7 @@ namespace ArchEmplosion.Controllers
                 List<Emotion> emotions = new List<Emotion>();
                 foreach (var item in quastionnaires)
                 {
+                    item.Differentiation = await db.Differentiations.FirstOrDefaultAsync(p => p.QuastionnaireId == item.Id);
                     item.Emotions = await db.Emotions.Where(p => p.QuastionnaireId == item.Id).ToListAsync();
                     for (int i = 0; i < item.Emotions.Count; i++)
                     {
@@ -76,6 +77,7 @@ namespace ArchEmplosion.Controllers
                 hazarNabegData.NegativeEmotions = emotions.Where(p => p.Color == "#FF00008F").ToList();
                 hazarNabegData.NeutralEmotions = emotions.Where(p => p.Color == "#FFF200AB").ToList();
                 hazarNabegData.ConflictEmotions = emotions.Where(p => p.Color == "#9300FF8F").ToList();
+                hazarNabegData.Quastionnaires = quastionnaires;
                 string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
                 return Json(resultJSON);
             }
