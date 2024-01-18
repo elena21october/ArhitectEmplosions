@@ -104,13 +104,11 @@ namespace ArchEmplosion.Controllers
             return Json(null);
         }
         [HttpPost]
-        public void GiveQuestionnaire([FromBody] ListQuest listQuest)
+        public async Task<IActionResult> GiveQuestionnaire([FromBody] ListQuest listQuest)
         {
             HazarNabeg? hazarNabeg = db.HazarNabegs.FirstOrDefault(p => p.Id == _idHazar);
-            Console.WriteLine(listQuest);
             if (listQuest.Quastionnaires != null && hazarNabeg != null)
             {
-                Console.WriteLine(listQuest);
                 List<Quastionnaire> quastionnaires = new List<Quastionnaire>();
                 foreach (var item in listQuest.Quastionnaires)
                 {
@@ -130,7 +128,7 @@ namespace ArchEmplosion.Controllers
                 db.Quastionnaires.AddRange(quastionnaires);
                 db.SaveChanges();
             }
-            //return RedirectToAction("Index");
+            return RedirectToAction("MainHazar");
         }
         public async Task<List<Quastionnaire>> QuastionnairesSelect(int hazarId)
         {

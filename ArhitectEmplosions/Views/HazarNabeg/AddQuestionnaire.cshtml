@@ -21,11 +21,11 @@
     <input type ="button" id="addDiv" value="Добавление анкет"/>
     <input type ="button" id="lookDiv" value="Проверка введенных данных"/>
     <div id="addVar">
-        <div style="display:flex; justify-content: space-between; border:solid; border-color:blueviolet">
-            <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green">
+        <div style="display:flex; justify-content: space-between; margin-top:10px; height: 100%">
+            <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px;">
                 <div style=" width:200px; display:flex; flex-direction:column;">
                     <h3>Пол</h3>
-                    <div style="height:20%; display:flex;">
+                    <div style="height:20%; display:flex; justify-content:space-between">
                         <p><input type="radio" name="Gender" value="Муж" checked />Муж </p>
                         <p><input type="radio" name="Gender" value="Жен" />Жен</p>
                     </div>
@@ -63,8 +63,8 @@
                     <p><input type="radio" name="Age" value="75 и более" />75 и более</p>
                 </div>
             </div>
-            <div id="map" style="width: 1200px; height: 820px; border:solid; border-color:green"></div>
-            <div style="display:flex; flex-direction:column; border:solid; border-color:green; height: 820px">
+            <div id="map" style="width: 1200px; height: 820px; border:solid; margin-right:10px"></div>
+            <div style="display:flex; flex-direction:column; height: 820px; margin-left:10px">
                 <div>
 		            <h2>Комментарии к положительным эмоциям</h2>
 		            <textarea id="comment" name="comment" placeholder="Написать комментарий" cols="45" rows="3"></textarea>
@@ -86,11 +86,14 @@
 	    </div>
     </div>
     <div style="display:none" id="pushVar">
-        <div style="display:flex; border:solid; border-color:green">
-            <div id = "quests" style="width:30%; height: 957px; border:solid; border-color:green">
+        <div style="display:flex; margin-top:10px; height: 100%">
+            <div style="width:25%;">
+                <div id="quests">
+
+                </div>
                 <button id="sendBtn">Отправить</button>
             </div>
-            <div id="mapLook" style="width: 70%; height: 957px; border:solid; border-color:orange"></div>
+            <div id="mapLook" style="width: 70%; height: 820px;"></div>
         </div>
     </div>
         <script>
@@ -137,21 +140,21 @@
         
             function initAdd() 
             {
+
                 const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
                 const xhr = new XMLHttpRequest();
                 xhr.open("Get", reuqestUrl);
                 xhr.responseType = "json";
                 xhr.onload = () => {
                     Hazar = JSON.parse(xhr.response);
-                    
                     var myMap = new ymaps.Map("map",
                         {
                             center: [Hazar.X, Hazar.Y],
                             zoom: 15
 
                         });
-                    document.getElementById("createPolygon").addEventListener("click", createPolygon);
 
+                    document.getElementById("createPolygon").addEventListener("click", createPolygon);
                     function createPolygon() {
                         var emotion = new Emotion();
                         var radiobuttons = document.getElementsByName("emot");
@@ -162,13 +165,13 @@
                             }
                         }
                         polygon = new ymaps.Polygon([], {},
-                            {
-                                editorDrawingCursor: "crosshair",
-                                editorMaxPoints: 5,
-                                fillColor: emotion.Color,
-                                strokeColor: emotion.Color,
-                                strokeWidth: 5
-                            });
+                        {
+                            editorDrawingCursor: "crosshair",
+                            editorMaxPoints: 5,
+                            fillColor: emotion.Color,
+                            strokeColor: emotion.Color,
+                            strokeWidth: 5
+                        });
                         myMap.geoObjects.add(polygon);
                         polygon.editor.startDrawing();
 
@@ -224,7 +227,6 @@
                         diff.Age = ageVal;
                         quest.Differentiation = diff;
                         listQuest.push(quest);
-                        console.log(quest);
                         quest = new Questionnaire();
                         myMap.geoObjects.removeAll();
                     });
@@ -275,7 +277,6 @@
                 });
                 function func(pp) 
                 {
-                    var index = pp.slice(4);
                     var item = listQuest[pp.slice(4)];
                     lookMap.geoObjects.removeAll();
                     for (n of item.Emotions) { 
@@ -300,37 +301,30 @@
                     }
 
                 }
-            function delet(ii) {
+                function delet(ii) {
                     var rm = document.getElementById(ii);
                     rm.remove();
                 }
-            document.getElementById("sendBtn").addEventListener("click", send);
+                document.getElementById("sendBtn").addEventListener("click", send);
                 async function send() {
-                    console.log(listQuest);
-                const response = await fetch(`/arch/HazarNabeg/GiveQuestionnaire`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        Quastionnaires: listQuest,
-                    })
-                }).then(function (response) {
-                    if (response.ok) {
-                        alert(response);
-                        return response.json();
+                    const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            Quastionnaires: listQuest,
+                        })
+                    });
+                    if (response.ok === true) {
+                        console.log("excellent");
                     }
-                    return Promise.reject(response);
-                }).then(data => {
-                    console.log('Success:', 100);
-                }).catch(function (error) {
-                    console.warn('BLAH BLAH BLAH', error);
-                });
+                    else {
+                        const error = await response.json();
+                        console.log(error.message);
+                    }
+                }
             }
-            }
-
-            
-            
         </script>
     </body>
 </html>
