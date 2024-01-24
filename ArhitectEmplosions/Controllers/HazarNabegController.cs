@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Models.HazarNabeg;
 using Newtonsoft.Json;
+using System.Diagnostics;
 
 namespace ArchEmplosion.Controllers
 {
@@ -58,14 +59,16 @@ namespace ArchEmplosion.Controllers
             if (hazarNabeg != null)
             {
                 List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
+                List<Emotion> emotionsdb = await db.Emotions.ToListAsync();
+                List<PointHN> pointdb = await db.Points.ToListAsync();
                 List<Emotion> emotions = new List<Emotion>();
                 foreach (var item in quastionnaires)
                 {
                     item.Differentiation = await db.Differentiations.FirstOrDefaultAsync(p => p.QuastionnaireId == item.Id);
-                    item.Emotions = await db.Emotions.Where(p => p.QuastionnaireId == item.Id).ToListAsync();
+                    item.Emotions = emotionsdb.Where(p => p.QuastionnaireId == item.Id).ToList();
                     for (int i = 0; i < item.Emotions.Count; i++)
                     {
-                        item.Emotions[i].Points = await db.Points.Where(p => p.EmotionId == item.Emotions[i].Id).ToListAsync();
+                        item.Emotions[i].Points = pointdb.Where(p => p.EmotionId == item.Emotions[i].Id).ToList();
                     }
                     emotions.AddRange(item.Emotions);
                 }
