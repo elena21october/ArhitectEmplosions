@@ -14,8 +14,8 @@
 
 <body>
     <h1 id="Hazar">Где живут Ваши эмоции? </h1>
-    <div style="display:flex; justify-content:space-around">
-        <div style="display:flex; flex-direction:column; border:solid; border-color:green">
+    <div style="display:flex; justify-content:space-between">
+        <div style="width: 15%; height:820px; display:flex; flex-direction:column; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
             <button id="Positive">Положительные</button>
             <button id="Negative">Отрицательные</button>
             <button id="Neutral">Нейтральные</button>
@@ -28,7 +28,7 @@
             <button id="campus5">Кампус 5</button>
             <button id="campus6">Кампус 6</button>
         </div>
-        <div id="map" style="width: 1800px; height: 900px; border:solid; border-color:green"></div>
+        <div id="map" style="width: 1400px; height: 900px; border:solid; border-color:green"></div>
     </div>
 
     <script type="text/javascript">
@@ -97,7 +97,7 @@
             myMap.geoObjects.add(Border5);
             myMap.geoObjects.add(Border6);
             var Pers = "";
-            const reuqestUrl = "/arch/Poke/Getdata";
+            const reuqestUrl = "/Poke/Getdata";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";

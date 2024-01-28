@@ -21,21 +21,22 @@
 </head>
     <body>
         <h1 id="Hazar">ХазАРХский набег</h1>
-        <div style="display:flex">
-            <div style="display:flex;flex-direction:column; width:10%">
+        <div style="display:flex; justify-content: space-between">
+            <div style="display:flex;flex-direction:column; width:10%; height:820px; border:solid; border-color:green; border-radius: 5px; border-left-color: white;">
                 <button id="all">Все</button>
                 <button id="positive">Положительные</button>
                 <button id="negative">Отрицательные</button>
                 <button id="neutral">Нейтральные</button>
+                <button id="conflict">Конфликты</button>
             </div>
             <div style="display:flex;">
-            <div id="map" style="width: 1200px;height: 960px"></div>
+            <div id="map" style="width: 1200px; height: 820px"></div>
             </div>
-             <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green">
+        <div style="width:400px; height:820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green; border-radius: 5px;border-right-color: white;">
                 <h3>Дифференцирование</h3>
                 <div style=" width:200px; display:flex; flex-direction:column;">
                     <h3>Пол</h3>
-                    <div style="height:20%; display:flex;">
+                <div style="height:20%; display:flex; flex-direction:column">
                         <p><input type="radio" name="Gender" value=""  />Не указано</p>
                         <p><input type="radio" name="Gender" value="Муж"  />Муж </p>
                         <p><input type="radio" name="Gender" value="Жен" />Жен</p>
@@ -103,8 +104,9 @@
                 var myMap = new ymaps.Map("map",
                 {
                     center: [Hazar.X, Hazar.Y],
-                    zoom: 17
+                    zoom: 14
                 });
+                console.log(Hazar);
                 DrawEmotion(Hazar.PositiveEmotions);
                 DrawEmotion(Hazar.NegativeEmotions);
                 DrawEmotion(Hazar.NeutralEmotions);
@@ -113,28 +115,35 @@
                 document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
                 document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
                 document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
+                document.getElementById("conflict").addEventListener("click", () => DrawEmotion(Hazar.ConflictEmotions, 1));
                 function DrawEmotion(coll, btn = 0) {
-                    if (btn != 0) { 
-                        myMap.geoObjects.removeAll();
+                    try {
+                        if (btn != 0) {
+                            myMap.geoObjects.removeAll();
+                        }
+                        for (var i = 0; i < coll.length; i++) {
+                            var polygon = new ymaps.Polygon(
+                                [[
+                                    [coll[i].Points[0].X, coll[i].Points[0].Y],
+                                    [coll[i].Points[1].X, coll[i].Points[1].Y],
+                                    [coll[i].Points[2].X, coll[i].Points[2].Y],
+                                    [coll[i].Points[3].X, coll[i].Points[3].Y],
+                                ]], {},
+                                {
+                                    editorMaxPoints: 5,
+                                    // Цвет заливки.
+                                    fillColor: coll[i].Color,
+                                    // Цвет обводки.
+                                    strokeColor: coll[i].Color,
+                                    // Ширина обводки.
+                                    strokeWidth: 5
+                                });
+                            myMap.geoObjects.add(polygon);
+                        }
                     }
-                    for (var i = 0; i < coll.length; i++) {
-                        var polygon = new ymaps.Polygon(
-                            [[
-                                [coll[i].Points[0].X, coll[i].Points[0].Y],
-                                [coll[i].Points[1].X, coll[i].Points[1].Y],
-                                [coll[i].Points[2].X, coll[i].Points[2].Y],
-                                [coll[i].Points[3].X, coll[i].Points[3].Y],
-                            ]], {},
-                            {
-                                editorMaxPoints: 5,
-                                // Цвет заливки.
-                                fillColor: coll[i].Color,
-                                // Цвет обводки.
-                                strokeColor: coll[i].Color,
-                                // Ширина обводки.
-                                strokeWidth: 5
-                            });
-                        myMap.geoObjects.add(polygon);
+                    catch (ex) { 
+                        console.log(coll);
+                        console.log(ex);
                     }
                 }
                 function DrawAll() { 

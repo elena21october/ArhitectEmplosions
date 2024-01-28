@@ -52,7 +52,6 @@ function initAdd() {
                 zoom: 15
 
             });
-
         document.getElementById("createPolygon").addEventListener("click", createPolygon);
         function createPolygon() {
             var emotion = new Emotion();
