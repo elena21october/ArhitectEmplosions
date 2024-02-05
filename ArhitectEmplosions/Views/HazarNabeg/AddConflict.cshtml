@@ -1,0 +1,202 @@
+﻿@model Models.HazarNabeg.HazarNabeg
+@{
+}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <style>
+        .alert {
+            padding: 15px;
+            border: 1px solid #d6e9c6;
+            border-radius: 4px;
+            color: #3c763d;
+            background-color: #dff0d8;
+        }
+
+        #parent_popup {
+            background: grey;
+            height: 100%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            top: 0;
+            left: 0;
+        }
+
+        #popup {
+            background-color: #fff;
+            position: fixed;
+            opacity: 0.9;
+            top: 100px;
+            left: 40%;
+            color: black;
+            width: 300px;
+        }
+
+    </style>
+    <title>Быстрый старт. Размещение интерактивной карты на странице</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
+</head>
+<body>
+    <input type="button" id="teach" value="Как создать конфликт?" />
+    <div id="parent_popup" style="display: none">
+        <div id="popup">
+            <p>1. Нажмите "Создать конфликт"</p>
+            <p>2. Нажмите на карте на четыре точки и нажмите "завершить редактирование"</p>
+            <p>3. После ввода конфликтов нажмите "Отправить"</p>
+            <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
+        </div>
+    </div>
+    <div id="addVar">
+        <div style="display:flex; justify-content: space-between; margin-top:10px; height: 100%">
+            <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px;">
+
+            </div>
+            <div id="map" style="width: 1200px; height: 820px; border:solid; margin-right:10px"></div>
+            <div style="display:flex; flex-direction:column; height: 100%; margin-left:10px; padding-left:10px; padding-right:10px;">
+                <div style="width: 100%; height: 40%; margin-left:10px;">
+                    <h2>Добавить конфликт</h2>
+                    <button id="createPolygon">Создать конфликт</button><br>
+                    <input type="button" value="Завершить редактирование" id="stopEditPolyline" /> <br>
+                    <button id="sendBtn">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+        //classes for quest
+        class Point {
+            X;
+            Y;
+        }
+        class Emotion {
+            Color;
+            Points;
+            constructor() {
+                this.Points = [];
+            }
+        }
+        class Diffetentiation {
+            Gender;
+            Place;
+            Visiting;
+            Age;
+        }
+        class Questionnaire {
+            Id;
+            Differentiation;
+            PositiveComm;
+            NegativeComm;
+            NeutralComm;
+            Emotions;
+            HazarNabegId;
+            HazarNabeg;
+            hazarUserId;
+            DateTime;
+            constructor() {
+                this.Emotions = [];
+            }
+        }
+        var questionnaires = document.getElementById("quests");
+        var listQuest = [];
+        var quest = new Questionnaire();
+        var Hazar = "";
+        ymaps.ready(initAdd);
+
+        function initAdd() {
+
+            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
+            const xhr = new XMLHttpRequest();
+            xhr.open("Get", reuqestUrl);
+            xhr.responseType = "json";
+            xhr.onload = () => {
+                Hazar = JSON.parse(xhr.response);
+                console.log(Hazar);
+                var myMap = new ymaps.Map("map",
+                    {
+                        center: [Hazar.X, Hazar.Y],
+                        zoom: 15
+
+                    });
+                document.getElementById("createPolygon").addEventListener("click", createPolygon);
+                function createPolygon() {
+                    var emotion = new Emotion();
+                    emotion.Color = "#9300FF8F";
+                    polygon = new ymaps.Polygon([], {},
+                        {
+                            editorDrawingCursor: "crosshair",
+                            editorMaxPoints: 5,
+                            fillColor: emotion.Color,
+                            strokeColor: emotion.Color,
+                            strokeWidth: 5
+                        });
+                    myMap.geoObjects.add(polygon);
+                    polygon.editor.startDrawing();
+
+                    $('input').attr('disabled', false);
+
+                    $('#stopEditPolyline').click(function () {
+                        $('#stopEditPolyline').attr('disabled', true);
+                        polygon.editor.stopEditing();
+                        var coord = polygon.geometry.getCoordinates();
+
+                        var point1 = new Point();
+                        point1.X = coord[0][0][0];
+                        point1.Y = coord[0][0][1];
+
+                        var point2 = new Point();
+                        point2.X = coord[0][1][0];
+                        point2.Y = coord[0][1][1];
+
+                        var point3 = new Point();
+                        point3.X = coord[0][2][0];
+                        point3.Y = coord[0][2][1];
+
+                        var point4 = new Point();
+                        point4.X = coord[0][3][0];
+                        point4.Y = coord[0][3][1];
+                        if (emotion.Points.length != 4) {
+                            emotion.Points.push(point1);
+                            emotion.Points.push(point2);
+                            emotion.Points.push(point3);
+                            emotion.Points.push(point4);
+                            quest.Emotions.push(emotion);
+                        }
+                        $('stopEditPolyline').attr('disabled', false);
+                    });
+                }
+                document.getElementById("sendBtn").addEventListener("click", send);
+                async function send() {
+                    listQuest.push(quest);
+                    const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            Quastionnaires: listQuest,
+                        })
+                    });
+                    if (response.ok === true) {
+                        console.log("excellent");
+                        //listQuest.length = 0;
+                    }
+                    else {
+                        const error = await response.json();
+                        console.log(error.message);
+                    }
+                }
+            }
+            xhr.send();
+        }
+
+        document.getElementById("teach").addEventListener("click", teacher);
+        function teacher() {
+            let teachDiv = document.getElementById("parent_popup");
+            teachDiv.setAttribute("style", "");
+        }
+    </script>
+</body>
+</html>

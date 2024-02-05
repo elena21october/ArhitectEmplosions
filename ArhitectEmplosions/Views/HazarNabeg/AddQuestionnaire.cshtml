@@ -13,6 +13,26 @@
             background-color: #dff0d8;
         }
 
+        #parent_popup {
+            background: grey;
+            height: 100%;
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+            top: 0;
+            left: 0;
+        }
+
+        #popup {
+            background-color: #fff;
+            position: fixed;
+            opacity: 0.9;
+            top: 100px;
+            left: 40%;
+            color: black;
+            width: 300px;
+        }
+
     </style>
     <title>Быстрый старт. Размещение интерактивной карты на странице</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -21,6 +41,19 @@
 <body>
     <input type ="button" id="addDiv" value="Добавление анкет"/>
     <input type ="button" id="lookDiv" value="Проверка введенных данных"/>
+    <input type ="button" id="teach" value="Как отправить анкету?"/>
+    <div id="parent_popup" style="display: none">
+        <div id="popup">
+            <p>1. Выберите цвет и нажмите "Создать эмоцию"</p>
+            <p>2. Нажмите на карте на четыре точки и нажмите "завершить редактирование"</p>
+            <p>3. Заполните дифференцируемые значения (пол, проживание и так далее)</p>
+            <p>4. Заполните поля для комментариев при их наличии</p>
+            <p>5. После заполнения анкеты нажмите на "Создать анкету"</p>
+            <p>6. На чистой карте введите новую анкету</p>
+            <p>7. После заполнения всех анкет, нажмите "Проверка введенных анкет", просмотрите данные при необходимости и нажмите "Отправить"</p>
+            <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
+        </div>
+    </div>
     <div id="addVar">
         <div style="display:flex; justify-content: space-between; margin-top:10px; height: 100%">
             <div style="width:400px; height: 820px; display:flex; flex-direction:column; font-size: 13px;">
@@ -324,6 +357,11 @@
                     console.log(error.message);
                 }
             }
+        }
+        document.getElementById("teach").addEventListener("click", teacher);
+        function teacher() { 
+            let teachDiv = document.getElementById("parent_popup");
+            teachDiv.setAttribute("style", "");
         }
     </script>
     </body>

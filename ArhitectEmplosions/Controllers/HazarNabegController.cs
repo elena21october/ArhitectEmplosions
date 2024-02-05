@@ -95,6 +95,13 @@ namespace ArchEmplosion.Controllers
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);
             return View(hazarNabeg);
         }
+        [HttpGet]
+        public async Task<IActionResult> AddConflict(int id)
+        {
+            _idHazar = id;
+            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);
+            return View(hazarNabeg);
+        }
 
         [HttpGet]
         public async Task<JsonResult> GetCoordinates()
@@ -129,30 +136,6 @@ namespace ArchEmplosion.Controllers
                         Emotions = item.Emotions,
                     });
                 }
-                //List<Emotion> emotionHazar = await EmotionsHazarId(_idHazar);
-                //Quastionnaire quastConflict = new Quastionnaire();
-                //quastConflict.Differentiation = new Differentiation();
-                //quastConflict.DateTime = DateTime.Now;
-                //quastConflict.NazarNabeg = hazarNabeg;
-                //quastConflict.HazarNabegId = _idHazar;
-                //for (int z = 0; z < quastion.Count; z++)
-                //{
-                //    for (int x = 0; x < quastion[z].Emotions.Count; x++)
-                //    {
-                //        for (int c = 0; c < emotionHazar.Count; c++)
-                //        {
-                //            Emotion conflict = EmotionsIntersection.FindIntersection(emotionHazar[c], quastion[z].Emotions[x]);
-                //            if (conflict.Points.Count == 4)
-                //            {
-                //                quastConflict.Emotions.Add(conflict);
-                //            }
-                //        }
-                //    }
-                //}
-                //if (quastConflict.Emotions.Count != 0)
-                //{
-                //    quastion.Add(quastConflict);
-                //}
                 await db.Quastionnaires.AddRangeAsync(quastion);
                 await db.SaveChangesAsync();
             }

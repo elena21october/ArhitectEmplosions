@@ -1,18 +1,50 @@
 ﻿@model List<Models.HazarNabeg.HazarNabeg>
 @{
 }
+<style>
+    #parent_popup {
+        background: grey;
+        height: 100%;
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        top: 0;
+        left: 0;
+    }
+
+    #popup {
+        background-color: #fff;
+        position: fixed;
+        opacity: 0.9;
+        top: 100px;
+        left: 40%;
+        color: black;
+        width: 300px;
+    }
+</style>
 <h1 title="JAJA">ХазАрхский набег</h1>
 
 <input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
+<input type="button" id="teach" value="Что это за платформа?" />
+<div id="parent_popup" style="display: none">
+    <div id="popup">
+        <p>1. Данная платформа создана для ввода анкет</p>
+        <p>2. Для просмотра анкет нажмите "Просмотр анкет"</p>
+        <p>3. Для ввода анкет нажмите "Добавление анкет"</p>
+        <p>4. Для ввода конфликтов нажмите "Добавление анкет"</p>
+        <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
+    </div>
+</div>
 <div style="display:flex;flex-wrap: wrap; align-content: center; flex-direction:column;">
     @foreach(var item in Model)
     {
-        <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 100px; border-radius: 5px;">
+        <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 120px; border-radius: 5px;">
             <h1>@item.Name</h1>
-            <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Посмотреть данные</a></h1>
-            <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавить данные</a></h1>
+            <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Просмотр анкет</a></h1>
+            <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавление анкет</a></h1>
             <div style="display:flex; flex-direction:column">
-                <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Посмотреть все анкеты</a></h6>
+                <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
+                <h6><a asp-controller="HazarNabeg" asp-action="AddConflict" asp-route-id="@item.Id">Добавить конфликты</a></h6>
                 <h6><a asp-controller="HazarNabeg" asp-action="EditHazar">Редактировать</a></h6>
                 <form asp-controller="HazarNabeg" asp-action="DelHazar">
                     <input type="submit" value ="Удалить"/>
@@ -21,3 +53,10 @@
         </div>
     }
 </div>
+<script>
+    document.getElementById("teach").addEventListener("click", teacher);
+    function teacher() {
+        let teachDiv = document.getElementById("parent_popup");
+        teachDiv.setAttribute("style", "");
+    }
+</script>
