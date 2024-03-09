@@ -49,4 +49,10 @@ namespace Models.Poke
             return $"id = {Id} Name = {Name} Points = {Points.Count}";
         }
     }
+    public class TestPoke
+    {
+        public int Id { get; set; }
+        public string? Type { get; set; }
+        public string? Value { get; set; }
+    }
 }

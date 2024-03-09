@@ -22,16 +22,18 @@
         width: 300px;
     }
 </style>
-<h1 title="JAJA">ХазАрхский набег</h1>
+<h1>ХазАрхский набег</h1>
 
-<input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
-<input type="button" id="teach" value="Что это за платформа?" />
+@*<input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />*@
+<h4 title="Платформа, где анализируются результаты полевых исследований 'гостевого' видения территории кампуса." style="color:orange">
+    Что это такое?
+</h4>
+@*<input type="button" id="teach" value="Как работает платформа?" />*@
 <div id="parent_popup" style="display: none">
     <div id="popup">
-        <p>1. Данная платформа создана для ввода анкет</p>
-        <p>2. Для просмотра анкет нажмите "Просмотр анкет"</p>
-        <p>3. Для ввода анкет нажмите "Добавление анкет"</p>
-        <p>4. Для ввода конфликтов нажмите "Добавление анкет"</p>
+        <p>1. Данная версия платформы является ознакомительной, на ней Вы имеете возможность добавить анкеты </p>
+        <p>2. Для ввода анкет нажмите "Добавление анкет"</p>
+        <p>3. Для просмотра анкет нажмите "Просмотр анкет"</p>
         <p style="cursor: pointer;" onclick="document.getElementById('parent_popup').style.display='none';">Закрыть</p>
     </div>
 </div>
@@ -40,16 +42,16 @@
     {
         <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 120px; border-radius: 5px;">
             <h1>@item.Name</h1>
-            <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Просмотр анкет</a></h1>
             <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавление анкет</a></h1>
-            <div style="display:flex; flex-direction:column">
+            <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Просмотр анкет</a></h1>
+            @*<div style="display:flex; flex-direction:column">
                 <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
                 <h6><a asp-controller="HazarNabeg" asp-action="AddConflict" asp-route-id="@item.Id">Добавить конфликты</a></h6>
                 <h6><a asp-controller="HazarNabeg" asp-action="EditHazar">Редактировать</a></h6>
                 <form asp-controller="HazarNabeg" asp-action="DelHazar">
                     <input type="submit" value ="Удалить"/>
                 </form>
-            </div>
+            </div>*@
         </div>
     }
 </div>

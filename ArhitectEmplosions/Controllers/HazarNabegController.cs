@@ -141,6 +141,14 @@ namespace ArchEmplosion.Controllers
             }
             return RedirectToAction("MainHazar");
         }
+        [HttpPost]
+        public IActionResult Test(string val)
+        {
+            TestHazar testHazar = new TestHazar {Type = "Hazar", Value = val };
+            db.TestHazars.Add(testHazar);
+            db.SaveChanges();
+            return RedirectToAction("MainHazar");
+        }
         public async Task<List<Quastionnaire>> QuastionnairesSelect(int hazarId)
         {
             List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == hazarId).ToListAsync();

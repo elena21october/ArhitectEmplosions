@@ -3,13 +3,17 @@ using Microsoft.AspNetCore.Mvc;
 using Models.Poke;
 using Services.Poke;
 using Newtonsoft.Json;
+using Models.HazarNabeg;
 
 namespace ArhitectEmplosions.Controllers
 {
     public class PokeController : Controller
     {
+
         ApplicationContext db;
         Random random;
+        List<string> Sush = new List<string>() { "ПОРЕБРИК", "КАМПУСИК", "НЕФТЕПРОВОДИК", "РЕКТИФИКАТИК", "СОЛЯРОЧКА", "МАЗУТИК", "ФРОНТОНЧИК", "РИЗАЛИТИК", "АНТАБЛИМЕНТИК" };
+        List<string> Pril = new List<string>() { "КРАСНЫЙ", "ЗЕЛЕНЫЙ", "НЕЖНЫЙ", "ГРУСТНЫЙ", "ФАНТАСТИЧЕСКИЙ", "ОЧАРОВАТЕЛЬНЫЙ", "ВЕСЕЛЫЙ", "ЗАДУМЧИВЫЙ", "ГРОЗНЫЙ" };
         public PokeController(ApplicationContext context)
         {
             db = context;
@@ -26,6 +30,12 @@ namespace ArhitectEmplosions.Controllers
             return View();
         }
         [HttpGet]
+        public string RandName()
+        {
+            string result = Sush[random.Next(0, Sush.Count - 1)] + " " + Pril[random.Next(0, Pril.Count - 1)];
+            return result;
+        }
+        [HttpGet]
         public JsonResult Getdata()
         {
             List<PointPoke> allcurrentUser = db.EmotionsPoke.ToList();
@@ -38,20 +48,17 @@ namespace ArhitectEmplosions.Controllers
             string serializeUsers = JsonConvert.SerializeObject(emotionPoints);
             return Json(serializeUsers);
         }
-        private string RandName()
+        [HttpPost]
+        public IActionResult Test(string val)
         {
-            List<string> Sush = new List<string>() { "Боребрик", "Кампусик", "Нефтепроводик", "РЕКТИФИКАТИК", "СОЛЯРОЧКА", "МАЗУТИК", "ФРОНТОНЧИК", "РИЗАЛИТИК", "АНТАБЛИМЕНТИК" };
-            List<string> Pril = new List<string>() { "Красный", "Зеленый", "НЕЖНЫЙ", "ГРУСТНЫЙ", "ФАНТАСТИЧЕСКИЙ", "ОЧАРОВАТЕЛЬНЫЙ", "ВЕСЕЛЫЙ", "ЗАДУМЧИВЫЙ", "ГРОЗНЫЙ" };
-            string result = Sush[random.Next(0, Sush.Count - 1)] + " " + Pril[random.Next(0, Pril.Count - 1)];
-            return result;
+            TestPoke testPoke = new TestPoke { Type = "Poke", Value = val };
+            db.TestPokes.Add(testPoke);
+            db.SaveChanges();
+            return RedirectToAction("MainPoke");
         }
         [HttpPost]
         public void Givemedata([FromBody] UserPoke user)
         {
-            foreach (var item in user.Points)
-            {
-                item.Name = RandName();
-            }
             List<PointPoke> points = db.EmotionsPoke.Where(p => p.Color != "#9C27B073").ToList();
             points.AddRange(user.Points);
             db.Users.Add(user);

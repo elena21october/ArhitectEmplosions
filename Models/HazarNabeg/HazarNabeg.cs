@@ -15,4 +15,10 @@
         public List<Emotion>? ConflictEmotions { get; set; }
         public List<Quastionnaire>? Quastionnaires { get; set; }
     }
+    public class TestHazar
+    {
+        public int Id { get; set; }
+        public string? Type { get; set; }
+        public string? Value { get; set; }
+    }
 }

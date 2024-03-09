@@ -22,37 +22,36 @@
     <body>
         <h1 id="Hazar">ХазАРХский набег</h1>
         <div style="display:flex; justify-content: space-between">
-            <div style="display:flex;flex-direction:column; width:10%; height:820px; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
+            <div style="display:flex;flex-direction:column; width:15%; height:820px; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
+                <h5>Эмоции</h5>
                 <button id="all">Все</button>
                 <button id="positive">Положительные</button>
                 <button id="negative">Отрицательные</button>
                 <button id="neutral">Нейтральные</button>
-                <button id="conflict">Конфликты</button>
-                <h4>Слои</h4>
-                <button>Первый слой</button>
-                <button>Второй слой</button>
-                <button>Третий слой</button>
-                <button>Четвертый слой</button>
-                <button>Пятый слой</button>
-                <button>Шестой слой</button>
+                <form style="margin-top:30px" asp-controller="HazarNabeg" asp-action="Test" method="post">
+                    <h5 style="color: red">Тестирование</h5>
+                    <textarea name = "val" placeholder="Вам удобно пользоваться платформой? Напишите, пожалуйста, комментарий. Нам очень важен Ваш отзыв" style="height:200px; width:100%;"></textarea>
+                    <input type="submit" value="Отправить"/>
+                </form>
+                
             </div>
             <div style="display:flex;">
             <div id="map" style="width: 1200px; height: 820px"></div>
             </div>
-        <div style="width:400px; height:820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green; border-radius: 5px;border-right-color: white;">
-                <h3>Дифференцирование</h3>
+        <div style="width:400px; height:820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green; border-radius: 5px;border-right-color: white; padding: 13px" >
+                <h5>Фильтр</h5>
                 <div style=" width:200px; display:flex; flex-direction:column;">
-                    <h3>Пол</h3>
+                    <h5>Пол</h5>
                 <div style="height:20%; display:flex; flex-direction:column">
-                        <p><input type="radio" name="Gender" value=""  />Не указано</p>
+                        <p><input type="radio" name="Gender" value=""  />Не учитывать</p>
                         <p><input type="radio" name="Gender" value="Муж"  />Муж </p>
                         <p><input type="radio" name="Gender" value="Жен" />Жен</p>
                     </div>
                 </div>
 
-                <h3>Где вы живете?</h3>
+            <h5>Где вы живете?</h5>
                 <div style="display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                    <p><input type="radio" name="Place" value=""  />Не указано</p>
+                    <p><input type="radio" name="Place" value=""  />Не учитывать</p>
                     <p><input type="radio" name="Place" value="В общежитии"  />В общежитии</p>
                     <p><input type="radio" name="Place" value="Район Черниковка" />Район Черниковка</p>
                     <p><input type="radio" name="Place" value="В другой части города" />В другой части города</p>
@@ -60,9 +59,9 @@
                     <p><input type="radio" name="Place" value="В другом городе" />В другом городе </p>
                 </div>
 
-                <h3>Вы посещаете кампус как:</h3>
+            <h5>Вы посещаете кампус как:</h5>
                 <div style=" display:flex; flex-direction:column;flex-wrap: wrap; height:20%">
-                <p><input type="radio" name="Visiting" value="" />Не указано</p>
+                <p><input type="radio" name="Visiting" value="" />Не учитывать</p>
                     <p><input type="radio" name="Visiting" value="Студент-бакалавр"  />Студент-бакалавр</p>
                     <p><input type="radio" name="Visiting" value="Студент-Магистр" />Студент-Магистр</p>
                     <p><input type="radio" name="Visiting" value="Студент-аспирант" />Студент-аспирант</p>
@@ -73,9 +72,9 @@
                     <p><input type="radio" name="Visiting" value="Горожанин" />Горожанин</p>
                 </div>
 
-                <h3>Возраст</h3>
+            <h5>Возраст</h5>
                 <div style=" display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                <p><input type="radio" name="Age" value="" />Не указано</p>
+                <p><input type="radio" name="Age" value="" />Не учитывать</p>
                     <p><input type="radio" name="Age" value="14-17"  />14-17</p>
                     <p><input type="radio" name="Age" value="18-24" />18-24</p>
                     <p><input type="radio" name="Age" value="25-35" />25-35</p>
@@ -84,7 +83,7 @@
                     <p><input type="radio" name="Age" value="61-74" />61-74</p>
                     <p><input type="radio" name="Age" value="75 и более" />75 и более</p>
                 </div>
-            <button id="diff">Продифференцировать</button>
+            <button id="diff">Профильтровать</button>
             </div>
         </div>
     <script type="text/javascript">
@@ -102,7 +101,7 @@
         const set = [];
         ymaps.ready(init);
         function init() {
-            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
+            const reuqestUrl = "/arch/HazarNabeg/GetQuestionnaires";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
@@ -114,6 +113,54 @@
                     zoom: 14
                 });
                 console.log(Hazar);
+                var Border1 = new ymaps.Polyline(
+                    [[54.81381547028136, 56.058855168250936], [54.81978506189913, 56.057144323137514], [54.82061663545558, 56.05780123918561], [54.82004358269541, 56.059759251766465],
+                    [54.81972762578878, 56.05949103086499], [54.81807788083479, 56.05995757290714], [54.818353206147655, 56.06327814766757], [54.81694680996119, 56.0635892839133], [54.81402263845585, 56.06174321584752],
+                    [54.81381547028136, 56.058855168250936]], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                var Border2 = new ymaps.Polyline(
+                    [[54.818822209793694, 56.067258947081115], [54.81952228359511, 56.067307226843404], [54.81986302307071, 56.06764518517927], [54.820287394561795, 56.06857322949845], [54.81956874823908, 56.06930815476852],
+                    [54.819389084651455, 56.069002382940816], [54.8192249086022, 56.06884145039992], [54.81899568054412, 56.06886290807203], [54.818822209793694, 56.067258947081115]], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                var Border3 = new ymaps.Polyline(
+                    [[54.72267068870143, 56.01271888931717], [54.723341385095786, 56.01157090385876], [54.724095905214504, 56.01257941444838], [54.7239592853337, 56.01280472000565], [54.72437535352996, 56.0133733483168],
+                    [54.724946664063026, 56.01359328945603], [54.72558316898897, 56.01462325771771], [54.72506154618249, 56.016243311962704], [54.72267068870143, 56.01271888931717]], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                var Border4 = new ymaps.Polyline(
+                    [[54.725387894949755, 55.969689626240275], [54.72625104586402, 55.97008659317448], [54.726033707445126, 55.971556443714626], [54.7251332929521, 55.97113265469029], [54.725387894949755, 55.969689626240275]], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                var Border5 = new ymaps.Polyline(
+                    [[54.71693155925201, 55.99654339621368], [54.7171784491901, 55.99713616440598], [54.71701075052875, 55.99740974972548], [54.71734925266595, 55.99825196335618], [54.717041805888975, 55.99876158306899],
+                    [54.71672038175441, 55.99810175965134], [54.71647504180358, 55.99825464556517], [54.71617704766842, 55.99751781341211], [54.71693155925201, 55.99654339621368]
+                    ], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                var Border6 = new ymaps.Polyline(
+                    [[54.77159315450484, 56.01339989740415], [54.772228923378734, 56.014671264477215], [54.77198392095236, 56.015105782337606], [54.771320236007384, 56.01399534780548], [54.77159315450484, 56.01339989740415]], {},
+                    {
+                        strokeWidth: 5,
+                        strokeColor: '#ff0000'
+                    });
+                myMap.geoObjects.add(Border1);
+                myMap.geoObjects.add(Border2);
+                myMap.geoObjects.add(Border3);
+                myMap.geoObjects.add(Border4);
+                myMap.geoObjects.add(Border5);
+                myMap.geoObjects.add(Border6);
                 DrawEmotion(Hazar.PositiveEmotions);
                 DrawEmotion(Hazar.NegativeEmotions);
                 DrawEmotion(Hazar.NeutralEmotions);
@@ -169,7 +216,6 @@
                 document.getElementById("diff").addEventListener("click", Differentiation);
                 function Differentiation() { 
                     var listDiff = Hazar.Quastionnaires;
-                    console.log(Hazar);
                     var genVal = diffVal(document.getElementsByName("Gender"));
                     var placeVal = diffVal(document.getElementsByName("Place"));
                     var visitorVal = diffVal(document.getElementsByName("Visiting"));
@@ -186,7 +232,6 @@
                     if (ageVal != "") {
                         listDiff = listDiff.filter(p => p.Differentiation.Age == ageVal);
                     }
-                    console.log(listDiff);
                     myMap.geoObjects.removeAll();
                     for (var i = 0; i < listDiff.length; i++) { 
                         DrawEmotion(listDiff[i].Emotions);

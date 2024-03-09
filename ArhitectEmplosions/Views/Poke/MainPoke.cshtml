@@ -30,22 +30,22 @@
     <div style="display:flex; justify-content:space-between ">
         <div style="width: 15%; height:820px; display:flex; flex-direction:column; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
             <fieldset>
-                <legend>Выберите кампус:</legend>
+                <legend>Адрес кампуса:</legend>
                 <div style="display:flex; flex-direction:column">
-                    <button id="campus1">Кампус 1</button>
-                    <button id="campus2">Кампус 2</button>
-                    <button id="campus3">Кампус 3</button>
-                    <button id="campus4">Кампус 4</button>
-                    <button id="campus5">Кампус 5</button>
-                    <button id="campus6">Кампус 6</button>
+                    <button id="campus1">Космонавтов, 1</button>
+                    <button id="campus2">Первомайская улица, 14</button>
+                    <button id="campus3">Менделеева, 195</button>
+                    <button id="campus4">Чернышевского, 145</button>
+                    <button id="campus5">Акназарова, 24/1</button>
+                    <button id="campus6">Р.Зорге, 71</button>
                 </div>
             </fieldset>
             <fieldset>
                 <legend>Выберите эмоцию:</legend>
                 <div style="display:flex; flex-direction:column">
-                    <p><input type="radio" name="emot" value="green" checked>Положительная</p>
-                    <p><input type="radio" name="emot" value="red">Отрицательная</p>
-                    <p><input type="radio" name="emot" value="yellow">Нейтральная</p>
+                    <p><input type="radio" name="emot" value="#58FF008F" checked>Положительная</p>
+                    <p><input type="radio" name="emot" value="#FF00008F">Отрицательная</p>
+                    <p><input type="radio" name="emot" value="#FFF200AB">Нейтральная</p>
                     <button id="sendBtn">Отправить эмоции</button>
                 </div>
             </fieldset>
@@ -68,8 +68,18 @@
         var id = 0;
         var colorfill = "green";
         ymaps.ready(init);
+        var name = "";
         function init() 
         {
+            const reuqestUrl = "/arch/Poke/RandName";
+            const xhr = new XMLHttpRequest();
+            xhr.open("Get", reuqestUrl);
+            xhr.responseType = "text";
+            xhr.onload = () => {
+                name = xhr.response;
+                console.log(name);
+            }
+            xhr.send();
             myMap = new ymaps.Map("map",
                 {
                     center: [54.817693719811864, 56.060026019052515],
@@ -129,7 +139,7 @@
 
                 for (var i = 0; i < radiobuttons.length; i++) {
                     if (radiobuttons[i].checked == true) {
-                        emotion.Color = radiobuttons[i].value;
+                        colorfill = radiobuttons[i].value;
                         break;
                     }
                 }
@@ -169,7 +179,7 @@
                         var myCircle = new ymaps.Circle([[coords[0], coords[1]], 12,],
                             {
                                 balloonContent: "Радиус круга - 100 м",
-                                hintContent: "Подвинь меня"
+                                hintContent: name
                             },
                             {
                                 draggable: true,
@@ -178,7 +188,7 @@
                                 strokeOpacity: 0.8,
                                 strokeWidth: 1
                             });
-                        set.push({ x: coords[0], y: coords[1], color: colorfill, name: null });
+                        set.push({ x: coords[0], y: coords[1], color: colorfill, name: name });
                         myMap.geoObjects.add(myCircle);
 
                         // Удаляем контекстное меню.
@@ -241,7 +251,7 @@
 
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
-            const response = await fetch(`/Poke/givemedata`,
+            const response = await fetch(`/arch/Poke/givemedata`,
                 {
                     method: 'POST',
                     headers: {

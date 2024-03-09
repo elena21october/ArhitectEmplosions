@@ -16,17 +16,25 @@
     <h1 id="Hazar">Где живут Ваши эмоции? </h1>
     <div style="display:flex; justify-content:space-between">
         <div style="width: 15%; height:820px; display:flex; flex-direction:column; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
+             <h3>Выберите эмоции:</h3>
             <button id="Positive">Положительные</button>
             <button id="Negative">Отрицательные</button>
             <button id="Neutral">Нейтральные</button>
             <button id="All">Все</button>
-            <h3>Кампусы</h3>
-            <button id="campus1">Кампус 1</button>
-            <button id="campus2">Кампус 2</button>
-            <button id="campus3">Кампус 3</button>
-            <button id="campus4">Кампус 4</button>
-            <button id="campus5">Кампус 5</button>
-            <button id="campus6">Кампус 6</button>
+            <h3>Адрес кампуса:</h3>
+            <div style="display:flex; flex-direction:column">
+                <button id="campus1">Космонавтов, 1</button>
+                <button id="campus2">Первомайская улица, 14</button>
+                <button id="campus3">Менделеева, 195</button>
+                <button id="campus4">Чернышевского, 145</button>
+                <button id="campus5">Акназарова, 24/1</button>
+                <button id="campus6">Р.Зорге, 71</button>
+            </div>
+            <form style="margin-top:30px" asp-controller="Poke" asp-action="Test" method="post">
+                <h5 style="color: red">Тестирование</h5>
+                <textarea name="val"  placeholder="Вам удобно пользоваться платформой? Напишите, пожалуйста, комментарий. Нам очень важен Ваш отзыв" style="height:200px; width:100%"></textarea>
+                <input type="submit" value="Отправить" />
+            </form>
         </div>
         <div id="map" style="width: 1400px; height: 900px; border:solid; border-color:green"></div>
     </div>
@@ -40,6 +48,8 @@
             }
         }
         var Persona = new Person();
+        var radius = 100;
+        var color = 1;
         ymaps.ready(init);
         function init() {
             var myMap = new ymaps.Map("map",
@@ -89,7 +99,6 @@
                     strokeWidth: 5,
                     strokeColor: '#ff0000'
                 });
-            var Pers = "";
             myMap.geoObjects.add(Border1);
             myMap.geoObjects.add(Border2);
             myMap.geoObjects.add(Border3);
@@ -97,109 +106,54 @@
             myMap.geoObjects.add(Border5);
             myMap.geoObjects.add(Border6);
             var Pers = "";
-            const reuqestUrl = "/Poke/Getdata";
+            const reuqestUrl = "/arch/Poke/Getdata";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
             xhr.onload = () => {
                 Pers = JSON.parse(xhr.response);
                 console.log(Pers);
-                for (var i = 0; i < Pers.PositivePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.PositivePoints[i].X, Pers.PositivePoints[i].Y], 100,],
-                        {
-                            balloonContent: "Радиус круга - 100 м", hintContent: Pers.PositivePoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.PositivePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
+                AddEmotion(Pers.PositivePoints, 1, radius);
+                AddEmotion(Pers.NegativePoints, 1, radius);
+                AddEmotion(Pers.NeutralPoints, 1, radius);
+            }
+            xhr.send();
+            function AddEmotion(list, rem, radius) {
+                if (rem != 1) {
+                    myMap.geoObjects.removeAll();
+                    color = rem;
                 }
-                for (var i = 0; i < Pers.NegativePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NegativePoints[i].X, Pers.NegativePoints[i].Y], 100,],
+                else { 
+                    color = rem;
+                }
+                myMap.geoObjects.add(Border1);
+                myMap.geoObjects.add(Border2);
+                myMap.geoObjects.add(Border3);
+                myMap.geoObjects.add(Border4);
+                myMap.geoObjects.add(Border5);
+                myMap.geoObjects.add(Border6);
+                for (var i = 0; i < list.length; i++) {
+                    var myCircle = new ymaps.Circle([[list[i].X, list[i].Y], radius,],
                         {
                             balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NegativePoints[i].Name,
+                            hintContent: list[i].Name,
                         },
                         {
                             draggable: true,
-                            fillColor: Pers.NegativePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-                for (var i = 0; i < Pers.NeutralPoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NeutralPoints[i].X, Pers.NeutralPoints[i].Y], 100,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NeutralPoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.NeutralPoints[i].Color,
-                            strokeColor: "#990066",
+                            fillColor: list[i].Color,
+                            strokeColor: list[i].Color,
                             strokeOpacity: 0.8,
                             strokeWidth: 1
                         });
                     myMap.geoObjects.add(myCircle);
                 }
             }
-            xhr.send();
 
             var zoom = myMap.getZoom();
             myMap.events.add('boundschange', function () {
-                var radius = 100;
                 var currentZoom = myMap.getZoom();
                 if (currentZoom != zoom) {
                     zoom = currentZoom;
-                    myMap.geoObjects.removeAll();
-                    var Border1 = new ymaps.Polyline(
-                        [[54.81381547028136, 56.058855168250936], [54.81978506189913, 56.057144323137514], [54.82061663545558, 56.05780123918561], [54.82004358269541, 56.059759251766465],
-                        [54.81972762578878, 56.05949103086499], [54.81807788083479, 56.05995757290714], [54.818353206147655, 56.06327814766757], [54.81694680996119, 56.0635892839133], [54.81402263845585, 56.06174321584752],
-                        [54.81381547028136, 56.058855168250936]], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
-                    var Border2 = new ymaps.Polyline(
-                        [[54.818822209793694, 56.067258947081115], [54.81952228359511, 56.067307226843404], [54.81986302307071, 56.06764518517927], [54.820287394561795, 56.06857322949845], [54.81956874823908, 56.06930815476852],
-                        [54.819389084651455, 56.069002382940816], [54.8192249086022, 56.06884145039992], [54.81899568054412, 56.06886290807203], [54.818822209793694, 56.067258947081115]], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
-                    var Border3 = new ymaps.Polyline(
-                        [[54.72267068870143, 56.01271888931717], [54.723341385095786, 56.01157090385876], [54.724095905214504, 56.01257941444838], [54.7239592853337, 56.01280472000565], [54.72437535352996, 56.0133733483168],
-                        [54.724946664063026, 56.01359328945603], [54.72558316898897, 56.01462325771771], [54.72506154618249, 56.016243311962704], [54.72267068870143, 56.01271888931717]], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
-                    var Border4 = new ymaps.Polyline(
-                        [[54.725387894949755, 55.969689626240275], [54.72625104586402, 55.97008659317448], [54.726033707445126, 55.971556443714626], [54.7251332929521, 55.97113265469029], [54.725387894949755, 55.969689626240275]], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
-                    var Border5 = new ymaps.Polyline(
-                        [[54.71693155925201, 55.99654339621368], [54.7171784491901, 55.99713616440598], [54.71701075052875, 55.99740974972548], [54.71734925266595, 55.99825196335618], [54.717041805888975, 55.99876158306899],
-                        [54.71672038175441, 55.99810175965134], [54.71647504180358, 55.99825464556517], [54.71617704766842, 55.99751781341211], [54.71693155925201, 55.99654339621368]
-                        ], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
-                    var Border6 = new ymaps.Polyline(
-                        [[54.77159315450484, 56.01339989740415], [54.772228923378734, 56.014671264477215], [54.77198392095236, 56.015105782337606], [54.771320236007384, 56.01399534780548], [54.77159315450484, 56.01339989740415]], {},
-                        {
-                            strokeWidth: 5,
-                            strokeColor: '#ff0000'
-                        });
                     myMap.geoObjects.add(Border1);
                     myMap.geoObjects.add(Border2);
                     myMap.geoObjects.add(Border3);
@@ -207,51 +161,10 @@
                     myMap.geoObjects.add(Border5);
                     myMap.geoObjects.add(Border6);
                     radius = getradius(zoom);
-                    for (var i = 0; i < Pers.PositivePoints.length; i++) {
-                        var myCircle = new ymaps.Circle([[Pers.PositivePoints[i].X, Pers.PositivePoints[i].Y], radius,],
-                            {
-                                balloonContent: "Радиус круга - 100 м",
-                                hintContent: Pers.PositivePoints[i].Name,
-                            },
-                            {
-                                draggable: true,
-                                fillColor: Pers.PositivePoints[i].Color,
-                                strokeColor: "#990066",
-                                strokeOpacity: 0.8,
-                                strokeWidth: 1
-                            });
-                        myMap.geoObjects.add(myCircle);
-                    }
-                    for (var i = 0; i < Pers.NegativePoints.length; i++) {
-                        var myCircle = new ymaps.Circle([[Pers.NegativePoints[i].X, Pers.NegativePoints[i].Y], radius,],
-                            {
-                                balloonContent: "Радиус круга - 100 м",
-                                hintContent: Pers.NegativePoints[i].Name,
-                            },
-                            {
-                                draggable: true,
-                                fillColor: Pers.NegativePoints[i].Color,
-                                strokeColor: "#990066",
-                                strokeOpacity: 0.8,
-                                strokeWidth: 1
-                            });
-                        myMap.geoObjects.add(myCircle);
-                    }
-                    for (var i = 0; i < Pers.NeutralPoints.length; i++) {
-                        var myCircle = new ymaps.Circle([[Pers.NeutralPoints[i].X, Pers.NeutralPoints[i].Y], radius,],
-                            {
-                                balloonContent: "Радиус круга - 100 м",
-                                hintContent: Pers.NeutralPoints[i].Name,
-                            },
-                            {
-                                draggable: true,
-                                fillColor: Pers.NeutralPoints[i].Color,
-                                strokeColor: "#990066",
-                                strokeOpacity: 0.8,
-                                strokeWidth: 1
-                            });
-                        myMap.geoObjects.add(myCircle);
-                    }
+                    if (color == 1) All();
+                    if (color == 2) AddEmotion(Pers.PositivePoints, 2, radius);
+                    if (color == 3) AddEmotion(Pers.NegativePoints, 3, radius);
+                    if (color == 4) AddEmotion(Pers.NeutralPoints, 4, radius);
 
                 }
             }, this);
@@ -266,149 +179,25 @@
                 else { return 100; }
 
             }
-            document.getElementById("Positive").addEventListener("click", Positive);
-            function Positive() {
-                zoom = myMap.getZoom();
-                myMap.geoObjects.removeAll();
-                radius = getradius(zoom);
-                for (var i = 0; i < Pers.PositivePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.PositivePoints[i].X, Pers.PositivePoints[i].Y], 100,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.PositivePoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.PositivePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-            }
-
-            document.getElementById("Negative").addEventListener("click", Negative);
-            function Negative() {
-                zoom = myMap.getZoom();
-                myMap.geoObjects.removeAll();
-                radius = getradius(zoom);
-                for (var i = 0; i < Pers.NegativePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NegativePoints[i].X, Pers.NegativePoints[i].Y], 100,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NegativePoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.NegativePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-            }
-
-            document.getElementById("Neutral").addEventListener("click", Neutral);
-            function Neutral() {
-                zoom = myMap.getZoom();
-                myMap.geoObjects.removeAll();
-                radius = getradius(zoom);
-                for (var i = 0; i < Pers.NeutralPoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NeutralPoints[i].X, Pers.NeutralPoints[i].Y], 100,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NeutralPoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.NeutralPoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-            }
-
-            
+            document.getElementById("Positive").addEventListener("click", () => AddEmotion(Pers.PositivePoints, 2, radius));
+            document.getElementById("Negative").addEventListener("click", () => AddEmotion(Pers.NegativePoints, 3, radius));
+            document.getElementById("Neutral").addEventListener("click", () => AddEmotion(Pers.NeutralPoints, 4, radius));
 
             document.getElementById("All").addEventListener("click", All);
             function All() {
-                zoom = myMap.getZoom();
-                radius = getradius(zoom);
-                for (var i = 0; i < Pers.PositivePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.PositivePoints[i].X, Pers.PositivePoints[i].Y], radius,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.PositivePoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.PositivePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-
-                for (var i = 0; i < Pers.NegativePoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NegativePoints[i].X, Pers.NegativePoints[i].Y], radius,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NegativePoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.NegativePoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
-
-                for (var i = 0; i < Pers.NeutralPoints.length; i++) {
-                    var myCircle = new ymaps.Circle([[Pers.NeutralPoints[i].X, Pers.NeutralPoints[i].Y], radius,],
-                        {
-                            balloonContent: "Радиус круга - 100 м",
-                            hintContent: Pers.NeutralPoints[i].Name,
-                        },
-                        {
-                            draggable: true,
-                            fillColor: Pers.NeutralPoints[i].Color,
-                            strokeColor: "#990066",
-                            strokeOpacity: 0.8,
-                            strokeWidth: 1
-                        });
-                    myMap.geoObjects.add(myCircle);
-                }
+                myMap.geoObjects.removeAll();
+                AddEmotion(Pers.PositivePoints, 1, radius);
+                AddEmotion(Pers.NegativePoints, 1, radius);
+                AddEmotion(Pers.NeutralPoints, 1, radius);
             }
-            document.getElementById("campus1").addEventListener("click", camp1);
-            function camp1() {
-                myMap.setCenter([54.817693719811864, 56.060026019052515], 18);
-            }
-            document.getElementById("campus2").addEventListener("click", camp2);
-            function camp2() {
-                myMap.setCenter([54.819534201848036, 56.06853893234703], 18);
-            }
-            document.getElementById("campus3").addEventListener("click", camp3);
-            function camp3() {
-                myMap.setCenter([54.724229625846185, 56.01468735832227], 18);
-            }
-            document.getElementById("campus4").addEventListener("click", camp4);
-            function camp4() {
-                myMap.setCenter([54.72575758166644, 55.97110019577027], 18);
-            }
-            document.getElementById("campus5").addEventListener("click", camp5);
-            function camp5() {
-                myMap.setCenter([54.71700954648499, 55.998397305557184], 18);
-            }
-            document.getElementById("campus6").addEventListener("click", camp6);
-            function camp6() {
-                myMap.setCenter([54.77188178367694, 56.01460661904904], 18);
+            document.getElementById("campus1").addEventListener("click", () => campMove(54.817693719811864, 56.060026019052515));
+            document.getElementById("campus2").addEventListener("click", () => campMove(54.819534201848036, 56.06853893234703));
+            document.getElementById("campus3").addEventListener("click", () => campMove(54.724229625846185, 56.01468735832227));
+            document.getElementById("campus4").addEventListener("click", () => campMove(54.72575758166644, 55.97110019577027));
+            document.getElementById("campus5").addEventListener("click", () => campMove(54.71700954648499, 55.998397305557184));
+            document.getElementById("campus6").addEventListener("click", () => campMove(54.77188178367694, 56.01460661904904));
+            function campMove(x, y) {
+                myMap.setCenter([x, y], 16);
             }
         }
     </script>
