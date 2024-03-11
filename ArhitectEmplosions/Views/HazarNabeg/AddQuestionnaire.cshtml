@@ -133,6 +133,8 @@
             <div id="mapLook" style="width: 70%; height: 820px;"></div>
         </div>
     </div>
+    </body>
+</html>
     <script>
 
         //classes for quest
@@ -154,7 +156,6 @@
             Age;
         }
         class Questionnaire {
-            Id;
             Differentiation;
             PositiveComm;
             NegativeComm;
@@ -175,8 +176,7 @@
         ymaps.ready(initAdd);
 
         function initAdd() {
-
-            const reuqestUrl = "/arch/HazarNabeg/GetQuestionnaires";
+            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
@@ -284,7 +284,7 @@
                             emotion.Points.push(point2);
                             emotion.Points.push(point3);
                             emotion.Points.push(point4);
-                            quest.Emotions.push(emotion);
+                            quest.Emotions.push(JSON.stringify(emotion));
                         }
                         $('stopEditPolyline').attr('disabled', false);
                     });
@@ -394,7 +394,7 @@
             document.getElementById("sendBtn").addEventListener("click", send);
             async function send() {
                 console.log(listQuest);
-                const response = await fetch(`/arch/HazarNabeg/GiveQuestionnaire`, {
+                const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',
@@ -419,5 +419,3 @@
             teachDiv.setAttribute("style", "");
         }
     </script>
-    </body>
-</html>

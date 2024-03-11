@@ -1,4 +1,5 @@
 ﻿using DataBaseContext;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -56,36 +57,13 @@ namespace ArchEmplosion.Controllers
         [HttpGet]
         public async Task<JsonResult> GetQuestionnaires()
         {
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
-            if (hazarNabeg != null)
-            {
-                List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
-                List<Emotion> emotionsdb = await db.Emotions.ToListAsync();
-                List<PointHN> pointdb = await db.Points.ToListAsync();
-                List<Emotion> emotions = new List<Emotion>();
-                foreach (var item in quastionnaires)
-                {
-                    item.Differentiation = await db.Differentiations.FirstOrDefaultAsync(p => p.QuastionnaireId == item.Id);
-                    item.Emotions = emotionsdb.Where(p => p.QuastionnaireId == item.Id).ToList();
-                    for (int i = 0; i < item.Emotions.Count; i++)
-                    {
-                        item.Emotions[i].Points = pointdb.Where(p => p.EmotionId == item.Emotions[i].Id).ToList();
-                    }
-                    emotions.AddRange(item.Emotions);
-                }
-                HazarNabegData hazarNabegData = new HazarNabegData();
-                hazarNabegData.Name = hazarNabeg.Name;
-                hazarNabegData.X = hazarNabeg.X;
-                hazarNabegData.Y = hazarNabeg.Y;
-                hazarNabegData.PositiveEmotions = emotions.Where(p => p.Color == "#58FF008F").ToList();
-                hazarNabegData.NegativeEmotions = emotions.Where(p => p.Color == "#FF00008F").ToList();
-                hazarNabegData.NeutralEmotions = emotions.Where(p => p.Color == "#FFF200AB").ToList();
-                hazarNabegData.ConflictEmotions = emotions.Where(p => p.Color == "#9300FF8F").ToList();
-                hazarNabegData.Quastionnaires = quastionnaires;
-                string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
-                return Json(resultJSON);
-            }
-            return Json(null);
+            return await JsonHazar(_idHazar);
+        }
+        [EnableCors("AllowAllOrigin")]
+        [HttpGet]
+        public async Task<JsonResult> GetHttpData(int idHazar)
+        {
+            return await JsonHazar(idHazar);
         }
 
         [HttpGet]
@@ -182,6 +160,39 @@ namespace ArchEmplosion.Controllers
                 emotions.AddRange(item.Emotions);
             }
             return emotions;
+        }
+        public async Task<JsonResult> JsonHazar(int idHazar)
+        {
+            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == idHazar);
+            if (hazarNabeg != null)
+            {
+                List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == idHazar).ToListAsync();
+                List<Emotion> emotionsdb = await db.Emotions.ToListAsync();
+                List<PointHN> pointdb = await db.Points.ToListAsync();
+                List<Emotion> emotions = new List<Emotion>();
+                foreach (var item in quastionnaires)
+                {
+                    item.Differentiation = await db.Differentiations.FirstOrDefaultAsync(p => p.QuastionnaireId == item.Id);
+                    item.Emotions = emotionsdb.Where(p => p.QuastionnaireId == item.Id).ToList();
+                    for (int i = 0; i < item.Emotions.Count; i++)
+                    {
+                        item.Emotions[i].Points = pointdb.Where(p => p.EmotionId == item.Emotions[i].Id).ToList();
+                    }
+                    emotions.AddRange(item.Emotions);
+                }
+                HazarNabegData hazarNabegData = new HazarNabegData();
+                hazarNabegData.Name = hazarNabeg.Name;
+                hazarNabegData.X = hazarNabeg.X;
+                hazarNabegData.Y = hazarNabeg.Y;
+                hazarNabegData.PositiveEmotions = emotions.Where(p => p.Color == "#58FF008F").ToList();
+                hazarNabegData.NegativeEmotions = emotions.Where(p => p.Color == "#FF00008F").ToList();
+                hazarNabegData.NeutralEmotions = emotions.Where(p => p.Color == "#FFF200AB").ToList();
+                hazarNabegData.ConflictEmotions = emotions.Where(p => p.Color == "#9300FF8F").ToList();
+                hazarNabegData.Quastionnaires = quastionnaires;
+                string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
+                return Json(resultJSON);
+            }
+            return Json(null);
         }
     }
 }

@@ -107,7 +107,7 @@
 
         function initAdd() {
 
-            const reuqestUrl = "/arch/HazarNabeg/GetQuestionnaires";
+            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
@@ -170,7 +170,7 @@
                 document.getElementById("sendBtn").addEventListener("click", send);
                 async function send() {
                     listQuest.push(quest);
-                    const response = await fetch(`/arch/HazarNabeg/GiveQuestionnaire`, {
+                    const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
                         method: 'POST',
                         headers: {
                             'Content-type': 'application/json',
