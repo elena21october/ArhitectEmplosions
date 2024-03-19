@@ -1,4 +1,6 @@
-﻿namespace Models.HazarNabeg
+﻿using Newtonsoft.Json;
+
+namespace Models.HazarNabeg
 {
     public class HazarNabeg
     {
@@ -9,11 +11,41 @@
     }
     public class HazarNabegData : HazarNabeg
     {
-        public List<Emotion>? PositiveEmotions { get; set; }
-        public List<Emotion>? NegativeEmotions { get; set; }
-        public List<Emotion>? NeutralEmotions { get; set; }
-        public List<Emotion>? ConflictEmotions { get; set; }
-        public List<Quastionnaire>? Quastionnaires { get; set; }
+        public List<Emotion> PositiveEmotions { get; set; } = new List<Emotion>();
+        public List<Emotion> NegativeEmotions { get; set; } = new List<Emotion>();
+		public List<Emotion> NeutralEmotions { get; set; } = new List<Emotion>();
+		public List<Emotion> ConflictEmotions { get; set; } = new List<Emotion>();
+        public List<QuastionnairePoints>? Quastionnaires { get; set; }
+        public HazarNabegData(HazarNabeg hazar)
+        {
+            Id = hazar.Id;
+            Name = hazar.Name;
+            X = hazar.X;
+            Y = hazar.Y;
+        }
+        public void SetQuastionnaires(List<Quastionnaire> quastionnaires)
+        {
+            try
+            {
+                List<QuastionnairePoints> quastionnairepoints = new List<QuastionnairePoints>();
+                for (int i = 0; i < quastionnaires.Count; i++)
+                {
+                    quastionnairepoints.Add(new QuastionnairePoints { EmotionsList = JsonConvert.DeserializeObject<List<Emotion>>(quastionnaires[i].Emotions!)! });
+                }
+                for (int i = 0; i < quastionnairepoints.Count; i++)
+                {
+                    PositiveEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#58FF008F"));
+					NegativeEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FF00008F"));
+					NeutralEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FFF200AB"));
+                }
+                Console.WriteLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+        }
     }
     public class TestHazar
     {

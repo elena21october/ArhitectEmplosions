@@ -24,7 +24,7 @@
 </style>
 <h1>ХазАрхский набег</h1>
 
-<input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
+@*<input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />*@
 <h4 title="Платформа, где анализируются результаты полевых исследований 'гостевого' видения территории кампуса." style="color:orange">
     Что это такое?
 </h4>
@@ -44,14 +44,14 @@
             <h1>@item.Name</h1>
             <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавление анкет</a></h1>
             <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Просмотр анкет</a></h1>
-            <div style="display:flex; flex-direction:column">
+            @*<div style="display:flex; flex-direction:column">
                 <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
                 <h6><a asp-controller="HazarNabeg" asp-action="AddConflict" asp-route-id="@item.Id">Добавить конфликты</a></h6>
                 <h6><a asp-controller="HazarNabeg" asp-action="EditHazar">Редактировать</a></h6>
                 <form asp-controller="HazarNabeg" asp-action="DelHazar">
                     <input type="submit" value ="Удалить"/>
                 </form>
-            </div>
+            </div>*@
         </div>
     }
 </div>

@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -33,7 +29,6 @@
                     <textarea name = "val" placeholder="Вам удобно пользоваться платформой? Напишите, пожалуйста, комментарий. Нам очень важен Ваш отзыв" style="height:200px; width:100%;"></textarea>
                     <input type="submit" value="Отправить"/>
                 </form>
-                
             </div>
             <div style="display:flex;">
             <div id="map" style="width: 1200px; height: 820px"></div>
@@ -43,7 +38,7 @@
                 <div style=" width:200px; display:flex; flex-direction:column;">
                     <h5>Пол</h5>
                 <div style="height:20%; display:flex; flex-direction:column">
-                        <p><input type="radio" name="Gender" value=""  />Не учитывать</p>
+                        <p><input type="radio" name="Gender" value=""/>Не учитывать</p>
                         <p><input type="radio" name="Gender" value="Муж"  />Муж </p>
                         <p><input type="radio" name="Gender" value="Жен" />Жен</p>
                     </div>
@@ -87,158 +82,230 @@
             </div>
         </div>
     <script type="text/javascript">
-        class HazarNabeg {
-            Id
-            CoordX
-            CoordY
-            PositiveEmotions
-            NegativeEmotions
-            NeutralEmotions
-            constructor() {
-                this.List = [];
+        async function GetData() {
+            const response = await fetch("/arch/HazarNabeg/GetQuestionnaires",
+                {
+                    method: "GET",
+                    headers: { "Accept": "application/json" }
+                });
+            if (response.ok === true) {
+                let data = await response.json();
+                console.log(data);
+                return JSON.parse(data);
             }
         }
-        const set = [];
+        let hazar = null;
+        var Border1 = null;
+        var Border2 = null;
+        var Border3 = null;
+        var Border4 = null;
+        var Border5 = null;
+        var Border6 = null;
         ymaps.ready(init);
-        function init() {
-            const reuqestUrl = "/HazarNabeg/GetQuestionnaires";
-            const xhr = new XMLHttpRequest();
-            xhr.open("Get", reuqestUrl);
-            xhr.responseType = "json";
-            xhr.onload = () => {
-                var Hazar = JSON.parse(xhr.response);
-                var myMap = new ymaps.Map("map",
-                {
-                    center: [Hazar.X, Hazar.Y],
-                    zoom: 14
-                });
-                console.log(Hazar);
-                var Border1 = new ymaps.Polyline(
-                    [[54.81381547028136, 56.058855168250936], [54.81978506189913, 56.057144323137514], [54.82061663545558, 56.05780123918561], [54.82004358269541, 56.059759251766465],
-                    [54.81972762578878, 56.05949103086499], [54.81807788083479, 56.05995757290714], [54.818353206147655, 56.06327814766757], [54.81694680996119, 56.0635892839133], [54.81402263845585, 56.06174321584752],
-                    [54.81381547028136, 56.058855168250936]], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                var Border2 = new ymaps.Polyline(
-                    [[54.818822209793694, 56.067258947081115], [54.81952228359511, 56.067307226843404], [54.81986302307071, 56.06764518517927], [54.820287394561795, 56.06857322949845], [54.81956874823908, 56.06930815476852],
-                    [54.819389084651455, 56.069002382940816], [54.8192249086022, 56.06884145039992], [54.81899568054412, 56.06886290807203], [54.818822209793694, 56.067258947081115]], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                var Border3 = new ymaps.Polyline(
-                    [[54.72267068870143, 56.01271888931717], [54.723341385095786, 56.01157090385876], [54.724095905214504, 56.01257941444838], [54.7239592853337, 56.01280472000565], [54.72437535352996, 56.0133733483168],
-                    [54.724946664063026, 56.01359328945603], [54.72558316898897, 56.01462325771771], [54.72506154618249, 56.016243311962704], [54.72267068870143, 56.01271888931717]], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                var Border4 = new ymaps.Polyline(
-                    [[54.725387894949755, 55.969689626240275], [54.72625104586402, 55.97008659317448], [54.726033707445126, 55.971556443714626], [54.7251332929521, 55.97113265469029], [54.725387894949755, 55.969689626240275]], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                var Border5 = new ymaps.Polyline(
-                    [[54.71693155925201, 55.99654339621368], [54.7171784491901, 55.99713616440598], [54.71701075052875, 55.99740974972548], [54.71734925266595, 55.99825196335618], [54.717041805888975, 55.99876158306899],
-                    [54.71672038175441, 55.99810175965134], [54.71647504180358, 55.99825464556517], [54.71617704766842, 55.99751781341211], [54.71693155925201, 55.99654339621368]
-                    ], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                var Border6 = new ymaps.Polyline(
-                    [[54.77159315450484, 56.01339989740415], [54.772228923378734, 56.014671264477215], [54.77198392095236, 56.015105782337606], [54.771320236007384, 56.01399534780548], [54.77159315450484, 56.01339989740415]], {},
-                    {
-                        strokeWidth: 5,
-                        strokeColor: '#ff0000'
-                    });
-                myMap.geoObjects.add(Border1);
-                myMap.geoObjects.add(Border2);
-                myMap.geoObjects.add(Border3);
-                myMap.geoObjects.add(Border4);
-                myMap.geoObjects.add(Border5);
-                myMap.geoObjects.add(Border6);
+        async function init() {
+            var Hazar = await GetData();
+            console.log(Hazar);
+            var myMap = new ymaps.Map("map",
+            {
+                center: [Hazar.X, Hazar.Y],
+                zoom: 14
+            });
+            DrawEmotion(Hazar.PositiveEmotions);
+            DrawEmotion(Hazar.NegativeEmotions);
+            DrawEmotion(Hazar.NeutralEmotions);
+                
+            document.getElementById("all").addEventListener("click", DrawAll);
+            document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
+            document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
+            document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
+            function DrawEmotion(coll, btn = 0) {
+                try {
+                    if (btn != 0) {
+                        myMap.geoObjects.removeAll();
+                    }
+                    for (var i = 0; i < coll.length; i++) {
+                        var polygon = DrawEmotions(coll[i]);
+                        myMap.geoObjects.add(polygon);
+                    }
+                }
+                catch (ex) { 
+                    console.log(coll);
+                    console.log(ex);
+                }
+            }
+            function DrawAll() {
+                myMap.geoObjects.removeAll();
                 DrawEmotion(Hazar.PositiveEmotions);
                 DrawEmotion(Hazar.NegativeEmotions);
                 DrawEmotion(Hazar.NeutralEmotions);
-                
-                document.getElementById("all").addEventListener("click", DrawAll);
-                document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
-                document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
-                document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
-                document.getElementById("conflict").addEventListener("click", () => DrawEmotion(Hazar.ConflictEmotions, 1));
-                function DrawEmotion(coll, btn = 0) {
-                    try {
-                        if (btn != 0) {
-                            myMap.geoObjects.removeAll();
-                        }
-                        for (var i = 0; i < coll.length; i++) {
-                            var polygon = new ymaps.Polygon(
-                                [[
-                                    [coll[i].Points[0].X, coll[i].Points[0].Y],
-                                    [coll[i].Points[1].X, coll[i].Points[1].Y],
-                                    [coll[i].Points[2].X, coll[i].Points[2].Y],
-                                    [coll[i].Points[3].X, coll[i].Points[3].Y],
-                                ]], {},
-                                {
-                                    editorMaxPoints: 5,
-                                    // Цвет заливки.
-                                    fillColor: coll[i].Color,
-                                    // Цвет обводки.
-                                    strokeColor: coll[i].Color,
-                                    // Ширина обводки.
-                                    strokeWidth: 5
-                                });
-                            myMap.geoObjects.add(polygon);
-                        }
-                    }
-                    catch (ex) { 
-                        console.log(coll);
-                        console.log(ex);
+            }
+            function diffVal(list) {
+                for (var i = 0; i < list.length; i++) {
+                    if (list[i].checked) {
+                        return list[i].value;
                     }
                 }
-                function DrawAll() { 
-                    DrawEmotion(Hazar.PositiveEmotions);
-                    DrawEmotion(Hazar.NegativeEmotions);
-                    DrawEmotion(Hazar.NeutralEmotions);
+                return "";
+            }
+            document.getElementById("diff").addEventListener("click", Differentiation);
+            function Differentiation() { 
+                var listDiff = Hazar.Quastionnaires;
+                var genVal = diffVal(document.getElementsByName("Gender"));
+                var placeVal = diffVal(document.getElementsByName("Place"));
+                var visitorVal = diffVal(document.getElementsByName("Visiting"));
+                var ageVal = diffVal(document.getElementsByName("Age"));
+                if (genVal != "") { 
+                    listDiff = listDiff.filter(p => p.Differentiation.Gender == genVal);
                 }
-                function diffVal(list) {
-                    for (var i = 0; i < list.length; i++) {
-                        if (list[i].checked) {
-                            return list[i].value;
-                        }
-                    }
-                    return "";
+                if (placeVal != "") {
+                    listDiff = listDiff.filter(p => p.Differentiation.Place == placeVal);
                 }
-                document.getElementById("diff").addEventListener("click", Differentiation);
-                function Differentiation() { 
-                    var listDiff = Hazar.Quastionnaires;
-                    var genVal = diffVal(document.getElementsByName("Gender"));
-                    var placeVal = diffVal(document.getElementsByName("Place"));
-                    var visitorVal = diffVal(document.getElementsByName("Visiting"));
-                    var ageVal = diffVal(document.getElementsByName("Age"));
-                    if (genVal != "") { 
-                        listDiff = listDiff.filter(p => p.Differentiation.Gender == genVal);
-                    }
-                    if (placeVal != "") {
-                        listDiff = listDiff.filter(p => p.Differentiation.Place == placeVal);
-                    }
-                    if (visitorVal != "") {
-                        listDiff = listDiff.filter(p => p.Differentiation.Visiting == visitorVal);
-                    }
-                    if (ageVal != "") {
-                        listDiff = listDiff.filter(p => p.Differentiation.Age == ageVal);
-                    }
-                    myMap.geoObjects.removeAll();
-                    for (var i = 0; i < listDiff.length; i++) { 
-                        DrawEmotion(listDiff[i].Emotions);
-                    }
+                if (visitorVal != "") {
+                    listDiff = listDiff.filter(p => p.Differentiation.Visiting == visitorVal);
+                }
+                if (ageVal != "") {
+                    listDiff = listDiff.filter(p => p.Differentiation.Age == ageVal);
+                }
+                myMap.geoObjects.removeAll();
+                for (var i = 0; i < listDiff.length; i++) { 
+                    DrawEmotion(listDiff[i].Emotions);
                 }
             }
-            xhr.send();
+        }
+        function DrawEmotions(emot) {
+            if (emot.Points.length == 3) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 4) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 5) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                        [emot.Points[4].X, emot.Points[4].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 6) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                        [emot.Points[4].X, emot.Points[4].Y],
+                        [emot.Points[5].X, emot.Points[5].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 7) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                        [emot.Points[4].X, emot.Points[4].Y],
+                        [emot.Points[5].X, emot.Points[5].Y],
+                        [emot.Points[6].X, emot.Points[6].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 8) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                        [emot.Points[4].X, emot.Points[4].Y],
+                        [emot.Points[5].X, emot.Points[5].Y],
+                        [emot.Points[6].X, emot.Points[6].Y],
+                        [emot.Points[7].X, emot.Points[7].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
+            else if (emot.Points.length == 9) {
+                return new ymaps.Polygon(
+                    [[
+                        [emot.Points[0].X, emot.Points[0].Y],
+                        [emot.Points[1].X, emot.Points[1].Y],
+                        [emot.Points[2].X, emot.Points[2].Y],
+                        [emot.Points[3].X, emot.Points[3].Y],
+                        [emot.Points[4].X, emot.Points[4].Y],
+                        [emot.Points[5].X, emot.Points[5].Y],
+                        [emot.Points[6].X, emot.Points[6].Y],
+                        [emot.Points[7].X, emot.Points[7].Y],
+                        [emot.Points[8].X, emot.Points[8].Y],
+                    ]], {},
+                    {
+                        // Цвет заливки.
+                        fillColor: emot.Color,
+                        // Цвет обводки.
+                        strokeColor: emot.Color,
+                        // Ширина обводки.
+                        strokeWidth: 5
+                    });
+            }
         }
     </script>
     </body>

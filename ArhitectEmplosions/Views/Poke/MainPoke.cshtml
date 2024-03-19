@@ -71,7 +71,7 @@
         var name = "";
         function init() 
         {
-            const reuqestUrl = "/Poke/RandName";
+            const reuqestUrl = "/arch/Poke/RandName";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "text";
@@ -251,7 +251,7 @@
 
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
-            const response = await fetch(`/Poke/givemedata`,
+            const response = await fetch(`/arch/Poke/givemedata`,
                 {
                     method: 'POST',
                     headers: {

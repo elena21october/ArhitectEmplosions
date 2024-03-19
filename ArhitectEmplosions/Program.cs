@@ -19,7 +19,8 @@ namespace ArhitectEmplosions
                                           .AllowAnyHeader();
                                   });
             });
-            builder.Services.AddDbContext<ApplicationContext>(options => options.UseNpgsql(connection));
+			//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+			builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
             
             builder.Services.AddControllersWithViews();
 
