@@ -30,7 +30,10 @@ namespace Models.HazarNabeg
                 List<QuastionnairePoints> quastionnairepoints = new List<QuastionnairePoints>();
                 for (int i = 0; i < quastionnaires.Count; i++)
                 {
-                    quastionnairepoints.Add(new QuastionnairePoints { EmotionsList = JsonConvert.DeserializeObject<List<Emotion>>(quastionnaires[i].Emotions!)! });
+                    quastionnairepoints.Add(new QuastionnairePoints { 
+                        EmotionsList = JsonConvert.DeserializeObject<List<Emotion>>(quastionnaires[i].Emotions!)!, 
+                        Differentiation = JsonConvert.DeserializeObject<Differentiation>(quastionnaires[i].Differentiation!)! 
+                    });
                 }
                 for (int i = 0; i < quastionnairepoints.Count; i++)
                 {
@@ -38,7 +41,7 @@ namespace Models.HazarNabeg
 					NegativeEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FF00008F"));
 					NeutralEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FFF200AB"));
                 }
-                Console.WriteLine();
+                Quastionnaires = quastionnairepoints;
             }
             catch (Exception ex)
             {

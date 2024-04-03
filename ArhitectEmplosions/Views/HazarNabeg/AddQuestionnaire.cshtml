@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style>
@@ -42,8 +41,8 @@
     <input type="button" id="teach" value="Как отправить анкету?" />
     <div id="parent_popup" style="display: none">
         <div id="popup">
-            <p>1. Выберите цвет и нажмите "Создать эмоцию"</p>
-            <p>2. Нажмите на карте необходимое количество точек (от 3 до 7) </p>
+            <p>1. Выберите тип (положительная, отрицательная, нейтральная) и нажмите "Добавить эмоцию"</p>
+            <p>2. Нажмите на карте необходимое количество точек (от 3 до 7), если точек меньше 7, то нажать на точку эмоции и выбрать "Завершить"</p>
             <p>3. Заполните дифференцируемые значения (пол, проживание и так далее)</p>
             <p>4. Заполните поля для комментариев при их наличии</p>
             <p>5. После заполнения анкеты нажмите на "Сохранить анкету"</p>
@@ -99,11 +98,11 @@
             <div style="display:flex; flex-direction:column; height: 100%; margin-left:10px; padding-left:10px; padding-right:10px;">
 
                 <div style="width: 100%; height: 40%; margin-left:10px;">
-                    <h2>Добавить эмоцию</h2>
+                    <h2>Добавить эмоцию на карте</h2>
                     <input type="radio" name="emot" value="#58FF008F" checked />Положительная<br>
                     <input type="radio" name="emot" value="#FF00008F" />Отрицательная<br>
                     <input type="radio" name="emot" value="#FFF200AB" />Нейтральная<br>
-                    <button id="createPolygon">Создать эмоцию</button><br>
+                    <button id="createPolygon">Добавить эмоцию</button><br>
                 </div>
                 <div style="width: 100%; height: 80%; margin-left:10px; padding-left:10px; padding-right:10px;">
                     <h2>Комментарии к положительным эмоциям</h2>
@@ -132,6 +131,7 @@
 </body>
 </html>
 <script>
+    let path = "";
     class Point {
         X;
         Y;
@@ -166,17 +166,17 @@
     class Questionnaire {
         Id;
         Emotions;
-        Diff;
+        Differentiation;
         Comm;
         constructor(id, emotions, diff, comm) {
             this.Id = id;
             this.Emotions = emotions;
-            this.Diff = diff;
+            this.Differentiation = diff;
             this.Comm = comm;
         }
     }
     async function GetData() {
-        const response = await fetch("/arch/HazarNabeg/GetCoordinates",
+        const response = await fetch(path + "/HazarNabeg/GetCoordinates",
             {
                 method: "GET",
                 headers: { "Accept": "application/json" }
@@ -207,6 +207,7 @@
                 zoom: 15
 
             });
+        SetBorder();
     }
     document.getElementById("createPolygon").addEventListener("click", createPolygon);
     function createPolygon() {
@@ -322,7 +323,7 @@
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
             console.log(listQuest);
-            const response = await fetch(`/arch/HazarNabeg/GiveQuestionnaire`, {
+            const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

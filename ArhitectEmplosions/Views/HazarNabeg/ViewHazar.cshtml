@@ -83,7 +83,7 @@
         </div>
     <script type="text/javascript">
         async function GetData() {
-            const response = await fetch("/arch/HazarNabeg/GetQuestionnaires",
+            const response = await fetch("/HazarNabeg/GetQuestionnaires",
                 {
                     method: "GET",
                     headers: { "Accept": "application/json" }
@@ -168,7 +168,7 @@
                 }
                 myMap.geoObjects.removeAll();
                 for (var i = 0; i < listDiff.length; i++) { 
-                    DrawEmotion(listDiff[i].Emotions);
+                    DrawEmotion(listDiff[i].EmotionsList);
                 }
             }
         }

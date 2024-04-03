@@ -15,12 +15,10 @@ namespace Models.HazarNabeg
     }
     public class Differentiation
     {
-        public int Id { get; set; }
         public string Gender { get; set; } = "";
         public string Place { get; set; } = "";
         public string Visiting { get; set; } = "";
         public string Age { get; set; } = "";
-        public int QuastionnaireId { get; set; }
 
     }
     public class Quastionnaire
@@ -38,6 +36,8 @@ namespace Models.HazarNabeg
     public class QuastionnairePoints
     {
         public List<Emotion>? EmotionsList { get; set; }
+        public Differentiation? Differentiation { get; set; }
+        
     }
     public class ListQuest
     {
