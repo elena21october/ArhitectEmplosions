@@ -82,8 +82,9 @@
             </div>
         </div>
     <script type="text/javascript">
+        let path = "";
         async function GetData() {
-            const response = await fetch("/HazarNabeg/GetQuestionnaires",
+            const response = await fetch(path + "/HazarNabeg/GetQuestionnaires",
                 {
                     method: "GET",
                     headers: { "Accept": "application/json" }

@@ -323,7 +323,7 @@
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
             console.log(listQuest);
-            const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
+            const response = await fetch(path + `/HazarNabeg/GiveQuestionnaire`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

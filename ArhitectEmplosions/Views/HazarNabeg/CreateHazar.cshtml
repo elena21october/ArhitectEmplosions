@@ -29,11 +29,11 @@
         <div id="map" style="width: 1400px; height: 820px; border:solid; border-color:green;border-right-color: white; "></div>
     </div>
     <script type="text/javascript">
+        let path = "";
         ymaps.ready(init);
         var myMap = null;
         var coordinates = null;
         var nameHazar = null;
-
         function init() 
         {
             myMap = new ymaps.Map("map", 
@@ -103,7 +103,7 @@
             {
                coordinates = myMap.getCenter();
                nameHazar = document.getElementById("nameHazar").value;
-                const response = await fetch(`/HazarNabeg/AddHazar`, {
+                const response = await fetch(path + `/HazarNabeg/AddHazar`, {
                     method: 'POST',
                     headers: {
                         'Content-type': 'application/json',

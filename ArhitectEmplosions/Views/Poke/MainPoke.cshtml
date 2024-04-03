@@ -54,6 +54,7 @@
     </div>
 
     <script type="text/javascript">
+        let path = "";
         let myMap = null;
         class Person {
             Id
@@ -71,7 +72,7 @@
         var name = "";
         function init() 
         {
-            const reuqestUrl = "/arch/Poke/RandName";
+            const reuqestUrl = path + "/Poke/RandName";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "text";
@@ -147,6 +148,9 @@
 
                 if ($('#menu').css('display') == 'block') {
                     $('#menu').remove();
+
+
+                    
                 }
                 else {
                     // HTML-содержимое контекстного меню.
@@ -251,7 +255,7 @@
 
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
-            const response = await fetch(`/arch/Poke/givemedata`,
+            const response = await fetch(path + `/Poke/givemedata`,
                 {
                     method: 'POST',
                     headers: {

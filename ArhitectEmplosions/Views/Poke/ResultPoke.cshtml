@@ -40,6 +40,7 @@
     </div>
 
     <script type="text/javascript">
+        let path = "";
         class Person {
             Id
             Name
@@ -106,7 +107,7 @@
             myMap.geoObjects.add(Border5);
             myMap.geoObjects.add(Border6);
             var Pers = "";
-            const reuqestUrl = "/arch/Poke/Getdata";
+            const reuqestUrl = path + "/Poke/Getdata";
             const xhr = new XMLHttpRequest();
             xhr.open("Get", reuqestUrl);
             xhr.responseType = "json";
