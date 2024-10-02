@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +27,24 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="HazarNabeg" asp-action="MainHazar">Хазарский набег</a>
                         </li>
                     </ul>
+                </div>
+                <div>
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <div style="display:flex">
+                                <h6>@(User.FindFirstValue(ClaimTypes.Name))</h6>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Выйти</a>
+                            </div>
+                        }
+                        else
+                        {
+                            <div style="display:flex">
+                                <h6>Гость</h6>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Войти</a>
+                            </div>
+                        }
+                    }                    
                 </div>
             </div>
         </nav>

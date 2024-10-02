@@ -1,18 +1,16 @@
-﻿using DataBaseContext;
-using Microsoft.AspNetCore.Cors;
+﻿using ArhitectEmplosions.Database;
+using ArhitectEmplosions.Models;
+using ArhitectEmplosions.Models.HazarNabeg;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Models.HazarNabeg;
 using Newtonsoft.Json;
-using Services.HazarNabeg;
-using System.Diagnostics;
+using System.Security.Claims;
 
 namespace ArchEmplosion.Controllers
 {
     public class HazarNabegController : Controller
     {
-        ApplicationContext db;
+        private ApplicationContext db;
         private static int _idHazar;
 
         public HazarNabegController(ApplicationContext context)
@@ -34,10 +32,11 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddHazar([FromBody] HazarNabeg hazarNabeg)
+        public async Task<IActionResult> AddHazar([FromBody] HazarNabeg hazarNabeg)
         {
-            db.HazarNabegs.Add(hazarNabeg);
-            db.SaveChanges();
+            HazarNabeg hazar = new HazarNabeg(hazarNabeg.Name, hazarNabeg.X, hazarNabeg.Y);
+            await db.HazarNabegs.AddAsync(hazar);
+            await db.SaveChangesAsync();
             return RedirectToAction("MainHazar","HazarNabeg");
         }
 
@@ -58,19 +57,19 @@ namespace ArchEmplosion.Controllers
         public async Task<JsonResult> GetQuestionnaires()
         {
 			HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
-            await Console.Out.WriteLineAsync();
             if (hazarNabeg != null)
 			{
 				List<Quastionnaire>? quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
 				HazarNabegData hazarNabegData = new HazarNabegData(hazarNabeg);
-				hazarNabegData.SetQuastionnaires(quastionnaires);
-				string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
-				return Json(resultJSON);
+                if (hazarNabegData.SetQuastionnaires(quastionnaires))
+                {
+				    string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
+				    return Json(resultJSON);
+                }
 			}
 			return Json(null);
 		}
 
-        [EnableCors("AllowAllOrigin")]
         [HttpGet]
         public async Task<JsonResult> GetHttpData(int idHazar)
         {
@@ -102,6 +101,7 @@ namespace ArchEmplosion.Controllers
             }
             return Json(null);
         }
+
         [HttpPost]
         public async Task<IActionResult> GiveQuestionnaire([FromBody] ListQuest listQuest)
         {
@@ -109,14 +109,15 @@ namespace ArchEmplosion.Controllers
             if (listQuest.Quastionnaires != null && hazarNabeg != null)
             {
                 List<Quastionnaire> quastion = new List<Quastionnaire>();
+                int id = Convert.ToInt32(User.FindFirstValue(ClaimTypes.NameIdentifier));
                 foreach (var item in listQuest.Quastionnaires)
                 {
                     quastion.Add(new Quastionnaire
                     {
                         Differentiation = item.Differentiation,
                         Comm = item.Comm,
-                        NazarNabeg = hazarNabeg,
-                        HazarNabegId = _idHazar,
+                        HazarNabegId = item.HazarNabegId,
+                        HazarUserId = id,
                         DateTime = DateTime.Now,
                         Emotions = item.Emotions,
                     });
@@ -126,12 +127,13 @@ namespace ArchEmplosion.Controllers
             }
             return RedirectToAction("MainHazar");
         }
+
         [HttpPost]
-        public IActionResult Test(string val)
+        public async Task<IActionResult> Test(string val)
         {
-            TestHazar testHazar = new TestHazar {Type = "Hazar", Value = val };
-            db.TestHazars.Add(testHazar);
-            db.SaveChanges();
+            Testing testHazar = new Testing { Type = "Hazar", Value = val };
+            await db.Testing.AddAsync(testHazar);
+            await db.SaveChangesAsync();
             return RedirectToAction("MainHazar");
         }
         

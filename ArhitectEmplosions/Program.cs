@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using DataBaseContext;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using ArhitectEmplosions.Database;
 
 namespace ArhitectEmplosions
 {

@@ -1,4 +1,6 @@
-﻿namespace ArhitectEmplosions.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace ArhitectEmplosions.ViewModels
 {
     public class LoginModel
     {

@@ -165,10 +165,12 @@
     }
     class Questionnaire {
         Id;
+        HazarNabegId;
         Emotions;
         Differentiation;
         Comm;
-        constructor(id, emotions, diff, comm) {
+        constructor(id,hazarNabegId, emotions, diff, comm) {
+            this.HazarNabegId = hazarNabegId;
             this.Id = id;
             this.Emotions = emotions;
             this.Differentiation = diff;
@@ -242,7 +244,7 @@
             emotionList.push(new Emotion(obj.geometry.getCoordinates(), obj.geometry.options._parent._options.fillColor));
             console.log(obj);
         });
-        var quest = new Questionnaire(listQuest.length, JSON.stringify(emotionList), JSON.stringify(diff), null);
+        var quest = new Questionnaire(listQuest.length, hazar.Id, JSON.stringify(emotionList), JSON.stringify(diff), null);
         listQuest.push(quest);
         console.log(listQuest);
         myMap.geoObjects.removeAll();
@@ -322,7 +324,6 @@
         }
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
-            console.log(listQuest);
             const response = await fetch(path + `/HazarNabeg/GiveQuestionnaire`, {
                 method: 'POST',
                 headers: {

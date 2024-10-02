@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 using System.Security.Claims;
-using DataBaseContext;
+using ArhitectEmplosions.Database;
+using ArhitectEmplosions.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArhitectEmplosions.Controllers
 {
@@ -55,7 +56,7 @@ namespace ArhitectEmplosions.Controllers
                 {
                     // добавляем пользователя в бд
                     user = new User { Email = model.Email, Password = model.Password };
-                    Role userRole = await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user");
+                    Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;
                     if (userRole != null)
                         user.Role = userRole;
 
@@ -80,7 +81,8 @@ namespace ArhitectEmplosions.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name)
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType,
@@ -89,10 +91,9 @@ namespace ArhitectEmplosions.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        public async Task<IActionResult> Logout()
+        public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Account");
         }
     }
 }
