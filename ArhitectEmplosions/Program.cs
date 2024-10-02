@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using DataBaseContext;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace ArhitectEmplosions
 {
@@ -8,7 +9,6 @@ namespace ArhitectEmplosions
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            string? connection = builder.Configuration.GetConnectionString("DefaultConnection");
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAllOrigin",
@@ -19,24 +19,32 @@ namespace ArhitectEmplosions
                                           .AllowAnyHeader();
                                   });
             });
-			//AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-			builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
-            
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.LoginPath = new PathString("/Account/Login");
+                    options.AccessDeniedPath = new PathString("/Account/Login");
+                });
+
+            string connection = builder.Configuration.GetConnectionString("DefaultConnection")!;
+            builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors();
+
 
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            app.UseCors();
 
             app.Run();
         }
