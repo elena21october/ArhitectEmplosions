@@ -63,7 +63,7 @@ namespace ArhitectEmplosions.Controllers
         [HttpPost]
         public async Task Givemedata([FromBody] EmotionPoke poke)
         {
-            if (string.IsNullOrEmpty(poke.Points))
+            if (!string.IsNullOrEmpty(poke.Points))
             { 
                 EmotionPoke ep = new EmotionPoke(poke.Points!);
                 await db.EmotionPokes.AddAsync(ep);

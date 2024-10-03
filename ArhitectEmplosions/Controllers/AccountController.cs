@@ -29,7 +29,7 @@ namespace ArhitectEmplosions.Controllers
             {
                 User? user = await _context.Users
                     .Include(u => u.Role)
-                    .FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                    .FirstOrDefaultAsync(u => u.Login == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
@@ -51,11 +51,11 @@ namespace ArhitectEmplosions.Controllers
         {
             if (ModelState.IsValid)
             {
-                User? user = await _context.Users.FirstOrDefaultAsync(u => u.Email == model.Email);
+                User? user = await _context.Users.FirstOrDefaultAsync(u => u.Login == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    user = new User { Email = model.Email, Password = model.Password };
+                    user = new User { Login = model.Email, Password = model.Password };
                     Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;
                     if (userRole != null)
                         user.Role = userRole;
@@ -80,7 +80,7 @@ namespace ArhitectEmplosions.Controllers
             // создаем один claim
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.Name),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
@@ -91,9 +91,10 @@ namespace ArhitectEmplosions.Controllers
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 
-        public async Task Logout()
+        public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
     }
 }

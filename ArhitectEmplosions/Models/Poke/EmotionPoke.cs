@@ -32,7 +32,7 @@ namespace ArhitectEmplosions.Models.Poke
             {
                 foreach (var item in users)
                 {
-                    if (string.IsNullOrEmpty(item.Points))
+                    if (!string.IsNullOrEmpty(item.Points))
                     { 
                         List<PointPoke> pointPokes = JsonConvert.DeserializeObject<List<PointPoke>>(item.Points!)!;
                         PositivePoints.AddRange(pointPokes.Where(p => p.Color == "#58FF008F"));

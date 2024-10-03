@@ -130,6 +130,7 @@
     </div>
 </body>
 </html>
+
 <script>
     let path = "";
     class Point {
@@ -242,11 +243,9 @@
         DelBorder();
         myMap.geoObjects.each(function (obj, objIndex) {
             emotionList.push(new Emotion(obj.geometry.getCoordinates(), obj.geometry.options._parent._options.fillColor));
-            console.log(obj);
         });
         var quest = new Questionnaire(listQuest.length, hazar.Id, JSON.stringify(emotionList), JSON.stringify(diff), null);
         listQuest.push(quest);
-        console.log(listQuest);
         myMap.geoObjects.removeAll();
         SetBorder();
     });
@@ -302,13 +301,12 @@
                 document.getElementById("del" + listQuest[i].Id).addEventListener("click", () => delet(div.id));
             }
         });
+
         function func(pp) {
             var item = listQuest.find(item => item.Id == pp.substring(7));
-            console.log(item);
             var emot = JSON.parse(item.Emotions);
             lookMap.geoObjects.removeAll();
             for (n of emot) {
-                console.log(n)
                 var polygon = DrawEmotion(n);
                 lookMap.geoObjects.add(polygon);
             }
@@ -324,7 +322,7 @@
         }
         document.getElementById("sendBtn").addEventListener("click", send);
         async function send() {
-            const response = await fetch(path + `/HazarNabeg/GiveQuestionnaire`, {
+            const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',

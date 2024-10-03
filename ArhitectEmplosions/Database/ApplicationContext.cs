@@ -26,16 +26,22 @@ namespace ArhitectEmplosions.Database
             string adminRoleName = "admin";
             string userRoleName = "user";
 
-            string adminEmail = "admin@mail.ru";
+            string adminLogin = "admin";
             string adminPassword = "123456";
+            string adminName = "Mukimovv D.V.";
+
+            string mainLogin = "main";
+            string mainPassword = "123456";
+            string mainName = "Rasuleva U.V.";
 
             // добавляем роли
             Role adminRole = new Role { Id = 1, Name = adminRoleName };
             Role userRole = new Role { Id = 2, Name = userRoleName };
-            User adminUser = new User { Id = 1, Email = adminEmail, Password = adminPassword, RoleId = adminRole.Id };
+            User adminUser = new User { Id = 1, Name = adminName, Login = adminLogin, Password = adminPassword, RoleId = adminRole.Id };
+            User mainUser = new User { Id = 2, Name = mainName, Login = mainLogin, Password = mainPassword, RoleId = adminRole.Id };
 
             modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
-            modelBuilder.Entity<User>().HasData(new User[] { adminUser });
+            modelBuilder.Entity<User>().HasData(new User[] { adminUser, mainUser });
             base.OnModelCreating(modelBuilder);
         }
     }

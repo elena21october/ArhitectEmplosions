@@ -78,7 +78,6 @@
             xhr.responseType = "text";
             xhr.onload = () => {
                 name = xhr.response;
-                console.log(name);
             }
             xhr.send();
             myMap = new ymaps.Map("map",
@@ -264,7 +263,7 @@
                     body: JSON.stringify(
                         {
                             Name: Pers.Name,
-                            Points: set
+                            Points: JSON.stringify(set)
                         })
                 }).then(function (response) {
                     if (response.ok) {

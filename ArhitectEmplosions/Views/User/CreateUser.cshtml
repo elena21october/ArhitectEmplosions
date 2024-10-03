@@ -1,0 +1,108 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<style>
+	.us{
+		display:flex;
+	}
+	.w{
+		width:33%;
+	}
+</style>
+<body>
+	<h1>Добавить пользователей</h1>
+	<div>
+		<div style="display:flex;">
+			<div style="width:33%"><h6>Имя</h6></div>
+			<div style="width:33%"><h6>Логин</h6></div>
+		</div>
+		<div id="users" style="display:flex; flex-direction:column">
+		</div>
+		<div style="display:flex; ">
+			<input style="width:10%" type="text" id="name"></input>
+			<input style="width:10%" type="text" id="login"></input>
+			<input style="width:7%" type="button" id="create" value="Создать"></input>
+		</div>
+		<div>
+			<input type="button" id="sendUsers" value="Создать пользователей"></input>
+		</div>
+	</div>
+</body>
+<script>
+	class User
+	{
+		Name;
+		Login;
+		constructor(name, login)
+		{
+			this.Name = name;
+			this.Login = login;
+		}
+	}
+	document.getElementById("create").addEventListener("click", createuser);
+	function createuser()
+	{
+
+		var nameobj = document.getElementById("name");
+		var loginobj = document.getElementById("login");
+		var name = nameobj.value;
+		var login = loginobj.value;
+		if(name == "" || login == "")
+		{
+			alert("Должны быть заполнены имя и логин");
+			return;
+		}
+		usersList.push(new User(name, login));
+		ViewUser();
+		nameobj.value = "";
+		loginobj.value = "";
+	}
+	usersList = [];
+	function ViewUser()
+	{
+		var divver = document.getElementById("users");
+		divver.innerHTML = "";
+		for(var i = 0; i < usersList.length; i++)
+		{
+			var t1 = document.createElement("div");
+			var name = document.createElement("h6");
+			var login = document.createElement("h6");
+			name.innerHTML = usersList[i].Name;
+			login.innerHTML = usersList[i].Login;
+			name.className = "w";
+			login.className = "w";
+			t1.appendChild(name);
+			t1.appendChild(login);
+			t1.className = "us";
+			divver.appendChild(t1);
+		}
+	}
+	document.getElementById("sendUsers").addEventListener("click", SendUsers);
+	async function SendUsers()
+	{
+		if (usersList.length != 0) { 
+			const response = await fetch(`/User/GetUsers`, {
+				method: 'POST',
+				headers: {
+					'Content-type': 'application/json',
+				},
+				body: JSON.stringify({
+					Users: usersList
+				})
+			});
+			if (response.ok === true) {
+				alert("Данные отправлены");
+				var divver = document.getElementById("users");
+				divver.innerHTML = "";
+				usersList.splice(0, usersList.length);
+			}
+			else {
+				const error = await response.json();
+				console.log(error.message);
+			}
+		}
+	}
+</script>
