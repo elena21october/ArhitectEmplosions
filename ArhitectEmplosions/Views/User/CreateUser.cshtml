@@ -1,4 +1,5 @@
-﻿@*
+﻿@model int
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -24,6 +25,7 @@
 		<div style="display:flex; ">
 			<input style="width:10%" type="text" id="name"></input>
 			<input style="width:10%" type="text" id="login"></input>
+			<input style="display:none" id="hazarid" value="@Model"></input>
 			<input style="width:7%" type="button" id="create" value="Создать"></input>
 		</div>
 		<div>
@@ -36,18 +38,20 @@
 	{
 		Name;
 		Login;
-		constructor(name, login)
+		HazarId;
+		constructor(name, login, hazarId)
 		{
 			this.Name = name;
 			this.Login = login;
+			this.HazarId = hazarId;
 		}
 	}
 	document.getElementById("create").addEventListener("click", createuser);
 	function createuser()
 	{
-
 		var nameobj = document.getElementById("name");
 		var loginobj = document.getElementById("login");
+		var hazarid = document.getElementById("hazarid").value;
 		var name = nameobj.value;
 		var login = loginobj.value;
 		if(name == "" || login == "")
@@ -55,7 +59,7 @@
 			alert("Должны быть заполнены имя и логин");
 			return;
 		}
-		usersList.push(new User(name, login));
+		usersList.push(new User(name, login, hazarid));
 		ViewUser();
 		nameobj.value = "";
 		loginobj.value = "";

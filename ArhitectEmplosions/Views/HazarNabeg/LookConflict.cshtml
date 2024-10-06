@@ -1,5 +1,4 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <style>
@@ -15,72 +14,14 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <script src="https://api-maps.yandex.ru/2.1/?apikey=d5e25ddd-0718-4acb-a851-ff855eddb60d&lang=ru_RU" type="text/javascript"> </script>
 </head>
-    <body>
-        <h1 id="Hazar">ХазАРХский набег</h1>
-        <div style="display:flex; justify-content: space-between">
-            <div style="display:flex;flex-direction:column; width:15%; height:820px; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
-                <h5>Эмоции</h5>
-                <button id="all">Все</button>
-                <button id="positive">Положительные</button>
-                <button id="negative">Отрицательные</button>
-                <button id="neutral">Нейтральные</button>
-                <form style="margin-top:30px" asp-controller="HazarNabeg" asp-action="Test" method="post">
-                    <h5 style="color: red">Тестирование</h5>
-                    <textarea name = "val" placeholder="Вам удобно пользоваться платформой? Напишите, пожалуйста, комментарий. Нам очень важен Ваш отзыв" style="height:200px; width:100%;"></textarea>
-                    <input type="submit" value="Отправить"/>
-                </form>
-            </div>
-            <div style="display:flex;">
+<body>
+    <h1 id="Hazar">Просмотр пересечений</h1>
+    <div style="display:flex; justify-content: center">
+        
+        <div style="display:flex;">
             <div id="map" style="width: 1200px; height: 820px"></div>
-            </div>
-        <div style="width:400px; height:820px; display:flex; flex-direction:column; font-size: 13px; border:solid; border-color:green; border-radius: 5px;border-right-color: white; padding: 13px" >
-                <h5>Фильтр</h5>
-                <div style=" width:200px; display:flex; flex-direction:column;">
-                    <h5>Пол</h5>
-                <div style="height:20%; display:flex; flex-direction:column">
-                        <p><input type="radio" name="Gender" value=""/>Не учитывать</p>
-                        <p><input type="radio" name="Gender" value="Муж"  />Муж </p>
-                        <p><input type="radio" name="Gender" value="Жен" />Жен</p>
-                    </div>
-                </div>
-
-            <h5>Где вы живете?</h5>
-                <div style="display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                    <p><input type="radio" name="Place" value=""  />Не учитывать</p>
-                    <p><input type="radio" name="Place" value="В общежитии"  />В общежитии</p>
-                    <p><input type="radio" name="Place" value="Район Черниковка" />Район Черниковка</p>
-                    <p><input type="radio" name="Place" value="В другой части города" />В другой части города</p>
-                    <p><input type="radio" name="Place" value="За городом" />За городом </p>
-                    <p><input type="radio" name="Place" value="В другом городе" />В другом городе </p>
-                </div>
-
-            <h5>Вы посещаете кампус как:</h5>
-                <div style=" display:flex; flex-direction:column;flex-wrap: wrap; height:20%">
-                <p><input type="radio" name="Visiting" value="" />Не учитывать</p>
-                    <p><input type="radio" name="Visiting" value="Студент-бакалавр"  />Студент-бакалавр</p>
-                    <p><input type="radio" name="Visiting" value="Студент-Магистр" />Студент-Магистр</p>
-                    <p><input type="radio" name="Visiting" value="Студент-аспирант" />Студент-аспирант</p>
-                    <p><input type="radio" name="Visiting" value="Преподаватель" />Преподаватель</p>
-                    <p><input type="radio" name="Visiting" value="Сотрудник ВУЗа" />Сотрудник ВУЗа</p>
-                    <p><input type="radio" name="Visiting" value="Гость" />Гость</p>
-                    <p><input type="radio" name="Visiting" value="Партнер ВУЗа" />Партнер ВУЗа</p>
-                    <p><input type="radio" name="Visiting" value="Горожанин" />Горожанин</p>
-                </div>
-
-            <h5>Возраст</h5>
-                <div style=" display:flex; flex-direction:column; flex-wrap: wrap; height:20%">
-                <p><input type="radio" name="Age" value="" />Не учитывать</p>
-                    <p><input type="radio" name="Age" value="14-17"  />14-17</p>
-                    <p><input type="radio" name="Age" value="18-24" />18-24</p>
-                    <p><input type="radio" name="Age" value="25-35" />25-35</p>
-                    <p><input type="radio" name="Age" value="36-45" />36-45</p>
-                    <p><input type="radio" name="Age" value="46-60" />46-60</p>
-                    <p><input type="radio" name="Age" value="61-74" />61-74</p>
-                    <p><input type="radio" name="Age" value="75 и более" />75 и более</p>
-                </div>
-            <button id="diff">Профильтровать</button>
-            </div>
         </div>
+    </div>
     <script type="text/javascript">
         async function GetData() {
             const response = await fetch("/HazarNabeg/GetQuestionnaires",
@@ -104,20 +45,14 @@
         ymaps.ready(init);
         async function init() {
             var Hazar = await GetData();
-            console.log(Hazar);
             var myMap = new ymaps.Map("map",
             {
                 center: [Hazar.X, Hazar.Y],
                 zoom: 14
             });
-            DrawEmotion(Hazar.PositiveEmotions);
-            DrawEmotion(Hazar.NegativeEmotions);
-            DrawEmotion(Hazar.NeutralEmotions);
-                
-            document.getElementById("all").addEventListener("click", DrawAll);
-            document.getElementById("positive").addEventListener("click", () => DrawEmotion(Hazar.PositiveEmotions, 1));
-            document.getElementById("negative").addEventListener("click", () => DrawEmotion(Hazar.NegativeEmotions, 1));
-            document.getElementById("neutral").addEventListener("click", () => DrawEmotion(Hazar.NeutralEmotions, 1));
+
+            DrawAll();
+
             function DrawEmotion(coll, btn = 0) {
                 try {
                     if (btn != 0) {
@@ -128,7 +63,7 @@
                         myMap.geoObjects.add(polygon);
                     }
                 }
-                catch (ex) { 
+                catch (ex) {
                     console.log(coll);
                     console.log(ex);
                 }
@@ -137,43 +72,9 @@
                 myMap.geoObjects.removeAll();
                 DrawEmotion(Hazar.PositiveEmotions);
                 DrawEmotion(Hazar.NegativeEmotions);
-                DrawEmotion(Hazar.NeutralEmotions);
-            }
-            function diffVal(list) {
-                console.log(list);
-                for (var i = 0; i < list.length; i++) {
-                    if (list[i].checked) {
-                        return list[i].value;
-                    }
-                }
-                return "";
-            }
-            document.getElementById("diff").addEventListener("click", Differentiation);
-            function Differentiation() { 
-                var listDiff = Hazar.Quastionnaires;
-                console.log(listDiff);
-                var genVal = diffVal(document.getElementsByName("Gender"));
-                var placeVal = diffVal(document.getElementsByName("Place"));
-                var visitorVal = diffVal(document.getElementsByName("Visiting"));
-                var ageVal = diffVal(document.getElementsByName("Age"));
-                if (genVal != "") { 
-                    listDiff = listDiff.filter(p => p.Differentiation.Gender == genVal);
-                }
-                if (placeVal != "") {
-                    listDiff = listDiff.filter(p => p.Differentiation.Place == placeVal);
-                }
-                if (visitorVal != "") {
-                    listDiff = listDiff.filter(p => p.Differentiation.Visiting == visitorVal);
-                }
-                if (ageVal != "") {
-                    listDiff = listDiff.filter(p => p.Differentiation.Age == ageVal);
-                }
-                myMap.geoObjects.removeAll();
-                for (var i = 0; i < listDiff.length; i++) { 
-                    DrawEmotion(listDiff[i].EmotionsList);
-                }
             }
         }
+
         function DrawEmotions(emot) {
             if (emot.Points.length == 3) {
                 return new ymaps.Polygon(
@@ -310,5 +211,5 @@
             }
         }
     </script>
-    </body>
+</body>
 </html>

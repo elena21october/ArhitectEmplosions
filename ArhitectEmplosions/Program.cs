@@ -9,17 +9,6 @@ namespace ArhitectEmplosions
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("AllowAllOrigin",
-                                  policy =>
-                                  {
-                                      policy.AllowAnyOrigin()
-                                          .AllowAnyMethod()
-                                          .AllowAnyHeader();
-                                  });
-            });
-
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
                 {
@@ -40,7 +29,6 @@ namespace ArhitectEmplosions
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors();
-
 
             app.MapControllerRoute(
                 name: "default",

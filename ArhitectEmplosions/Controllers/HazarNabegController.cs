@@ -1,6 +1,8 @@
 ﻿using ArhitectEmplosions.Database;
 using ArhitectEmplosions.Models;
 using ArhitectEmplosions.Models.HazarNabeg;
+using ArhitectEmplosions.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -8,30 +10,36 @@ using System.Security.Claims;
 
 namespace ArchEmplosion.Controllers
 {
+    [Authorize]
     public class HazarNabegController : Controller
     {
         private ApplicationContext db;
         private static int _idHazar;
-
         public HazarNabegController(ApplicationContext context)
         {
             db = context;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> MainHazar()
         {
             _idHazar = 0;
-            return View(await db.HazarNabegs.ToListAsync());
+            HazarNabegsUser hazarNabegs = new HazarNabegsUser();
+            hazarNabegs.HazarNabegs = await db.HazarNabegs.ToListAsync();
+            hazarNabegs.Role = User.FindFirstValue(ClaimTypes.Role) ?? "guest";
+            return View(hazarNabegs);
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateHazar()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddHazar([FromBody] HazarNabeg hazarNabeg)
         {
             HazarNabeg hazar = new HazarNabeg(hazarNabeg.Name, hazarNabeg.X, hazarNabeg.Y);
@@ -47,6 +55,7 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult ViewHazar(int id)
         {
             _idHazar = id;
@@ -54,6 +63,7 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetQuestionnaires()
         {
 			HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
@@ -71,12 +81,14 @@ namespace ArchEmplosion.Controllers
 		}
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetHttpData(int idHazar)
         {
             return await JsonHazar(idHazar);
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult AddQuestionnaire(int id)
         {
             _idHazar = id;
@@ -91,6 +103,7 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<JsonResult> GetCoordinates()
         {
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
@@ -102,7 +115,15 @@ namespace ArchEmplosion.Controllers
             return Json(null);
         }
 
-        [HttpPost]
+		[HttpGet]
+        [AllowAnonymous]
+        public IActionResult LookConflict(int id)
+		{
+			_idHazar = id;
+            return View();
+		}
+
+		[HttpPost]
         public async Task<IActionResult> GiveQuestionnaire([FromBody] ListQuest listQuest)
         {
             HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
@@ -129,6 +150,7 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Test(string val)
         {
             Testing testHazar = new Testing { Type = "Hazar", Value = val };

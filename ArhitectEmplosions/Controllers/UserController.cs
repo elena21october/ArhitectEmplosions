@@ -17,10 +17,18 @@ namespace ArhitectEmplosions.Controllers
             _symbols = "qwertyuiopasdfghjklzxcvbnm";
             _random = new Random();
         }
+        [HttpGet]
         public IActionResult CreateUser()
         {
             return View();
         }
+        [HttpGet]
+        public async Task<IActionResult> UserList(int hazarId)
+        {
+            var list = await _context.Users.Where(x=>x.HazarId == hazarId && x.RoleId == _context.Roles.FirstOrDefault(x=>x.Name=="user")!.Id).ToListAsync();
+            return View(list);
+        }
+
 		[HttpPost]
 		public async Task GetUsers([FromBody] UserList userList)
         {
@@ -30,7 +38,7 @@ namespace ArhitectEmplosions.Controllers
 				Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;
 				foreach (var user in userList.Users)
                 {
-                    User us = new User { Login = user.Login, Name = user.Name, Password = GetPassword(), Role = userRole };
+                    User us = new User { Login = user.Login, Name = user.Name, Password = GetPassword(), Role = userRole, HazarId = user.HazarId };
                     users.Add(us);
 				}
                 await _context.Users.AddRangeAsync(users);

@@ -1,4 +1,4 @@
-﻿@model List<ArhitectEmplosions.Models.HazarNabeg.HazarNabeg>
+﻿@model ArhitectEmplosions.ViewModels.HazarNabegsUser
 @{
 }
 <style>
@@ -23,8 +23,10 @@
     }
 </style>
 <h1>ХазАрхский набег</h1>
-
-<input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
+@if (Model.Role == "admin")
+{
+    <input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
+}
 <h4 title="Платформа, где анализируются результаты полевых исследований 'гостевого' видения территории кампуса." style="color:orange">
     Что это такое?
 </h4>
@@ -38,20 +40,27 @@
     </div>
 </div>
 <div style="display:flex;flex-wrap: wrap; align-content: center; flex-direction:column;">
-    @foreach(var item in Model)
+    @foreach(var item in Model.HazarNabegs)
     {
         <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 120px; border-radius: 5px;">
             <h1>@item.Name</h1>
-            <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавление анкет</a></h1>
+            @if (Model.Role != "guest")
+            {
+                <h1><a asp-controller="HazarNabeg" asp-action="AddQuestionnaire" asp-route-id="@item.Id">Добавление анкет</a></h1>
+            }
             <h1><a asp-controller="HazarNabeg" asp-action="ViewHazar" asp-route-id="@item.Id">Просмотр анкет</a></h1>
-            @*<div style="display:flex; flex-direction:column">
-                <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
-                <h6><a asp-controller="HazarNabeg" asp-action="AddConflict" asp-route-id="@item.Id">Добавить конфликты</a></h6>
-                <h6><a asp-controller="HazarNabeg" asp-action="EditHazar">Редактировать</a></h6>
+            <div style="display:flex; flex-direction:column">
+                <h6><a asp-controller="HazarNabeg" asp-action="LookConflict" asp-route-id="@item.Id">Просмотр пересечений</a></h6>
+                @if (Model.Role == "admin")
+                {
+                    <h6><a asp-controller="User" asp-action="UserList" asp-route-id ="@item.Id">Интервьюеры</a></h6>
+                }
+                @* <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
+                <h6><a asp-controller="HazarNabeg" asp-action="EditHazar" asp-route-id="@item.Id">Редактировать</a></h6>
                 <form asp-controller="HazarNabeg" asp-action="DelHazar">
                     <input type="submit" value ="Удалить"/>
-                </form>
-            </div>*@
+                </form> *@
+            </div>
         </div>
     }
 </div>
