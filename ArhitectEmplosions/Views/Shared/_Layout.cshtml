@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     @{
-                        if (User.Identity.IsAuthenticated)
+                        if (User.Identity!.IsAuthenticated)
                         {
                             <div style="display:flex">
                                 <h6>@(User.FindFirstValue(ClaimTypes.Name))</h6>

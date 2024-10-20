@@ -32,7 +32,7 @@ namespace ArhitectEmplosions.Controllers
 		[HttpPost]
 		public async Task GetUsers([FromBody] UserList userList)
         {
-            if (userList.Users.Count > 0)
+            if (userList.Users!.Count > 0)
             {
                 List<User> users = new List<User>();
 				Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;

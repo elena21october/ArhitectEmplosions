@@ -18,15 +18,20 @@ namespace ArhitectEmplosions.Models.HazarNabeg
     }
     public class HazarNabegData : HazarNabeg
     {
-        public List<Emotion> PositiveEmotions { get; set; } = new List<Emotion>();
-        public List<Emotion> NegativeEmotions { get; set; } = new List<Emotion>();
-        public List<Emotion> NeutralEmotions { get; set; } = new List<Emotion>();
+        public List<Emotion> PositiveEmotions { get; set; }
+        public List<Emotion> NegativeEmotions { get; set; }
+        public List<Emotion> NeutralEmotions { get; set; }
+        public List<QuastionnairePoints>? Quastionnaires { get; set; }
         public HazarNabegData(HazarNabeg hazar)
         {
             Id = hazar.Id;
             Name = hazar.Name;
             X = hazar.X;
             Y = hazar.Y;
+            PositiveEmotions = new List<Emotion>();
+            NegativeEmotions = new List<Emotion>();
+            NeutralEmotions = new List<Emotion>();
+            Quastionnaires = new List<QuastionnairePoints>();
         }
         public bool SetQuastionnaires(List<Quastionnaire> quastionnaires)
         {
@@ -54,6 +59,7 @@ namespace ArhitectEmplosions.Models.HazarNabeg
                     NegativeEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FF00008F"));
                     NeutralEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#FFF200AB"));
                 }
+                Quastionnaires = quastionnairepoints;
                 return true;
             }
             catch (Exception ex)

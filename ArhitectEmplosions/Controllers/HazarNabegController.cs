@@ -23,7 +23,7 @@ namespace ArchEmplosion.Controllers
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> MainHazar()
-        {
+        { 
             _idHazar = 0;
             HazarNabegsUser hazarNabegs = new HazarNabegsUser();
             hazarNabegs.HazarNabegs = await db.HazarNabegs.ToListAsync();
@@ -32,14 +32,14 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public IActionResult CreateHazar()
         {
             return View();
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> AddHazar([FromBody] HazarNabeg hazarNabeg)
         {
             HazarNabeg hazar = new HazarNabeg(hazarNabeg.Name, hazarNabeg.X, hazarNabeg.Y);

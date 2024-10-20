@@ -90,7 +90,6 @@
                 });
             if (response.ok === true) {
                 let data = await response.json();
-                console.log(data);
                 return JSON.parse(data);
             }
         }
@@ -104,7 +103,6 @@
         ymaps.ready(init);
         async function init() {
             var Hazar = await GetData();
-            console.log(Hazar);
             var myMap = new ymaps.Map("map",
             {
                 center: [Hazar.X, Hazar.Y],
@@ -140,7 +138,6 @@
                 DrawEmotion(Hazar.NeutralEmotions);
             }
             function diffVal(list) {
-                console.log(list);
                 for (var i = 0; i < list.length; i++) {
                     if (list[i].checked) {
                         return list[i].value;
@@ -151,7 +148,6 @@
             document.getElementById("diff").addEventListener("click", Differentiation);
             function Differentiation() { 
                 var listDiff = Hazar.Quastionnaires;
-                console.log(listDiff);
                 var genVal = diffVal(document.getElementsByName("Gender"));
                 var placeVal = diffVal(document.getElementsByName("Place"));
                 var visitorVal = diffVal(document.getElementsByName("Visiting"));
