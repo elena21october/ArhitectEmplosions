@@ -49,9 +49,28 @@ namespace ArchEmplosion.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public IActionResult EditHazar()
         {
             return View();
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> DelHazar(int id)
+        {
+            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(x => x.Id == id);
+            if (hazarNabeg != null)
+            { 
+                db.HazarNabegs.Remove(hazarNabeg);
+                List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(x => x.HazarNabegId == id).ToListAsync();
+                if (quastionnaires.Count > 0)
+                { 
+                    db.RemoveRange(quastionnaires);
+                }
+                db.SaveChanges();
+            }
+            return RedirectToAction("MainHazar");
         }
 
         [HttpGet]
@@ -94,6 +113,7 @@ namespace ArchEmplosion.Controllers
             _idHazar = id;
             return View();
         }
+
         [HttpGet]
         public async Task<IActionResult> AddConflict(int id)
         {

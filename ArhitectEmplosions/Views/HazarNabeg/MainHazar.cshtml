@@ -54,12 +54,14 @@
                 @if (Model.Role == "admin")
                 {
                     <h6><a asp-controller="User" asp-action="UserList" asp-route-id ="@item.Id">Интервьюеры</a></h6>
+                    <form asp-controller="HazarNabeg" asp-action="DelHazar" asp-route-id="@item.Id">
+                        <input type="submit" value ="Удалить"/>
+                    </form>
                 }
-                @* <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
-                <h6><a asp-controller="HazarNabeg" asp-action="EditHazar" asp-route-id="@item.Id">Редактировать</a></h6>
-                <form asp-controller="HazarNabeg" asp-action="DelHazar">
-                    <input type="submit" value ="Удалить"/>
-                </form> *@
+                @*
+                    <h6><a asp-controller="HazarNabeg" asp-action="LookAllQuests">Просмотр всех анкет</a></h6>
+                    <h6><a asp-controller="HazarNabeg" asp-action="EditHazar" asp-route-id="@item.Id">Редактировать</a></h6>
+                *@
             </div>
         </div>
     }
