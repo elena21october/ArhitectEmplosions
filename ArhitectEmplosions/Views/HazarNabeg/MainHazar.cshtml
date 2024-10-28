@@ -53,7 +53,7 @@
                 <h6><a asp-controller="HazarNabeg" asp-action="LookConflict" asp-route-id="@item.Id">Просмотр пересечений</a></h6>
                 @if (Model.Role == "admin")
                 {
-                    <h6><a asp-controller="User" asp-action="UserList" asp-route-id ="@item.Id">Интервьюеры</a></h6>
+                    <h6><a asp-controller="User" asp-action="UserList" asp-route-hazarId="@item.Id">Интервьюеры</a></h6>
                     <form asp-controller="HazarNabeg" asp-action="DelHazar" asp-route-id="@item.Id">
                         <input type="submit" value ="Удалить"/>
                     </form>

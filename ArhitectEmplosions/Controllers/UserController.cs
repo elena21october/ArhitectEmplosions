@@ -1,5 +1,7 @@
 ﻿using ArhitectEmplosions.Database;
 using ArhitectEmplosions.Models;
+using ArhitectEmplosions.Models.HazarNabeg;
+using ArhitectEmplosions.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Text;
@@ -18,15 +20,22 @@ namespace ArhitectEmplosions.Controllers
             _random = new Random();
         }
         [HttpGet]
-        public IActionResult CreateUser()
+        public IActionResult CreateUser(int id)
         {
-            return View();
+            return View(id);
         }
         [HttpGet]
         public async Task<IActionResult> UserList(int hazarId)
         {
-            var list = await _context.Users.Where(x=>x.HazarId == hazarId && x.RoleId == _context.Roles.FirstOrDefault(x=>x.Name=="user")!.Id).ToListAsync();
-            return View(list);
+            HazarNabeg? hazar = await _context.HazarNabegs.FirstOrDefaultAsync();
+            HazarUsers hazarUsers = new HazarUsers();
+            if (hazar != null) 
+            {
+                var list = await _context.Users.Where(x=>x.HazarId == hazarId && x.RoleId == _context.Roles.FirstOrDefault(x=>x.Name=="user")!.Id).ToListAsync();
+                hazarUsers.Users = list;
+                hazarUsers.HazarNabegsId = hazarId;
+            }
+            return View(hazarUsers);
         }
 
 		[HttpPost]

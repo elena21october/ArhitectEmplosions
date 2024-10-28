@@ -1,8 +1,8 @@
-﻿@model List<ArhitectEmplosions.Models.User>
+﻿@model ArhitectEmplosions.ViewModels.HazarUsers
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<a asp-controller="User" asp-action="CreateUser" asp-route-id ="@Model[0].HazarId">Добавить интервьюеров</a>
+<a asp-controller="User" asp-action="CreateUser" asp-route-id ="@Model.HazarNabegsId">Добавить интервьюеров</a>
 <div style="display:flex;">
     <h1 style="width:20%">Имя</h1>
     <h1 style="width:20%">Логин</h1>
@@ -11,7 +11,8 @@
     
 <div style="display:flex; flex-direction:column">
 @{
-    foreach (var item in Model)
+    
+    foreach (var item in Model.Users)
     {
         <div style="display:flex;">
             <h1 style="width:20%">@item.Name</h1>    
