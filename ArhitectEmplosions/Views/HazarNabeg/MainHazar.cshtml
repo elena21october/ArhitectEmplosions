@@ -27,7 +27,7 @@
 {
     <input type="button" value="Создать ХазАрхский Набег" onclick="location.href='@Url.Action("CreateHazar", "HazarNabeg")'" />
 }
-<h4 title="Платформа, где анализируются результаты полевых исследований 'гостевого' видения территории кампуса." style="color:orange">
+<h4 title="Платформа, где анализируются результаты полевых исследований 'гостевого' видения территории кампуса." style="color:rgb(24 28 24)">
     Что это такое?
 </h4>
 @*<input type="button" id="teach" value="Как работает платформа?" />*@
@@ -42,7 +42,7 @@
 <div style="display:flex;flex-wrap: wrap; align-content: center; flex-direction:column;">
     @foreach(var item in Model.HazarNabegs)
     {
-        <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:blueviolet; width:70%; height: 120px; border-radius: 5px;">
+        <div style="display:flex; justify-content:space-around; align-items:center; border:solid; border-color:rgb(24 28 24); width:70%; height: 120px; border-radius: 5px;">
             <h1>@item.Name</h1>
             @if (Model.Role != "guest")
             {

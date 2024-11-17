@@ -23,36 +23,37 @@
 
 <body>
     <h1 id="Hazar">Где живут Ваши эмоции?</h1>
-    <h4 title="Платформа, где каждый желающий может оставить свой эмоциональный отклик, связанный с восприятием территории кампуса." style="color:orange">
+    <h4 title="Платформа, где каждый желающий может оставить свой эмоциональный отклик, связанный с восприятием территории кампуса." style="color:rgb(24 28 24)">
         Что это такое?
     </h4>
     <a asp-controller="Poke" asp-action="resultpoke">Посмотреть результаты</a>
-    <div style="display:flex; ">
-        <div style="width: 15%; height:820px; display:flex; flex-direction:column; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
-            <fieldset>
-                <legend>Адрес кампуса:</legend>
-                <div style="display:flex; flex-direction:column">
-                    <button id="campus1">Космонавтов, 1</button>
-                    <button id="campus2">Первомайская улица, 14</button>
-                    <button id="campus3">Менделеева, 195</button>
-                    <button id="campus4">Чернышевского, 145</button>
-                    <button id="campus5">Акназарова, 24/1</button>
-                    <button id="campus6">Р.Зорге, 71</button>
-                </div>
-            </fieldset>
-            <fieldset>
-                <legend>Выберите эмоцию:</legend>
-                <div style="display:flex; flex-direction:column">
-                    <p><input type="radio" name="emot" value="#58FF008F" checked>Положительная</p>
-                    <p><input type="radio" name="emot" value="#FF00008F">Отрицательная</p>
-                    <p><input type="radio" name="emot" value="#FFF200AB">Нейтральная</p>
-                    <button id="sendBtn">Отправить эмоции</button>
-                </div>
-            </fieldset>
+    <div style="display:flex; justify-content:center">
+        <div style="display:flex;">
+            <div style="width: 15%; height:700px; display:flex; flex-direction:column; border:solid; border-color:rgb(24 28 24); border-radius: 20px; padding: 10px; border-width: 1px; margin-right: 15px;">
+                <fieldset>
+                    <legend>Адрес кампуса:</legend>
+                    <div style="display:flex; flex-direction:column">
+                        <button id="campus1">Космонавтов, 1</button>
+                        <button id="campus2">Первомайская улица, 14</button>
+                        <button id="campus3">Менделеева, 195</button>
+                        <button id="campus4">Чернышевского, 145</button>
+                        <button id="campus5">Акназарова, 24/1</button>
+                        <button id="campus6">Р.Зорге, 71</button>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Выберите эмоцию:</legend>
+                    <div style="display:flex; flex-direction:column">
+                        <p><input type="radio" name="emot" value="#58FF008F" checked>Положительная</p>
+                        <p><input type="radio" name="emot" value="#FF00008F">Отрицательная</p>
+                        <p><input type="radio" name="emot" value="#FFF200AB">Нейтральная</p>
+                        <button id="sendBtn">Отправить эмоции</button>
+                    </div>
+                </fieldset>
+            </div>
+            <div id="map" style="width: 1000px; height: 700px;"></div>
         </div>
-        <div id="map" style="width: 1400px; height: 900px; border:solid; border-color:green"></div>
     </div>
-
     <script type="text/javascript">
         let path = "";
         let myMap = null;

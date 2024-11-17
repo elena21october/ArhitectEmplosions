@@ -17,6 +17,10 @@ namespace ArhitectEmplosions.Controllers
         {
             return View();
         }
+        public IActionResult InfoProject()
+        {
+            return View();
+        }
 
         public IActionResult Privacy()
         {

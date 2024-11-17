@@ -11,8 +11,8 @@
 
 <body>
     <h1>Создать ХазАрхский набег</h1>
-    <div style="display:flex; justify-content:space-between">
-        <div style="width: 15%; height:820px; display:flex; flex-direction:column; border:solid; border-color:green; border-radius: 5px; border-left-color: white; padding: 10px">
+    <div style="display:flex;">
+        <div style="display:flex; flex-direction:column; height: 820px; margin-left:10px; padding-left:10px; padding-right:10px; border:solid; border-color:rgb(24 28 24); border-radius: 20px; padding: 10px; border-width: 1px; margin-right: 15px;">
             <input type="text" placeholder="Название хазархского набега" id="nameHazar" style="margin-bottom: 10px"/>
             <h4>Выберите кампус:</h4>
             <div style="display:flex; flex-direction:column">
@@ -23,10 +23,12 @@
                 <button id="campus5">Кампус 5</button>
                 <button id="campus6">Кампус 6</button>
             </div>
+            <br>
+            <br>
             <button id="createBtn">Создать</button>
         </div>
         
-        <div id="map" style="width: 1400px; height: 820px; border:solid; border-color:green;border-right-color: white; "></div>
+        <div id="map" style="width: 1200px; height: 820px;"></div>
     </div>
     <script type="text/javascript">
         let path = "";
