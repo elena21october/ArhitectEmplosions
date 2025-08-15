@@ -3,38 +3,75 @@
 <head>
     <title>Архитектурная имплозия</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <style>
-        h1 {
-            align-items: center;
-            color: Green;
-        }
-
-    </style>
 </head>
 
 <body>
-    <div style="display:flex;justify-content:space-around;">
+<div style="display: flex; justify-content: center; align-items: center">
+    <div style="width:80%; padding: 40px; display: flex; justify-content: center;">
+        <div style="position: relative; display: flex; justify-content: center;">
+            <img style = "border-radius: 30px; width: 180vh" src="images/MainPage.jpg">
+        </div>
+        <div style="display: block; position: absolute; top: 350px;">
+            <h1 style="color:white; text-align: center; font-family: 'TildaSans', Arial, sans-serif;"> <span style="color:red">ЭКТ</span> - иструмент получения и <br> первичной обработки данных<br> 
+                по субъективной оценке<br>качества городской среды</h1>
+            <a asp-controller="Home" asp-action="InfoProject" class="pathblock">
+                <div class="btn">
+                    <h6 style="color:white">О проекте</h6>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="display: flex; justify-content: center;">
+    <h4 style = "font-family: 'TildaSans', Arial, sans-serif;">Выберите один из модулей</h4> 
+</div>
+<div style="display:flex;justify-content:center; width: 100%">
+    <div style="display: flex; justify-content: space-between; width: 80%">
         <div>
-                <div class="card" style="display:flex; flex-direction:column; justify-content: space-between;">
-                    <a asp-controller="Poke" asp-action="MainPoke" align="center">
-                        <div class="card-body">
-                            <img class="card-img" src="~/images/poke.jpg"></img>
+            <div style="display:flex; flex-direction:column;">
+                <div>
+                    <img src="~/images/poke.jpg"/>
+                </div>
+                <div style="display:flex; flex-direction:column; align-items: center; margin-top: 20px">
+                    <h5 style="font-weight: 700; font-family: 'TildaSans', Arial, sans-serif;">Где живут Ваши эмоции?</h5>
+                    <h5 style="margin-top: 20px; font-family: 'TildaSans', Arial, sans-serif;">Интерактивная карта</h5>
+                    <a asp-controller="Poke" asp-action="MainPoke" class="pathblock">
+                        <div class="btn" style="margin-top: 20px">
+                            <h6 style="color:white; font-family: 'TildaSans', Arial, sans-serif;">Перейти</h6>
                         </div>
                     </a>
                 </div>
+            </div>
         </div>
         <div>
             <img class="card-img" src="~/images/platform.jpg"></img>
         </div>
         <div>
-                <div class="card" style="display:flex; flex-direction:column; justify-content: space-between;">
-                    <a asp-controller="HazarNabeg" asp-action="MainHazar" align="center">
-                        <div class="card-body">
-                            <img class="card-img" src="~/images/hazar.jpg"></img>
+            <div style="display:flex; flex-direction:column;">
+                <div>
+                    <img src="~/images/hazar.jpg"/>
+                </div>
+                <div style="display:flex; flex-direction:column; align-items: center; margin-top: 20px">
+                    <h5 style="font-weight: 700; font-family: 'TildaSans', Arial, sans-serif;">ХазАРХский набег</h5>
+                    <h5 style="margin-top: 20px; font-family: 'TildaSans', Arial, sans-serif;">Карта полевых исследований</h5>
+                    <a asp-controller="HazarNabeg" asp-action="MainHazar" class="pathblock">
+                        <div class="btn" style="margin-top: 20px">
+                            <h6 style="color:white; font-family: 'TildaSans', Arial, sans-serif;">Перейти</h6>
                         </div>
                     </a>
                 </div>
+            </div>
         </div>
     </div>
+</div>
+<div style="display: flex; flex-direction: column; align-items: center; margin-top: 40px;">
+    <img style = "width: 180vh" src = "/images/Library.jpg"/>
+    <h5 style="margin-top: 20px; font-family: 'TildaSans', Arial, sans-serif;">Библиотека ЭКТ</h5>
+    <a asp-controller="Library" asp-action="LibraryCollection" class="pathblock">
+        <div class="btn">
+            <h6 style="color:white; font-family: 'TildaSans', Arial, sans-serif;">Перейти</h6>
+        </div>
+    </a>
+</div>
 </body>
 </html>

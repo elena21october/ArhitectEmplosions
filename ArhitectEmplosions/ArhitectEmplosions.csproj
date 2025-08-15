@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,6 +11,153 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\images\Забейка\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_page-0001.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Забейка\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_page-0002.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Забейка\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_page-0003.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Забейка\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_page-0004.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Забейка\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_page-0005.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Test_afd15138-c103-4b3b-87af-155f984757fc\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Test_afd15138-c103-4b3b-87af-155f984757fc\2.gif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\Test_afd15138-c103-4b3b-87af-155f984757fc\3.webp" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\t\maxresdefault.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\hhh_9defa975-55fb-4fd3-bc40-0d71467a498f\maxresdefault.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\e\ьуь.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\test_404a30d6-6e4f-4101-a897-f28d3c928300\2.gif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\test_404a30d6-6e4f-4101-a897-f28d3c928300\3.webp" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\567_a9e9d1c3-f18b-40ac-a98e-19935e953f90\mural1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\567_a9e9d1c3-f18b-40ac-a98e-19935e953f90\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\dfdfdf_29e5454c-00f9-4624-9cc0-31de011bf029\mural1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\dfdfdf_29e5454c-00f9-4624-9cc0-31de011bf029\mural2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\dfdfdf_29e5454c-00f9-4624-9cc0-31de011bf029\mural3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\dfdfdf_29e5454c-00f9-4624-9cc0-31de011bf029\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ff_9e39b523-3790-4383-8bda-3f6ef4e15309\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ff_9e39b523-3790-4383-8bda-3f6ef4e15309\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ggggggggggg_3ca23f1a-d6bd-44fd-907e-b89a3465e839\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ggggggggggg_3ca23f1a-d6bd-44fd-907e-b89a3465e839\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\new_mural2_38c60978-336e-4a0e-b71a-e08729024d8a\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\new_mural2_38c60978-336e-4a0e-b71a-e08729024d8a\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\new_mural_2_b21de491-379d-40bc-b7d4-62374c2a907a\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\new_mural_2_b21de491-379d-40bc-b7d4-62374c2a907a\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\oioioi_9d6850d2-70fb-4cf8-a8e6-2a36db375cc4\mural1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\oioioi_9d6850d2-70fb-4cf8-a8e6-2a36db375cc4\mural2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\oioioi_9d6850d2-70fb-4cf8-a8e6-2a36db375cc4\mural3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\oioioi_9d6850d2-70fb-4cf8-a8e6-2a36db375cc4\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\rtrt_4c4b3103-baf1-47cc-96b9-ceb893e40b34\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\rtrt_4c4b3103-baf1-47cc-96b9-ceb893e40b34\mural1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\rtrt_4c4b3103-baf1-47cc-96b9-ceb893e40b34\mural2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\rtrt_4c4b3103-baf1-47cc-96b9-ceb893e40b34\mural3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\test_2c9e7747-d0a4-49ab-b7ef-39e86f1e97e6\2.gif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\test_2c9e7747-d0a4-49ab-b7ef-39e86f1e97e6\3.webp" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\TUB2_04546a21-2746-4a25-a7f3-d7c6f9cca503\2.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\TUB2_04546a21-2746-4a25-a7f3-d7c6f9cca503\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_pages-to-jpg-0002.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\TUB2_04546a21-2746-4a25-a7f3-d7c6f9cca503\Забейка_Рецепт_Карамова,_Родина,_Ярминкина,_Вартанян_2_pages-to-jpg-0005.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\TUB2_04546a21-2746-4a25-a7f3-d7c6f9cca503\обл.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\vvvv_bcf0138b-7397-441f-9068-b348eb9e0c48\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\vvvv_bcf0138b-7397-441f-9068-b348eb9e0c48\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\yyy_c9e8c0bf-4410-42b3-8611-14cfbfb864a9\mural1.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\yyy_c9e8c0bf-4410-42b3-8611-14cfbfb864a9\mural2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\yyy_c9e8c0bf-4410-42b3-8611-14cfbfb864a9\mural3.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\yyy_c9e8c0bf-4410-42b3-8611-14cfbfb864a9\mural_start.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ооо_8670e1c6-af36-4bd7-92e3-84a0ab4d8595\93d701f9-050e-4d78-90b2-79f90f9d00f0.jfif" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\ооо_8670e1c6-af36-4bd7-92e3-84a0ab4d8595\maxresdefault.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\t\maxresdefault.jpg" />
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\InfoProject.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\Home\InfoProject.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Account\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_0d97b7ed-8d73-4329-8c60-37c1736888d0\инг.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_0d97b7ed-8d73-4329-8c60-37c1736888d0\проект1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_0d97b7ed-8d73-4329-8c60-37c1736888d0\рецепт.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_0d97b7ed-8d73-4329-8c60-37c1736888d0\спец.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1fd8cd2d-5519-4028-9872-0cb9f4377396\44.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1fd8cd2d-5519-4028-9872-0cb9f4377396\44о.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3bc81d45-b481-4196-9eb0-72f030c67862\ингрид 20.01.56.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3bc81d45-b481-4196-9eb0-72f030c67862\проектт 20.01.56.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3bc81d45-b481-4196-9eb0-72f030c67862\рецептт 20.01.56.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3bc81d45-b481-4196-9eb0-72f030c67862\спец 20.01.56.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3cefa3b7-b565-421b-99a7-e7f6158dc718\25.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_3cefa3b7-b565-421b-99a7-e7f6158dc718\25о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_5bc7787e-bca5-44b4-85a1-bf7cdf60d958\8 ингредиенты.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_5bc7787e-bca5-44b4-85a1-bf7cdf60d958\8 проект.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_5bc7787e-bca5-44b4-85a1-bf7cdf60d958\8 рецепт.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_5bc7787e-bca5-44b4-85a1-bf7cdf60d958\8 спецпредложение.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_6d1e2d5d-33f5-4851-8404-56be77cb071c\41.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_6d1e2d5d-33f5-4851-8404-56be77cb071c\41о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_8d46e7fa-f269-4349-b2e3-c996073184c4\47.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_8d46e7fa-f269-4349-b2e3-c996073184c4\47о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9ddfd910-f2c9-4342-89b3-7e94cd3a0540\39.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9ddfd910-f2c9-4342-89b3-7e94cd3a0540\39о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_45f90682-d5d1-4662-aedb-242bd0277665\4.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_45f90682-d5d1-4662-aedb-242bd0277665\4о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_49f28a96-8158-497a-8320-9ce4d59749b7\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_49f28a96-8158-497a-8320-9ce4d59749b7\инг.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_49f28a96-8158-497a-8320-9ce4d59749b7\рецепт.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_49f28a96-8158-497a-8320-9ce4d59749b7\спец.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_75e441e4-3003-4b37-b916-fe6a9e7e4938\инг.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_75e441e4-3003-4b37-b916-fe6a9e7e4938\проект.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_75e441e4-3003-4b37-b916-fe6a9e7e4938\рецепт.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_75e441e4-3003-4b37-b916-fe6a9e7e4938\спец.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_80df219f-d5ce-4704-a7dc-5329dada24a5\ингрид.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_80df219f-d5ce-4704-a7dc-5329dada24a5\проект.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_80df219f-d5ce-4704-a7dc-5329dada24a5\рецептт.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_80df219f-d5ce-4704-a7dc-5329dada24a5\спец.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_194be0d2-903d-4dd1-8be0-ac0d2a640643\инг.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_194be0d2-903d-4dd1-8be0-ac0d2a640643\проект.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_194be0d2-903d-4dd1-8be0-ac0d2a640643\рецепт.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_194be0d2-903d-4dd1-8be0-ac0d2a640643\спец.JPG" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_554a4706-57bc-480b-99a8-7c47ca5156af\15.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_554a4706-57bc-480b-99a8-7c47ca5156af\15о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1456b547-6622-4317-bdf4-ae191191aa2c\5 ингредиенты.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1456b547-6622-4317-bdf4-ae191191aa2c\5 проект.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1456b547-6622-4317-bdf4-ae191191aa2c\5 рецепт.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_1456b547-6622-4317-bdf4-ae191191aa2c\5 спецпредложение для угнту.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_4981d017-8c2e-4b3f-adfd-4c6da29e14c6\9.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_4981d017-8c2e-4b3f-adfd-4c6da29e14c6\9о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9204f7ab-8108-4d1e-ace4-8d51b0ea11f8\22.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9204f7ab-8108-4d1e-ace4-8d51b0ea11f8\22о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9926a75d-c4df-4fa9-b7d8-c7cb24ba34bd\34.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_9926a75d-c4df-4fa9-b7d8-c7cb24ba34bd\34о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_948051f1-32b0-44e5-af19-744946f93f24\24.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_948051f1-32b0-44e5-af19-744946f93f24\24о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_20068418-9357-4254-86c8-755fdf06bd6c\35.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_20068418-9357-4254-86c8-755fdf06bd6c\35о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_93172690-b5c8-4542-95d1-598757d878c9\23.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_93172690-b5c8-4542-95d1-598757d878c9\23о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_a9bf8d92-6c28-4f44-bdf8-72c69c0dfd57\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_a9bf8d92-6c28-4f44-bdf8-72c69c0dfd57\1о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_b9f0f2e0-8860-4814-bb9c-d19f3f3ef4f5\12.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_b9f0f2e0-8860-4814-bb9c-d19f3f3ef4f5\12о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_b32c3c88-808d-483c-97de-6b051f820171\1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_b32c3c88-808d-483c-97de-6b051f820171\1о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_bfed7a21-0a43-4d28-8e4a-59a07ab0755d\9 ингредиенты.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_bfed7a21-0a43-4d28-8e4a-59a07ab0755d\9 проект.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_bfed7a21-0a43-4d28-8e4a-59a07ab0755d\9 рецепт.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_bfed7a21-0a43-4d28-8e4a-59a07ab0755d\спец.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_c4e0619e-321d-4d54-b854-de34252fec53\33.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_c4e0619e-321d-4d54-b854-de34252fec53\33о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_d5ec5c0b-ead9-4486-a1c3-c2b35d6a0c3c\7.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_d5ec5c0b-ead9-4486-a1c3-c2b35d6a0c3c\7о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_d798001f-c4d1-48c2-8107-1aaafbde632b\38.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_d798001f-c4d1-48c2-8107-1aaafbde632b\38о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_dd734af1-047c-457a-a03a-8fa423e1905e\2.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_dd734af1-047c-457a-a03a-8fa423e1905e\2о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_e0a3924c-2e62-4683-82d1-c1a3798e4955\16.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_e0a3924c-2e62-4683-82d1-c1a3798e4955\16о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_eed71489-9ca9-4b6c-9d81-452e56baf507\21.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_eed71489-9ca9-4b6c-9d81-452e56baf507\21о.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_ffc5a8f1-3a7d-44b4-aced-d1a70518aca6\31.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\images\_ffc5a8f1-3a7d-44b4-aced-d1a70518aca6\31о.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Views\Home\Index.cshtml" />
+    <AdditionalFiles Include="Views\Home\InfoProject.cshtml" />
+    <AdditionalFiles Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,74 @@
+﻿@model ArhitectEmplosions.Models.Poke.Zabeyka
+
+@{
+    
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <div style = "display: flex; justify-content: space-around">
+        <div style = "display: flex; flex-direction: column; padding-left: 40px">
+            @foreach(var item in Model.ImagePaths)
+            {
+                <div>
+                    <img src="@item" alt=""/>
+                </div>
+            }
+        </div>
+        <div style = "display: flex; flex-direction: column">
+            <h1>Автор: @Model.AuthorName</h1>
+            <h1>Описание: @Model.Title</h1>
+            <div style="display: flex; justify-content: space-between; width: 100px;">
+                <input type="button" value="Прикольно"  id = "positive" val = "@Model.Id"/>
+                <input type="button" value="Нормально">
+                <input type="button" value="Не нравится">
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+</body>
+</html>
+<style>
+    img{
+        max-width:500px;
+        width:auto;
+        display:inline-block;
+    }
+</style>
+<script>
+    document.getElementById("positive").addEventListener("click");
+    async function SendPos()
+    {
+        let id = document.getElementById("positive").getAttribute("val");
+        const response = await fetch(`/HazarNabeg/GiveQuestionnaire`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'text/html',
+            },
+            body: JSON.stringify({
+                IdObj: id,
+            })
+        });
+        if (response.ok === true) {
+            alert("Данные отправлены");
+            lookMap.geoObjects.removeAll();
+            listQuest.splice(0, listQuest.length);
+            var del = document.getElementById("container");
+            if (del != null) {
+                del.remove();
+            }
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+</script>

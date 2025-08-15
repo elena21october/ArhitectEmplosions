@@ -20,13 +20,15 @@
                     <div class="collapse d-sm-inline-flex justify-content-between" style="flex-basis: 100%; align-items: center; justify-content: center; flex-direction: column;">
                         <ul class="navbar-nav">
                             <li class="nav-item">
-                                <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="Home" asp-action="Index"></a>
-                            </li>
-                            <li class="nav-item">
                                 <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="Home" asp-action="InfoProject">О проекте</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="Home" asp-action="Index" style="font:40px">Эмоциональная карта территории</a>
+                                <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="News" asp-action="Index" asp-fragment="news">Новости</a>
+                            </li>
+                            <li class="nav-item">
+                                <div id = "firstletter">
+                                    <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="Home" asp-action="Index"><span style ="color:red">Э</span>моциональная <span style ="color:red">к</span>арта <span style ="color:red">т</span>ерритории</a>
+                                </div>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" style="color: rgba(200, 200, 200);" asp-area="" asp-controller="Poke" asp-action="MainPoke">Где живут Ваши эмоции?</a>
@@ -84,3 +86,8 @@
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<style>
+    div#firstletter span:first-letter{
+        color: red;
+    }
+</style>
