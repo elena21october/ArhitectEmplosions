@@ -1,0 +1,214 @@
+﻿@model (List<ArhitectEmplosions.Models.Poke.Zabeyka>, string)
+
+
+<div style="display: flex; flex-direction: column; align-items: center">
+    <div>
+        <h5 style = "font-size: 40px; font-family: 'TildaSans', Arial, sans-serif;">Забейка+</h5>
+    </div>
+    <div style="width: 60%">
+        <h6 style="text-indent: 50px; text-align: justify; font-size: 25px; font-family: 'TildaSans', Arial, sans-serif;">"Забейкой" называют небольшую самодельную 
+            скамейку, позволяющую сесть на забор от уличного движения. Задумана она была как метод тактического 
+            урбанизма для дружелюбного переосмысления городских границ в Москве, Екатеринбурге и других российских городах.
+            "Забейка+" - это уже уфимские проекты общественных микропространств с подчеркнутой экологической составляющей. 
+            Забейки здесь выполняются из материалов вторичной переработки и устанавливаются не только на заборах, 
+            но и на парапетах и ограждениях из бетонных блоков.</h6>
+    </div>
+</div>
+<div style="display:flex; justify-content: center; margin-top: 40px">
+    <div style="display:flex; flex-wrap: wrap; width: 60%">
+        @foreach (var item in Model.Item1)
+        {
+            if (Model.Item2 == "admin")
+            {
+                <form asp-controller="Library" asp-action="DeleteProj" asp-route-id="@item.Id">
+                    <input type="submit" value="delete">
+                </form>
+            }
+            <div class = "cardlib" pathJson = "@item.ImageList" projectId = "@item.Id">
+                <div style="display: flex; justify-content: center; align-items: center; width:300px; height: 500px">
+                    @if (item.ImagePaths.Count > 0)
+                    {
+                        <img style="width:300px; height: 500px" src="@("data:image/png;base64,"+Convert.ToBase64String(item.MainPicture!.Image!))" alt=""/>
+                    }
+                </div>
+                <div style = "display: flex; justify-content: space-between; width: 80%; margin-top: 4px;">
+                    <div style = "background-color: #45bb45; width: 20%; text-align: center; border-radius: 5px; margin-top: 4px;">
+                        <h3>@(item.Positive)</h3>
+                    </div>
+                    <div style = "background-color: #bb4545; width: 20%; text-align: center; border-radius: 5px; margin-top: 4px;">
+                        <h3>@(item.Negative)</h3>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div id="parent_popup" style="display: none">
+    <div id="popup">
+        
+    </div>
+</div>
+<style>
+</style>
+<script>
+    function ClickProject(id, listPath)
+    {
+        document.getElementsByTagName("body")[0].setAttribute("style","overflow:hidden");
+        let main = document.createElement("div");
+        main.setAttribute("id","maindiv")
+        let divclose = document.createElement("div");
+        let divmain = document.createElement("div");
+        let reactDiv = document.createElement("div");
+        divclose.setAttribute("id","divclose")
+        divmain.setAttribute("id","divmain")
+        reactDiv.setAttribute("id", "reaction");
+        reactDiv.setAttribute("style", "display:flex; justify-content: flex-end; width: 100%; margin-bottom: 20px;");
+        let vood = document.createElement("button");    
+        let nevood = document.createElement("button");
+        vood.setAttribute("class","positivebtn");
+        nevood.setAttribute("class","negativebtn");
+        vood.addEventListener("click", ()=>SendVdoh(id));
+        nevood.addEventListener("click", ()=>SendNeVdoh(id));
+        vood.innerText = "Вдохновляет"
+        nevood.innerText = "Не вдохновляет"
+        reactDiv.appendChild(vood);
+        reactDiv.appendChild(nevood);
+        main.setAttribute("style", "display:flex; flex-direction:column; align-items: center; height:100%");
+        divclose.setAttribute("style", "display:flex; justify-content:flex-end; width:95%");
+        divmain.setAttribute("style", "display:flex; flex-direction: column; width:90%; overflow-y: scroll; position: relative;height: 1000px; align-items:center");
+        let exit = document.createElement("button");
+        exit.innerText = "Закрыть";
+        exit.addEventListener("click", RemoveModal);
+        exit.setAttribute("style", "margin-top: 10px;");
+        divclose.appendChild(exit);
+        let _list = JSON.parse(listPath);
+        const _images = new Map(Object.entries(_list));
+        for (let i = 0; i < mass.length; i++)
+        {
+            let componentDiv = document.createElement("div");
+            componentDiv.setAttribute("class","cont");
+            componentDiv.setAttribute("id","componentdiv")
+            let titleDiv = document.createElement("div");
+            titleDiv.setAttribute("style","display: flex;justify-content: flex-start;");
+            titleDiv.setAttribute("id","titleDiv")
+            let imageDiv = document.createElement("div");
+            imageDiv.setAttribute("id", i);
+            imageDiv.setAttribute("style","display:none");
+            let tit = document.createElement("h1");
+            tit.innerText = mass[i];
+            titleDiv.appendChild(tit);
+            titleDiv.setAttribute("style","font-family: 'TildaSans', Arial, sans-serif;")
+            titleDiv.addEventListener("click",()=>Show_Unshow(i));
+            let image = document.createElement('img');
+            image.setAttribute("src", "data:image/jpg;base64," + _images.get(mass[i]).Image);
+            image.setAttribute("style","width:100%");
+            imageDiv.appendChild(image);
+            componentDiv.appendChild(titleDiv);
+            componentDiv.appendChild(imageDiv);
+            divmain.appendChild(componentDiv);
+        }
+        main.appendChild(divclose);
+        main.appendChild(divmain);
+        main.appendChild(reactDiv);
+        let pop = document.getElementById("popup");
+        pop.appendChild(main);
+        let teachDiv = document.getElementById("parent_popup");
+        teachDiv.setAttribute("style", "");
+    }
+    function RemoveModal()
+    {
+        document.getElementsByTagName("body")[0].setAttribute("style","");
+        document.getElementById('parent_popup').style.display='none';
+        document.getElementById("maindiv").remove();
+    }
+    let listObj = document.getElementsByClassName("cardlib");
+    for (let i = 0; i < listObj.length; i++)
+    {
+        let _id = listObj[i].getAttribute("projectId");
+        let _pathJson = listObj[i].getAttribute("pathJson");
+        listObj[i].addEventListener("click", ()=>ClickProject(_id,_pathJson));
+    }
+    function Show_Unshow(id)
+    {
+        let img = document.getElementById(id);
+        let val = img.getAttribute("style");
+        if (val == "")
+        {
+            img.setAttribute("style","display:none");
+        }
+        else
+        {
+            img.setAttribute("style","");
+        }
+    }
+    async function SendVdoh(id)
+    {
+        const response = await fetch(`/Library/Vdoh`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({Id:id})
+        });
+        if (response.ok === true) {
+            document.getElementById("reaction").setAttribute("style","display:none; justify-content: flex-end; width: 100%; margin-bottom: 20px;")
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+    async function SendNeVdoh(id)
+    {
+        const response = await fetch(`/Library/NeVdoh`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify({Id:id})
+        });
+        if (response.ok === true) {
+            document.getElementById("reaction").setAttribute("style","display:none; justify-content: flex-end; width: 100%; margin-bottom: 20px;")
+        }
+        else {
+            const error = await response.json();
+            console.log(error.message);
+        }
+    }
+    let mass = ["Концепт", "Ингредиенты", "Рецепт", "Специальное предложение для УГНТУ"];
+
+</script>
+<style>
+    #parent_popup {
+        background-color: rgba(0, 0, 0, .5);
+        height: 100%;
+        position: fixed;
+        width: 100%;
+        z-index: 100;
+        top: 0;
+        left: 0;
+        display: flex;
+        justify-content: center;
+    }
+
+    #popup {
+        background-color: #fff;
+        position: fixed;
+        top: 100px;
+        color: black;
+        width: 90%;
+        height: 80%;
+    }
+    .cont{
+        display:flex; 
+        flex-direction: column; 
+        border: solid; 
+        border-radius: 4px; 
+        color: gold;
+        width: 90%;
+    }
+    .cont:hover {
+        background-color: antiquewhite;
+    }
+</style>

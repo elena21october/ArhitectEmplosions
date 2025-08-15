@@ -23,7 +23,7 @@
 
 <body>
     <h1 id="Hazar">Где живут Ваши эмоции?</h1>
-    <h4 title="Платформа, где каждый желающий может оставить свой эмоциональный отклик, связанный с восприятием территории кампуса." style="color:rgb(24 28 24)">
+    <h4 title="Модуль, где каждый желающий может оставить свой эмоциональный отклик, связанный с восприятием территории кампуса." style="color:rgb(24 28 24)">
         Что это такое?
     </h4>
     <a asp-controller="Poke" asp-action="resultpoke">Посмотреть результаты</a>
@@ -54,7 +54,7 @@
             <div id="map" style="width: 1000px; height: 700px;"></div>
         </div>
     </div>
-    <script type="text/javascript">
+<script type="text/javascript">
         let path = "";
         let myMap = null;
         class Person {
@@ -145,12 +145,8 @@
                     }
                 }
 
-
                 if ($('#menu').css('display') == 'block') {
                     $('#menu').remove();
-
-
-                    
                 }
                 else {
                     // HTML-содержимое контекстного меню.
@@ -202,7 +198,7 @@
                             var barContent =
                                 '<div id="menu">\
                                             <form>\
-                                                <label for="html">Что-то не так с Вашим эмоциональным состоянием, пора сходить в кофе-бар</label><br>\
+                                                <label for="html">Что-то не так с Вашим эмоциональным состоянием, пора сходить в библиотеку ЭКТ</label><br>\
                                             </form>\
                                         <div align="center"><input type="submit" value="Вперед!" /></div>\
                                         </div>' ;
@@ -214,9 +210,9 @@
                                 top: e.get('pagePixels')[1]
                             });
                             $('#menu input[type="submit"]').click(function () {
+                                window.location.href = "/library/LibraryCollection";
                                 $('#menu').remove();
-
-                                var bar =
+                                /*var bar =
                                     '<div id="menu">\
                                                 <form>\
                                                     <label for="html">Пока ждем открытия</label><br>\
@@ -232,7 +228,7 @@
 
                                 $('#menu input[type="submit"]').click(function () {
                                     $('#menu').remove();
-                                });
+                                });*/
                             });
                         }
                         else {

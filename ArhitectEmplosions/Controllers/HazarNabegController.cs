@@ -13,11 +13,11 @@ namespace ArchEmplosion.Controllers
     [Authorize]
     public class HazarNabegController : Controller
     {
-        private ApplicationContext db;
+        private ApplicationContext _context;
         private static int _idHazar;
         public HazarNabegController(ApplicationContext context)
         {
-            db = context;
+            _context = context;
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace ArchEmplosion.Controllers
         { 
             _idHazar = 0;
             HazarNabegsUser hazarNabegs = new HazarNabegsUser();
-            hazarNabegs.HazarNabegs = await db.HazarNabegs.ToListAsync();
+            hazarNabegs.HazarNabegs = await _context.HazarNabegs.ToListAsync();
             hazarNabegs.Role = User.FindFirstValue(ClaimTypes.Role) ?? "guest";
             return View(hazarNabegs);
         }
@@ -43,8 +43,8 @@ namespace ArchEmplosion.Controllers
         public async Task<IActionResult> AddHazar([FromBody] HazarNabeg hazarNabeg)
         {
             HazarNabeg hazar = new HazarNabeg(hazarNabeg.Name, hazarNabeg.X, hazarNabeg.Y);
-            await db.HazarNabegs.AddAsync(hazar);
-            await db.SaveChangesAsync();
+            await _context.HazarNabegs.AddAsync(hazar);
+            await _context.SaveChangesAsync();
             return RedirectToAction("MainHazar","HazarNabeg");
         }
 
@@ -59,16 +59,16 @@ namespace ArchEmplosion.Controllers
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> DelHazar(int id)
         {
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(x => x.Id == id);
+            HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(x => x.Id == id);
             if (hazarNabeg != null)
             { 
-                db.HazarNabegs.Remove(hazarNabeg);
-                List<Quastionnaire> quastionnaires = await db.Quastionnaires.Where(x => x.HazarNabegId == id).ToListAsync();
+                _context.HazarNabegs.Remove(hazarNabeg);
+                List<Quastionnaire> quastionnaires = await _context.Quastionnaires.Where(x => x.HazarNabegId == id).ToListAsync();
                 if (quastionnaires.Count > 0)
                 { 
-                    db.RemoveRange(quastionnaires);
+                    _context.RemoveRange(quastionnaires);
                 }
-                db.SaveChanges();
+                _context.SaveChanges();
             }
             return RedirectToAction("MainHazar");
         }
@@ -85,10 +85,10 @@ namespace ArchEmplosion.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> GetQuestionnaires()
         {
-			HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
+			HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
             if (hazarNabeg != null)
 			{
-				List<Quastionnaire>? quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
+				List<Quastionnaire>? quastionnaires = await _context.Quastionnaires.Where(p => p.HazarNabegId == _idHazar).ToListAsync();
 				HazarNabegData hazarNabegData = new HazarNabegData(hazarNabeg);
                 if (hazarNabegData.SetQuastionnaires(quastionnaires))
                 {
@@ -118,7 +118,7 @@ namespace ArchEmplosion.Controllers
         public async Task<IActionResult> AddConflict(int id)
         {
             _idHazar = id;
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);
+            HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(p => p.Id == id);
             return View(hazarNabeg);
         }
 
@@ -126,7 +126,7 @@ namespace ArchEmplosion.Controllers
         [AllowAnonymous]
         public async Task<JsonResult> GetCoordinates()
         {
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
+            HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
             if (hazarNabeg != null)
             {
                 string resultJSON = JsonConvert.SerializeObject(hazarNabeg);
@@ -146,7 +146,7 @@ namespace ArchEmplosion.Controllers
 		[HttpPost]
         public async Task<IActionResult> GiveQuestionnaire([FromBody] ListQuest listQuest)
         {
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
+            HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(p => p.Id == _idHazar);
             if (listQuest.Quastionnaires != null && hazarNabeg != null)
             {
                 List<Quastionnaire> quastion = new List<Quastionnaire>();
@@ -163,8 +163,8 @@ namespace ArchEmplosion.Controllers
                         Emotions = item.Emotions,
                     });
                 }
-                await db.Quastionnaires.AddRangeAsync(quastion);
-                await db.SaveChangesAsync();
+                await _context.Quastionnaires.AddRangeAsync(quastion);
+                await _context.SaveChangesAsync();
             }
             return RedirectToAction("MainHazar");
         }
@@ -174,23 +174,23 @@ namespace ArchEmplosion.Controllers
         public async Task<IActionResult> Test(string val)
         {
             Testing testHazar = new Testing { Type = "Hazar", Value = val };
-            await db.Testing.AddAsync(testHazar);
-            await db.SaveChangesAsync();
+            await _context.Testing.AddAsync(testHazar);
+            await _context.SaveChangesAsync();
             return RedirectToAction("MainHazar");
         }
         
         public async Task<JsonResult> JsonHazar(int idHazar)
         {
-            HazarNabeg? hazarNabeg = await db.HazarNabegs.FirstOrDefaultAsync(p => p.Id == idHazar);
-            if (hazarNabeg != null)
+            HazarNabeg? hazarNabeg = await _context.HazarNabegs.FirstOrDefaultAsync(p => p.Id == idHazar);
+            if (hazarNabeg == null)
             {
-                List<Quastionnaire>? quastionnaires = await db.Quastionnaires.Where(p => p.HazarNabegId == idHazar).ToListAsync();
-                HazarNabegData hazarNabegData = new HazarNabegData(hazarNabeg);
-                hazarNabegData.SetQuastionnaires(quastionnaires);
-                string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
-                return Json(resultJSON);
+                return Json(null);
             }
-            return Json(null);
+            List<Quastionnaire>? quastionnaires = await _context.Quastionnaires.Where(p => p.HazarNabegId == idHazar).ToListAsync();
+            HazarNabegData hazarNabegData = new HazarNabegData(hazarNabeg);
+            hazarNabegData.SetQuastionnaires(quastionnaires);
+            string resultJSON = JsonConvert.SerializeObject(hazarNabegData);
+            return Json(resultJSON);
         }
     }
 }

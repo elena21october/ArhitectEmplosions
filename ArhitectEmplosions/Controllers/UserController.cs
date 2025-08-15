@@ -10,9 +10,9 @@ namespace ArhitectEmplosions.Controllers
 {
     public class UserController : Controller
     {
-        private string _symbols;
-        private ApplicationContext _context;
-        private Random _random;
+        private readonly string _symbols;
+        private readonly ApplicationContext _context;
+        private readonly Random _random;
         public UserController(ApplicationContext context) 
         {
             _context = context;

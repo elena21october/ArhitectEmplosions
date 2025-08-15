@@ -9,15 +9,17 @@ namespace ArhitectEmplosions.Controllers
 {
     public class PokeController : Controller
     {
-        private ApplicationContext db;
-        private Random random;
-        private List<string> Sush = new List<string>() { "ПОРЕБРИК", "КАМПУСИК", "НЕФТЕПРОВОДИК", "РЕКТИФИКАТИК", "СОЛЯРОЧКА", "МАЗУТИК", "ФРОНТОНЧИК", "РИЗАЛИТИК", "АНТАБЛИМЕНТИК" };
-        private List<string> Pril = new List<string>() { "КРАСНЫЙ", "ЗЕЛЕНЫЙ", "НЕЖНЫЙ", "ГРУСТНЫЙ", "ФАНТАСТИЧЕСКИЙ", "ОЧАРОВАТЕЛЬНЫЙ", "ВЕСЕЛЫЙ", "ЗАДУМЧИВЫЙ", "ГРОЗНЫЙ" };
+        private readonly ApplicationContext _context;
+        private readonly Random _rnd;
+        private readonly List<string> _sush;
+        private readonly List<string> _pril;
 
         public PokeController(ApplicationContext context)
         {
-            db = context;
-            random = new Random();
+            _context = context;
+            _rnd = new Random();
+            _sush = new List<string>() { "ПОРЕБРИК", "КАМПУСИК", "НЕФТЕПРОВОДИК", "РЕКТИФИКАТИК", "СОЛЯРОЧКА", "МАЗУТИК", "ФРОНТОНЧИК", "РИЗАЛИТИК", "АНТАБЛИМЕНТИК" };
+            _pril = new List<string>() { "КРАСНЫЙ", "ЗЕЛЕНЫЙ", "НЕЖНЫЙ", "ГРУСТНЫЙ", "ФАНТАСТИЧЕСКИЙ", "ОЧАРОВАТЕЛЬНЫЙ", "ВЕСЕЛЫЙ", "ЗАДУМЧИВЫЙ", "ГРОЗНЫЙ" };
         }
 
         [HttpGet]
@@ -35,29 +37,29 @@ namespace ArhitectEmplosions.Controllers
         [HttpGet]
         public string RandName()
         {
-            string result = Sush[random.Next(0, Sush.Count - 1)] + " " + Pril[random.Next(0, Pril.Count - 1)];
+            string result = _sush[_rnd.Next(0, _sush.Count - 1)] + " " + _pril[_rnd.Next(0, _pril.Count - 1)];
             return result;
         }
 
         [HttpGet]
         public async Task<JsonResult?> Getdata()
         {
-            List<EmotionPoke> allcurrentPoke = await db.EmotionPokes.ToListAsync();
+            List<EmotionPoke> allcurrentPoke = await _context.EmotionPokes.ToListAsync();
             PokeData pokeData = new PokeData();
-            if (pokeData.SetPoints(allcurrentPoke))
+            if (!pokeData.SetPoints(allcurrentPoke))
             {
-                string serializePoke = JsonConvert.SerializeObject(pokeData);
-                return Json(serializePoke);
+                return null;
             }
-            return null;
+            string serializePoke = JsonConvert.SerializeObject(pokeData);
+            return Json(serializePoke);
         }
 
         [HttpPost]
         public async Task<IActionResult> Test(string val)
         {
             Testing testHazar = new Testing { Type = "Poke", Value = val };
-            await db.Testing.AddAsync(testHazar);
-            await db.SaveChangesAsync();
+            await _context.Testing.AddAsync(testHazar);
+            await _context.SaveChangesAsync();
             return RedirectToAction("MainPoke");
         }
         [HttpPost]
@@ -66,8 +68,8 @@ namespace ArhitectEmplosions.Controllers
             if (!string.IsNullOrEmpty(poke.Points))
             { 
                 EmotionPoke ep = new EmotionPoke(poke.Points!);
-                await db.EmotionPokes.AddAsync(ep);
-                await db.SaveChangesAsync();
+                await _context.EmotionPokes.AddAsync(ep);
+                await _context.SaveChangesAsync();
             }
         }
     }

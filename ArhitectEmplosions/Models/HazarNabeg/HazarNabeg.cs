@@ -53,6 +53,8 @@ namespace ArhitectEmplosions.Models.HazarNabeg
                         continue;
                     }
                 }
+
+                quastionnairepoints = quastionnairepoints.Where(x => x.EmotionsList != null).ToList();
                 for (int i = 0; i < quastionnairepoints.Count; i++)
                 {
                     PositiveEmotions.AddRange(quastionnairepoints[i].EmotionsList!.Where(p => p.Color == "#58FF008F"));

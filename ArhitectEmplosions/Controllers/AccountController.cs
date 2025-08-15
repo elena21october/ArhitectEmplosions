@@ -11,7 +11,7 @@ namespace ArhitectEmplosions.Controllers
 {
     public class AccountController : Controller
     {
-        private ApplicationContext _context;
+        private readonly ApplicationContext _context;
         public AccountController(ApplicationContext context)
         {
             _context = context;
@@ -49,28 +49,29 @@ namespace ArhitectEmplosions.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                User? user = await _context.Users.FirstOrDefaultAsync(u => u.Login == model.Email);
-                if (user == null)
-                {
-                    // добавляем пользователя в бд
-                    user = new User { Login = model.Email, Password = model.Password };
-                    Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;
-                    if (userRole != null)
-                        user.Role = userRole;
+                return View(model);
+            }
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.Login == model.Email);
+            if (user == null)
+            {
+                // добавляем пользователя в бд
+                user = new User { Login = model.Email, Password = model.Password };
+                Role userRole = (await _context.Roles.FirstOrDefaultAsync(r => r.Name == "user"))!;
+                if (userRole != null)
+                    user.Role = userRole;
 
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
 
-                    await Authenticate(user); // аутентификация
+                await Authenticate(user); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Некорректные логин и(или) пароль");
-                }
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Некорректные логин и(или) пароль");
             }
             return View(model);
         }
