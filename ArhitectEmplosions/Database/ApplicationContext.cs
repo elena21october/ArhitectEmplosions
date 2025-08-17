@@ -26,7 +26,7 @@ namespace ArhitectEmplosions.Database
             string adminRoleName = "admin";
             string userRoleName = "user";
 
-            const string adminLogin = "admin";
+            string adminLogin = "admin";
             string adminPassword = "1qaz!QAZ1qaz";
             string adminName = "Mukimovv D.V.";
 
@@ -74,8 +74,8 @@ namespace ArhitectEmplosions.Database
                 RoleId = adminRole.Id
             };
 
-            modelBuilder.Entity<Role>().HasData(new Role[] { adminRole, userRole });
-            modelBuilder.Entity<User>().HasData(new User[] { adminUser, mainUser, mainUser2 });
+            modelBuilder.Entity<Role>().HasData([adminRole, userRole]);
+            modelBuilder.Entity<User>().HasData([adminUser, mainUser, mainUser2]);
             base.OnModelCreating(modelBuilder);
         }
 

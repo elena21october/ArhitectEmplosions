@@ -1,4 +1,7 @@
-﻿using ArhitectEmplosions.Database;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using ArhitectEmplosions.Database;
 using ArhitectEmplosions.Models;
 using ArhitectEmplosions.Models.HazarNabeg;
 using ArhitectEmplosions.ViewModels;
@@ -7,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace ArchEmplosion.Controllers
 {
