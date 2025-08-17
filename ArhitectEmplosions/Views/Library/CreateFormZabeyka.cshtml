@@ -1,0 +1,21 @@
+﻿@model IEnumerable<string>
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    <form method = "post" asp-controller="Library" asp-action="CreateZabeyka" enctype="multipart/form-data">
+        @foreach (var item in Model)
+        {
+            <h1 name = "titlecol"> @item </h1>
+            <input type="file" name="uploadImage"/>
+        }
+        <input type = "submit" value="Создать">
+    </form>
+</div>
+</body>
+</html>

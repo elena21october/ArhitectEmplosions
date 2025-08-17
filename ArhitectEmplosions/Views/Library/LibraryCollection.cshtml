@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+<div style="display: flex; flex-direction: column; align-items: center">
+    <div>
+        <h1 style = "font-family: 'TildaSans', Arial, sans-serif;">Интерактивная библиотека проектов «Эмоциональные антидепрессанты территории»</h1>
+    </div>
+</div>
+<div style="display: flex; justify-content: space-around; align-items: center; height: 80vh;">
+    <div>
+        <div style="display:flex; flex-direction:column; width: 70%">
+            <div style="display: flex ; justify-content: center;">
+                <img style="height: 60vh" src="~/images/muralMain.png" alt=""/>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items: center; margin-top: 10px">
+                <h5 style = "font-size: 40px; font-family: 'TildaSans', Arial, sans-serif;">Муралы</h5>
+                <a asp-controller="Library" asp-action="MuralView" class="pathblock">
+                    <div class="btn">
+                        <h6 style="color:white; font-family: 'TildaSans', Arial, sans-serif;">Перейти</h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div style="display:flex; flex-direction:column; width: 70%">
+            <div style="display: flex ; justify-content: center;">
+                <img style="height: 60vh" src="~/images/zabeykaMain.png" alt=""/>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items: center; margin-top: 10px">
+                <h5 style = "font-size: 40px; font-family: 'TildaSans', Arial, sans-serif;">Забейка+</h5>
+                <a asp-controller="Library" asp-action="ZabeykaPlus" class="pathblock">
+                    <div class="btn">
+                        <h6 style="color:white; font-family: 'TildaSans', Arial, sans-serif;">Перейти</h6>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
