@@ -160,4 +160,8 @@
     <AdditionalFiles Include="Views\Home\Privacy.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\Interfaces\" />
+  </ItemGroup>
+
 </Project>

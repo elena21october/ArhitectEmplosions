@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ArhitectEmplosions.Services;
 
 namespace ArhitectEmplosions
 {
@@ -24,6 +25,8 @@ namespace ArhitectEmplosions
             builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlite(connection));
 
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<OverlapService>();
 
             var app = builder.Build();
 
